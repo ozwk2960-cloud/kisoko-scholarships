@@ -1,7 +1,10 @@
 # 開発ログ — 阪大基礎工 留学奨学金・補助金 検索ツール
 
-対象期間: 2026-08-30（フェーズ0〜5 を1日で実施）
+対象期間: 2026-08-30（フェーズ0〜6 を1日で実施）
 設計方針は [`plan.md`](./plan.md)、使い方は [`README.md`](./README.md) を参照。
+
+**公開サイト: <https://kisoko-scholarships.pages.dev/>**
+**リポジトリ: <https://github.com/ozwk2960-cloud/kisoko-scholarships>**
 
 ## コミット履歴
 
@@ -10,8 +13,11 @@
 | `08ef4de` | 2026-08-30 15:42 | init: MVP（フェーズ0〜3）|
 | `bfe5cf7` | 2026-08-30 15:56 | feat: 民間財団・阪大スクレイパー追加（フェーズ4）|
 | `4f4a7fb` | 2026-08-30 16:17 | feat: 締切ICS・URL共有・解析導線（フェーズ5）|
+| `2d09bd8` | 2026-08-30 16:34 | docs: 開発ログ追加 |
+| `976c753` | 2026-08-30 16:34 | chore: USER_AGENT・README のリポジトリ URL を確定 |
+| `420cc11` | 2026-08-30 17:09 | docs: 公開 URL をフッタ・README・canonical に記載 |
 
-ブランチ `main`、リモート未設定（GitHub push は未実施）。
+ブランチ `main`、リモート `origin` = GitHub（push 済み・Cloudflare Pages 連携済み）。
 
 ---
 
@@ -110,6 +116,51 @@
 - ブラウザで URL 復元・共有コピー・カレンダーボタン表示を確認。
 - コミット `4f4a7fb`。
 
+## フェーズ6 — 本番デプロイ（2026-08-30 夕方）
+
+ユーザー側の GitHub アカウント（`ozwk2960-cloud`）と Cloudflare アカウント
+（Google ログイン）を用いて、実際の公開まで実施した。
+
+**GitHub**
+- 空の public リポジトリ `ozwk2960-cloud/kisoko-scholarships` を作成。
+- `git remote add origin` → `git push -u origin main`。
+- 認証は Fine-grained PAT（HTTPS）。**ハマりどころ2点**:
+  1. トークン文字列は生成直後の1回しか表示されない（詰まったら Regenerate）。
+  2. `.github/workflows/` を含む push には PAT に **Workflows: Read and write**
+     権限が必須（Contents だけだと `refusing to allow a Personal Access Token
+     to create or update workflow ... without workflow scope` で部分拒否）。
+- push 後、`.git/config` からトークンを除去（`git remote set-url` でクリーンな
+  URL に戻す）。認証は `credential.helper=osxkeychain` に保存。
+- Settings → Actions → Workflow permissions を **Read and write** に設定。
+- `scrape` を手動実行（`workflow_dispatch`）→ success。収集データが既存と同一
+  だったため新規コミットは発生せず（変化時のみコミットする設計どおり）。
+- `ci`（pytest）も push 契機で success。
+
+**Cloudflare Pages**
+- ダッシュボード刷新により導線が変化。Workers & Pages → Create application →
+  Pages の「Get started」→ **Import an existing Git repository** から連携。
+- ビルド設定: Production branch `main` / Framework preset **None** /
+  Build command 空 / Build output directory **`public`**。
+- 初回デプロイ成功 → `https://kisoko-scholarships.pages.dev/` 発行。
+- 検証: `/`=200（35,731B）、`/scholarships.json`=200（76,278B・54件）、
+  `/deadlines.ics`=200（`text/calendar`）、`_headers` のセキュリティヘッダ適用を確認。
+
+**仕上げ（`420cc11`）**
+- `index.html` に `<link rel="canonical">` とフッタの公開 URL・GitHub リンクを追加。
+- `README.md` 冒頭に公開サイト URL を明記。
+- `scraper/config.py` の `USER_AGENT` 内 URL を実リポジトリに更新（`976c753`）。
+- push → Cloudflare 自動再デプロイ → 反映を確認。
+
+**後片付け**
+- 作業中に画面共有・シェル履歴へ露出した PAT 2本（`kisoko-scholarships-push`,
+  `kisoko-scholarships-push2`）を GitHub 上で Delete。keychain のエントリも erase。
+- 次回ローカルから push する際は PAT を新規発行（Contents + Workflows の
+  Read and write、対象リポジトリのみ）。
+
+**運用ループ（確立済み）**: 毎日 JST 06:00 に `scrape` → 変化があれば
+`github-actions[bot]` がコミット → `main` 更新で Cloudflare Pages が自動再デプロイ。
+手動作業なし。
+
 ---
 
 ## 現況スナップショット（2026-08-30 時点）
@@ -122,8 +173,8 @@
 
 ## 既知の制約・TODO
 
-- **未デプロイ**: GitHub リモート未設定。README 手順で push → Cloudflare Pages 連携が必要。
-  併せて `scraper/config.py` の `USER_AGENT` 内 URL を実リポジトリ URL に更新。
+- ~~**未デプロイ**~~ → フェーズ6 で完了（GitHub push・Cloudflare Pages 連携・
+  `USER_AGENT` URL 更新すべて実施済み）。
 - 金額など要項ベースの安定情報は `config.py` に手入力（`CURATED_*`）。
   募集要項公開時期（例年 夏〜秋）に公式資料と突き合わせて更新する運用。
 - 阪大の各行は `target_degree` 未設定 → 「一致するものだけ表示（厳格）」＋学年指定時は
