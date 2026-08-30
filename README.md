@@ -92,7 +92,7 @@ git config user.email "あなたのメール"
 git add -A && git commit -m "init: 留学奨学金検索ツール MVP"
 
 # GitHub 上で空の public リポジトリ（例: kisoko-scholarships）を作成してから
-git remote add origin https://github.com/<ユーザー名>/kisoko-scholarships.git
+git remote add origin https://github.com/ozwk2960-cloud/kisoko-scholarships.git
 git push -u origin main
 ```
 

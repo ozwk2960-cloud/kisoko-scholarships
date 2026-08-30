@@ -14,7 +14,7 @@ from __future__ import annotations
 # HTTP ヘッダは latin-1 のみ。日本語を入れないこと。
 USER_AGENT = (
     "KisokoScholarshipBot/0.1 "
-    "(+https://github.com/example/kisoko-scholarships; scholarship search tool for Osaka Univ. students)"
+    "(+https://github.com/ozwk2960-cloud/kisoko-scholarships; scholarship search tool for Osaka Univ. students)"
 )
 REQUEST_TIMEOUT = 20          # 秒
 MAX_RETRIES = 3
