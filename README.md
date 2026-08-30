@@ -35,11 +35,24 @@
 ├── public/                 Cloudflare Pages の公開ルート（静的サイト）
 │   ├── index.html          検索 UI（1 ファイル完結）
 │   ├── scholarships.json   スクレイパーが自動生成（コミット対象）
+│   ├── deadlines.ics       確定した締切のカレンダー（自動生成・購読用）
+│   ├── _headers            Cloudflare Pages 用ヘッダ／キャッシュ設定
 │   └── scholarships.sample.json  開発用サンプルデータ
 ├── scraper/                収集スクリプト（サイト別）
 ├── tests/                  pytest（fixtures を使ったオフラインテスト）
-└── .github/workflows/      GitHub Actions（定期スクレイプ）
+└── .github/workflows/      GitHub Actions（定期スクレイプ／CI）
 ```
+
+### 便利機能
+
+- **検索条件の共有**: 絞り込み条件は URL クエリに反映される（`?d=doctor&f=情報&nom=none` など）。
+  結果ヘッダの「🔗 この検索を共有」で現在の URL をコピーできる。
+- **締切カレンダー**: `deadlines.ics` を Google カレンダー等に「URL で追加」すると、
+  確定している締切（`deadline_type=fixed` かつ未来）が自動で反映される（毎日更新）。
+  各カードの「📅 締切を追加」で1件だけカレンダーに入れることも可能。
+- **アクセス解析（任意）**: Cloudflare Pages の Web Analytics を「自動セットアップ」に
+  すればコード不要で計測できる（Cookie 不使用）。手動トークンで入れる場合は
+  `public/index.html` 末尾のコメントアウト済みスニペットを有効化する。
 
 ---
 

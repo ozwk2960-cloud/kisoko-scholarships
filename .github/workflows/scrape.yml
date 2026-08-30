@@ -35,13 +35,13 @@ jobs:
       - name: Commit updated data (skip if only timestamps changed)
         run: |
           set -euo pipefail
-          if git diff --quiet -- public/scholarships.json; then
+          if git diff --quiet -- public/scholarships.json public/deadlines.ics; then
             echo "変更なし。コミットしません。"
             exit 0
           fi
 
           # generated_at / fetched_at だけの差分ならコミットしない（履歴を汚さない）
-          substantive="$(git diff -U0 -- public/scholarships.json \
+          substantive="$(git diff -U0 -- public/scholarships.json public/deadlines.ics \
             | grep -E '^[+-]' \
             | grep -vE '^[+-]{3} ' \
             | grep -vE '"(generated_at|fetched_at)":' \
@@ -49,12 +49,12 @@ jobs:
 
           if [ -z "$substantive" ]; then
             echo "タイムスタンプのみの変更。コミットをスキップします。"
-            git checkout -- public/scholarships.json
+            git checkout -- public/scholarships.json public/deadlines.ics
             exit 0
           fi
 
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/scholarships.json
+          git add public/scholarships.json public/deadlines.ics
           git commit -m "data: 奨学金情報を更新 ($(date -u +%Y-%m-%d)) [skip ci]"
           git push

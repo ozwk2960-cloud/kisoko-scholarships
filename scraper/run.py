@@ -15,6 +15,7 @@ import sys
 from datetime import date
 
 from . import config  # noqa: F401  (副作用なし。設定の存在確認用)
+from .ics import build_ics
 from .merge import merge
 from .sources.funai import FunaiSource
 from .sources.jasso import JassoSource
@@ -81,15 +82,22 @@ def run(output: str, dry_run: bool) -> int:
         return 1
 
     payload = json.dumps(merged, ensure_ascii=False, indent=2) + "\n"
+    ics = build_ics(merged["scholarships"], today=date.today())
+    ics_path = os.path.join(os.path.dirname(output), "deadlines.ics")
+    n_events = ics.count("BEGIN:VEVENT")
 
     if dry_run:
         print(payload)
+        print(f"--- deadlines.ics ({n_events} events) ---", file=sys.stderr)
         return 0
 
     os.makedirs(os.path.dirname(output), exist_ok=True)
     with open(output, "w", encoding="utf-8") as fh:
         fh.write(payload)
-    print(f"[done] {output} に {len(merged['scholarships'])}件を書き出しました "
+    with open(ics_path, "w", encoding="utf-8", newline="") as fh:
+        fh.write(ics)
+    print(f"[done] {output} に {len(merged['scholarships'])}件、"
+          f"deadlines.ics に {n_events}件の締切を書き出しました "
           f"(generated_at={merged['generated_at']})", file=sys.stderr)
     return 0
 

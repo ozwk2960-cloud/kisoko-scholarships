@@ -13,3 +13,8 @@
 
 /scholarships.sample.json
   Cache-Control: public, max-age=3600
+
+# 締切カレンダー（購読用）
+/deadlines.ics
+  Content-Type: text/calendar; charset=utf-8
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400

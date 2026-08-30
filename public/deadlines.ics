@@ -1,0 +1,59 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//kisoko-scholarships//deadlines//JA
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:留学奨学金・補助金 締切
+X-WR-TIMEZONE:Asia/Tokyo
+BEGIN:VEVENT
+UID:jasso-gakubu-2027@kisoko-scholarships
+DTSTAMP:20260830T000000Z
+DTSTART;VALUE=DATE:20261001
+DTEND;VALUE=DATE:20261002
+SUMMARY:【留学奨学金 締切】2027年度海外留学支援制度（
+ 学部学位取得型）
+DESCRIPTION:日本学生支援機構（JASSO）\n月額 139\,000〜352\,00
+ 0円（国・地域により異なる）＋ 授業料（上限あり）
+ 。詳細は募集要項を参照。\n応募書類提出【応募者】 2
+ 026年9月1日(火曜日)~2026年10月1日(木曜日)13時(日本時間)
+ 締切 ※学位応募システムから提出(郵送等は10月1日(木
+ 曜日)必着)\n詳細: https://www.jasso.go.jp/ryugaku/scholarship_a/gak
+ ubu/2027.html\n※学内締切は所属学部・研究科により異な
+ る場合があります。必ず公式情報を確認してください
+ 。
+URL:https://www.jasso.go.jp/ryugaku/scholarship_a/gakubu/2027.html
+CATEGORIES:奨学金,締切
+BEGIN:VALARM
+TRIGGER:-P7D
+ACTION:DISPLAY
+DESCRIPTION:2027年度海外留学支援制度（学部学位取得型） 
+ の締切1週間前
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:funai-phd@kisoko-scholarships
+DTSTAMP:20260830T000000Z
+DTSTART;VALUE=DATE:20260930
+DTEND;VALUE=DATE:20261001
+SUMMARY:【留学奨学金 締切】船井情報科学振興財団 海外
+ 留学奨学金（大学院・博士号取得）
+DESCRIPTION:公益財団法人 船井情報科学振興財団\n生活費 3
+ 6\,000米ドル / 年 授業料 一部負担(上限 $14\,000 / 年) 医
+ 療保険費 全額 ※大学の事情により調整の可能性あり
+ 。\n2026年6月15日(月)~2026年9月30日(水)23:59(期間内のみ応
+ 募可能) ※締切直前はアクセスが集中し、データのア
+ ップロード等の作業がスムーズに行えない場合があり
+ ますので、余裕を持ってご応募下さい。\n詳細: https://f
+ unaifoundation.jp/scholarship/scholarship_guidelines_phd.html\n※学内
+ 締切は所属学部・研究科により異なる場合があります
+ 。必ず公式情報を確認してください。
+URL:https://funaifoundation.jp/scholarship/scholarship_guidelines_phd.html
+CATEGORIES:奨学金,締切
+BEGIN:VALARM
+TRIGGER:-P7D
+ACTION:DISPLAY
+DESCRIPTION:船井情報科学振興財団 海外留学奨学金（大学
+ 院・博士号取得） の締切1週間前
+END:VALARM
+END:VEVENT
+END:VCALENDAR

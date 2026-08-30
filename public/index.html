@@ -137,6 +137,13 @@
   .count { font-size: 14px; color: var(--ink-soft); }
   .count b { color: var(--blue-dark); font-size: 18px; }
   .sort-note { font-size: 12px; color: var(--ink-faint); }
+  .head-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .btn-ghost {
+    border: 1px solid var(--line); background: #fff; color: var(--ink-soft);
+    border-radius: 8px; padding: 5px 11px; font: inherit; font-size: 12px; cursor: pointer;
+  }
+  .btn-ghost:hover { border-color: var(--blue-100); color: var(--blue-dark); }
+  .btn-ghost.done { background: var(--blue-050); border-color: var(--blue-100); color: var(--blue-dark); }
 
   .cards { display: grid; gap: 14px; }
   .card {
@@ -180,6 +187,12 @@
     border-radius: 9px; padding: 8px 16px; font-size: 13px; font-weight: 600;
   }
   .btn-official:hover { background: var(--blue-dark); }
+  .btn-cal {
+    display: inline-block; background: #fff; color: var(--blue-dark); text-decoration: none;
+    border: 1px solid var(--blue-100); border-radius: 9px; padding: 7px 12px;
+    font-size: 12.5px; font-weight: 600; cursor: pointer;
+  }
+  .btn-cal:hover { background: var(--blue-050); }
   .src-label { font-size: 11.5px; color: var(--ink-faint); }
   .src-stale { color: var(--warn-ink); }
 
@@ -297,7 +310,10 @@
   <section>
     <div class="results-head">
       <div class="count" id="count"></div>
-      <div class="sort-note">マッチ度スコアの高い順（同点は締切が近い順）</div>
+      <div class="head-actions">
+        <button class="btn-ghost" id="btnShare" title="現在の絞り込み条件を URL でコピー">🔗 この検索を共有</button>
+        <span class="sort-note">マッチ度スコアの高い順（同点は締切が近い順）</span>
+      </div>
     </div>
     <div id="cards" class="cards"></div>
     <div id="loading" class="loading">読み込み中…</div>
@@ -308,6 +324,7 @@
   <div class="wrap">
     <p><b>ご利用にあたって：</b>本ツールは公表済みの公募情報を集約する入口です。応募資格・締切・支給額は必ず各奨学金の<b>公式ページ</b>で最新情報をご確認ください。</p>
     <p>情報は毎日自動収集していますが、サイト構造の変更等で一部が古い場合があります。上部の「最終更新」と、各制度の情報取得元をご確認ください。</p>
+    <p><b>📅 締切カレンダー：</b><a id="icsLink" href="./deadlines.ics">deadlines.ics を購読</a>（Google カレンダー等に「URL で追加」すると、確定している締切が自動で反映されます）</p>
     <p id="footMeta"></p>
   </div>
 </footer>
@@ -342,19 +359,52 @@ const FIELD_KEYWORDS = {
 
 /* ============ 状態 ============ */
 
-const state = {
-  data: null,
-  degree: null,     // 単一 or null
-  field: null,      // 単一 or null
-  region: "",
-  types: new Set(),
-  nomination: "any",
-  osakaOnly: false,
-  hidePast: true,
-  soonOnly: false,
-  strict: false,
-  query: "",
+const DEFAULT_STATE = {
+  degree: null, field: null, region: "", types: new Set(), nomination: "any",
+  osakaOnly: false, hidePast: true, soonOnly: false, strict: false, query: "",
 };
+
+const state = { data: null, ...DEFAULT_STATE, types: new Set() };
+
+/* ============ URL パラメータ同期 ============ */
+
+// state <-> ?d=master&f=情報&r=欧州&t=研究,語学&nom=none&osaka=1&past=1&soon=1&strict=1&q=...
+function stateToParams() {
+  const p = new URLSearchParams();
+  if (state.degree) p.set("d", state.degree);
+  if (state.field) p.set("f", state.field);
+  if (state.region) p.set("r", state.region);
+  if (state.types.size) p.set("t", [...state.types].join(","));
+  if (state.nomination !== "any") p.set("nom", state.nomination);
+  if (state.osakaOnly) p.set("osaka", "1");
+  if (!state.hidePast) p.set("past", "1");        // 既定は隠す。表示なら past=1
+  if (state.soonOnly) p.set("soon", "1");
+  if (state.strict) p.set("strict", "1");
+  if (state.query.trim()) p.set("q", state.query.trim());
+  return p;
+}
+
+function paramsToState(search) {
+  const p = new URLSearchParams(search);
+  const degrees = ["bachelor", "master", "doctor", "research"];
+  if (degrees.includes(p.get("d"))) state.degree = p.get("d");
+  if (p.get("f") && FIELD_KEYWORDS[p.get("f")]) state.field = p.get("f");
+  if (["北米", "欧州", "アジア", "オセアニア"].includes(p.get("r"))) state.region = p.get("r");
+  if (p.get("t")) state.types = new Set(p.get("t").split(",").filter(Boolean));
+  if (["none", "ok"].includes(p.get("nom"))) state.nomination = p.get("nom");
+  state.osakaOnly = p.get("osaka") === "1";
+  state.hidePast = p.get("past") !== "1";
+  state.soonOnly = p.get("soon") === "1";
+  state.strict = p.get("strict") === "1";
+  if (p.get("q")) state.query = p.get("q");
+}
+
+function syncUrl() {
+  const p = stateToParams();
+  const qs = p.toString();
+  const url = location.pathname + (qs ? "?" + qs : "");
+  history.replaceState(null, "", url);
+}
 
 /* ============ 読み込み ============ */
 
@@ -563,9 +613,51 @@ function cardHTML(item, sc, rank) {
     ${sc.reasons.length ? `<div class="why"><b>この順位の理由:</b> ${sc.reasons.map(esc).join(" ／ ")}（スコア ${Math.round(sc.score)}）</div>` : `<div class="why">現在の条件では加点なし（スコア ${Math.round(sc.score)}）</div>`}
     <div class="card-foot">
       <a class="btn-official" href="${esc(item.source_url)}" target="_blank" rel="noopener noreferrer">公式ページを見る</a>
+      ${calendarButton(item, sc)}
       ${srcLine}
     </div>
   </article>`;
+}
+
+/* ============ 個別 .ics 生成（1件分の締切をカレンダーに追加） ============ */
+
+function icsEscape(s) {
+  return String(s == null ? "" : s)
+    .replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+}
+
+function calendarButton(item, sc) {
+  if (!item.deadline || item.deadline_type !== "fixed" || sc.daysLeft === null || sc.daysLeft < 0) {
+    return "";
+  }
+  const ymd = item.deadline.replace(/-/g, "");
+  const end = new Date(item.deadline + "T00:00:00");
+  end.setDate(end.getDate() + 1);
+  const endYmd = `${end.getFullYear()}${String(end.getMonth() + 1).padStart(2, "0")}${String(end.getDate()).padStart(2, "0")}`;
+  const stamp = (item.first_seen || item.deadline).replace(/-/g, "") + "T000000Z";
+  const desc = [
+    item.provider, item.amount_text, item.application_period_text,
+    "詳細: " + item.source_url,
+    "※学内締切は所属学部・研究科により異なる場合があります。必ず公式情報を確認してください。",
+  ].filter(Boolean).join("\n");
+
+  const ics = [
+    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//kisoko-scholarships//deadlines//JA",
+    "BEGIN:VEVENT",
+    `UID:${icsEscape(item.id)}@kisoko-scholarships`,
+    `DTSTAMP:${stamp}`,
+    `DTSTART;VALUE=DATE:${ymd}`,
+    `DTEND;VALUE=DATE:${endYmd}`,
+    `SUMMARY:${icsEscape("【留学奨学金 締切】" + item.title)}`,
+    `DESCRIPTION:${icsEscape(desc)}`,
+    `URL:${icsEscape(item.source_url)}`,
+    "BEGIN:VALARM", "TRIGGER:-P7D", "ACTION:DISPLAY",
+    `DESCRIPTION:${icsEscape(item.title + " の締切1週間前")}`,
+    "END:VALARM", "END:VEVENT", "END:VCALENDAR",
+  ].join("\r\n") + "\r\n";
+
+  const href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+  return `<a class="btn-cal" download="deadline-${esc(item.id)}.ics" href="${href}">📅 締切を追加</a>`;
 }
 
 function statusFor(source) {
@@ -574,6 +666,7 @@ function statusFor(source) {
 }
 
 function render() {
+  syncUrl();
   const list = state.data.scholarships
     .map(item => {
       const sc = scoreItem(item);
@@ -685,21 +778,22 @@ function wireControls() {
   });
 
   document.getElementById("btnClear").addEventListener("click", () => {
-    Object.assign(state, {
-      degree: null, field: null, region: "", types: new Set(),
-      nomination: "any", osakaOnly: false, hidePast: true, soonOnly: false,
-      strict: false, query: "",
-    });
-    document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", "false"));
-    document.querySelectorAll('#fType input').forEach(c => c.checked = false);
-    document.querySelector('#fNomination input[value="any"]').checked = true;
-    document.getElementById("fRegion").value = "";
-    document.getElementById("fOsaka").checked = false;
-    document.getElementById("fHidePast").checked = true;
-    document.getElementById("fSoon").checked = false;
-    document.getElementById("fStrict").checked = false;
-    document.getElementById("fQuery").value = "";
+    Object.assign(state, { ...DEFAULT_STATE, types: new Set() });
+    applyStateToControls();
     render();
+  });
+
+  document.getElementById("btnShare").addEventListener("click", async () => {
+    const btn = document.getElementById("btnShare");
+    syncUrl();
+    try {
+      await navigator.clipboard.writeText(location.href);
+      btn.textContent = "✓ URL をコピーしました";
+    } catch (e) {
+      btn.textContent = "URL: " + location.href;
+    }
+    btn.classList.add("done");
+    setTimeout(() => { btn.textContent = "🔗 この検索を共有"; btn.classList.remove("done"); }, 2500);
   });
 
   // モバイル: パネル開閉
@@ -712,10 +806,29 @@ function wireControls() {
   });
 }
 
+/* フォーム入力を現在の state に合わせる（リセット時・URL パラメータ復元時に使用） */
+function applyStateToControls() {
+  document.querySelectorAll("#fDegree .chip").forEach(c =>
+    c.setAttribute("aria-pressed", String(c.dataset.val === state.degree)));
+  document.querySelectorAll("#fField .chip").forEach(c =>
+    c.setAttribute("aria-pressed", String(c.dataset.val === state.field)));
+  document.getElementById("fRegion").value = state.region;
+  document.querySelectorAll('#fType input').forEach(c => { c.checked = state.types.has(c.value); });
+  const nomInput = document.querySelector(`#fNomination input[value="${state.nomination}"]`);
+  if (nomInput) nomInput.checked = true;
+  document.getElementById("fOsaka").checked = state.osakaOnly;
+  document.getElementById("fHidePast").checked = state.hidePast;
+  document.getElementById("fSoon").checked = state.soonOnly;
+  document.getElementById("fStrict").checked = state.strict;
+  document.getElementById("fQuery").value = state.query;
+}
+
 /* ============ 起動 ============ */
 
 (async function init() {
   wireControls();
+  paramsToState(location.search);
+  applyStateToControls();
   const data = await loadData();
   document.getElementById("loading").style.display = "none";
 
@@ -734,5 +847,15 @@ function wireControls() {
   render();
 })();
 </script>
+
+<!--
+  アクセス解析（任意）:
+  Cloudflare Pages を使う場合、ダッシュボードの Web Analytics で対象サイトを
+  「自動セットアップ」にすればコード追加なしで計測できます（Cookie 不使用）。
+  手動トークンで入れたい場合のみ、下記の1行を有効化してトークンを差し替えてください。
+
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "REPLACE_WITH_YOUR_TOKEN"}'></script>
+-->
 </body>
 </html>
