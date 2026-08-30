@@ -42,21 +42,36 @@ class HttpFetcher:
 
     # -- robots.txt --
     def allowed(self, url: str) -> bool:
+        """RFC 9309 準拠の判定。
+
+        200            -> ルールを解釈
+        3xx            -> requests がリダイレクト追従
+        4xx / 5xx / 例外 -> 「取得不能」とみなし許可（429 は保守的に不許可）
+        """
         parsed = urlparse(url)
         origin = f"{parsed.scheme}://{parsed.netloc}"
-        rp = self._robots_cache.get(origin)
-        if rp is None:
-            rp = urllib.robotparser.RobotFileParser()
-            rp.set_url(f"{origin}/robots.txt")
-            try:
-                rp.read()
-            except Exception:
-                # robots.txt が取得できない場合は許可扱い（404 等）
-                rp = None
-            self._robots_cache[origin] = rp
+
+        if origin not in self._robots_cache:
+            self._robots_cache[origin] = self._load_robots(origin)
+        rp = self._robots_cache[origin]
         if rp is None:
             return True
         return rp.can_fetch(config.USER_AGENT, url)
+
+    def _load_robots(self, origin: str):
+        rp = urllib.robotparser.RobotFileParser()
+        try:
+            resp = self._session.get(f"{origin}/robots.txt", timeout=config.REQUEST_TIMEOUT)
+        except requests.RequestException:
+            return None
+        if resp.status_code == 200:
+            rp.parse(resp.text.splitlines())
+            return rp
+        if resp.status_code == 429:
+            rp.disallow_all = True
+            return rp
+        # その他（403/404/5xx 等）は「robots.txt なし」= 全許可
+        return None
 
     # -- GET --
     def __call__(self, url: str) -> str:

@@ -49,19 +49,23 @@ def merge(
     seen_ids = set()
     seen_triples = set()
 
-    def add(item: dict) -> None:
+    added_count: Dict[str, int] = {}
+
+    def add(item: dict) -> bool:
         key = item["id"]
         if key in seen_ids:
-            return
+            return False
         # 二次ガード: id が違っても「同一ソース・同一タイトル・同一の具体的締切日」なら重複とみなす
         # （締切 None 同士は別物の可能性があるので対象外）
         triple = (item.get("source"), item.get("title"), item.get("deadline"))
         if item.get("deadline") and triple in seen_triples:
-            return
+            return False
         seen_ids.add(key)
         if item.get("deadline"):
             seen_triples.add(triple)
         scholarships.append(item)
+        added_count[item.get("source", "")] = added_count.get(item.get("source", ""), 0) + 1
+        return True
 
     for status in statuses:
         source = status["source"]
@@ -77,7 +81,7 @@ def merge(
                 d["first_seen"] = (old or {}).get("first_seen") or today
                 d["last_seen"] = today
                 add(d)
-            degraded["count"] = len(items)
+            degraded["count"] = added_count.get(source, 0)
         else:
             # 失敗 or 0件 -> 前回を維持
             if status.get("ok") and not items and prev_for_source:

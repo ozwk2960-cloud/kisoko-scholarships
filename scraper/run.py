@@ -16,14 +16,25 @@ from datetime import date
 
 from . import config  # noqa: F401  (副作用なし。設定の存在確認用)
 from .merge import merge
+from .sources.funai import FunaiSource
 from .sources.jasso import JassoSource
+from .sources.masason import MasasonSource
+from .sources.osaka_u import OsakaUSource
 from .sources.tobitate import TobitateSource
+from .sources.yoshida import YoshidaSource
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_OUTPUT = os.path.join(ROOT, "public", "scholarships.json")
 SCHEMA_PATH = os.path.join(os.path.dirname(__file__), "schema.json")
 
-SOURCES = [JassoSource, TobitateSource]
+SOURCES = [
+    JassoSource,
+    TobitateSource,
+    FunaiSource,
+    YoshidaSource,
+    MasasonSource,
+    OsakaUSource,
+]
 
 
 def load_previous(path: str) -> dict | None:
