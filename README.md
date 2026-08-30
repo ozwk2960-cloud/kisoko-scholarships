@@ -1,5 +1,7 @@
 # 阪大基礎工 留学奨学金・補助金 検索ツール
 
+**公開サイト: <https://kisoko-scholarships.pages.dev/>**
+
 大阪大学基礎工学部/基礎工学科および理工学系の学生が、海外留学時に応募できる
 **公的・民間の奨学金/補助金の公募情報**を、無料・リアルタイムに近い鮮度で
 一元検索できるツールです。
@@ -125,6 +127,7 @@ push 後、`scraper/config.py` の `USER_AGENT` 内の URL を実リポジトリ
    | Build output directory | `public` |
 3. Deploy 実行。以降、`main` への push（＝Actions のデータ更新コミット）ごとに自動再デプロイ。
 4. 発行された `*.pages.dev` の URL を README とフッタ（`index.html` の `footMeta` 付近）に記載。
+   （本リポジトリでは `https://kisoko-scholarships.pages.dev/` を設定済み）
 5. 任意: カスタムドメイン、Cloudflare Web Analytics（無料）を追加。
 
 `public/_headers` でセキュリティヘッダと `scholarships.json` のキャッシュ（1時間）を設定済み。
