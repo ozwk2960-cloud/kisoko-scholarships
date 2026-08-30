@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+
+# OS / エディタ
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# スクレイパーの一時出力・デバッグ用HTML保存先
+scraper/_debug/
+*.local.json
+
+# 注意: public/scholarships.json は "生成物だがコミット対象" のため無視しない

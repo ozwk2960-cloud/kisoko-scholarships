@@ -1,0 +1,15 @@
+# Cloudflare Pages 用ヘッダ設定
+# https://developers.cloudflare.com/pages/configuration/headers/
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# データは1日1回更新。ブラウザは最大1時間キャッシュ、その後は再検証。
+/scholarships.json
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/scholarships.sample.json
+  Cache-Control: public, max-age=3600

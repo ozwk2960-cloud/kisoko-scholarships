@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>留学奨学金・補助金 検索ツール｜阪大基礎工・理工系向け</title>
+<style>
+  :root {
+    --blue: #1a56db;
+    --blue-dark: #1e40af;
+    --blue-050: #eff4ff;
+    --blue-100: #dbe6ff;
+    --ink: #1f2937;
+    --ink-soft: #4b5563;
+    --ink-faint: #6b7280;
+    --line: #e5e7eb;
+    --bg: #f7f9fc;
+    --card: #ffffff;
+    --warn-bg: #fef9c3;
+    --warn-line: #fde047;
+    --warn-ink: #854d0e;
+    --ok: #15803d;
+    --danger: #b91c1c;
+    --radius: 12px;
+    --shadow: 0 1px 2px rgba(16,24,40,.04), 0 4px 16px rgba(16,24,40,.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP",
+                 "Yu Gothic", Meiryo, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--blue); }
+
+  /* ---- Header ---- */
+  header.site {
+    background: linear-gradient(180deg, #ffffff, #fbfdff);
+    border-bottom: 1px solid var(--line);
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  header.site .wrap { padding-top: 22px; padding-bottom: 22px; }
+  .title-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  h1 {
+    font-size: 20px; margin: 0; letter-spacing: .01em;
+    color: var(--blue-dark);
+  }
+  .subtitle { margin: 6px 0 0; color: var(--ink-faint); font-size: 13px; }
+  .meta-row {
+    margin-top: 12px; display: flex; gap: 10px 18px; flex-wrap: wrap;
+    font-size: 12.5px; color: var(--ink-faint);
+  }
+  .meta-row b { color: var(--ink-soft); font-weight: 600; }
+
+  .banner {
+    margin-top: 14px; padding: 10px 14px; border-radius: 10px;
+    background: var(--warn-bg); border: 1px solid var(--warn-line);
+    color: var(--warn-ink); font-size: 13px;
+  }
+  .banner.hidden { display: none; }
+
+  /* ---- Layout ---- */
+  main.wrap { display: grid; grid-template-columns: 300px 1fr; gap: 28px; padding-top: 26px; padding-bottom: 60px; }
+  @media (max-width: 860px) {
+    main.wrap { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  /* ---- Filter panel ---- */
+  .panel {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 18px 18px 8px;
+    align-self: start;
+    position: sticky; top: 16px;
+  }
+  @media (max-width: 860px) {
+    .panel { position: static; }
+    .panel-toggle { display: block; }
+    .panel-body.collapsed { display: none; }
+  }
+  .panel-toggle {
+    display: none; width: 100%; border: 0; background: transparent;
+    font: inherit; font-weight: 600; color: var(--blue-dark);
+    padding: 4px 0 12px; cursor: pointer; text-align: left;
+  }
+  .fgroup { padding: 12px 0; border-top: 1px solid var(--line); }
+  .fgroup:first-of-type { border-top: 0; }
+  .fgroup > .label {
+    display: block; font-size: 12px; font-weight: 700; color: var(--ink-soft);
+    letter-spacing: .04em; margin-bottom: 8px; text-transform: none;
+  }
+  .hint { font-size: 11.5px; color: var(--ink-faint); font-weight: 400; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    border: 1px solid var(--line); background: #fff; color: var(--ink-soft);
+    border-radius: 999px; padding: 5px 11px; font-size: 12.5px; cursor: pointer;
+    user-select: none; transition: .12s;
+  }
+  .chip:hover { border-color: var(--blue-100); }
+  .chip[aria-pressed="true"] {
+    background: var(--blue); border-color: var(--blue); color: #fff;
+  }
+
+  .checks { display: flex; flex-direction: column; gap: 7px; }
+  .checks label, .radios label {
+    display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;
+    color: var(--ink-soft);
+  }
+  .radios { display: flex; flex-direction: column; gap: 7px; }
+  input[type="checkbox"], input[type="radio"] { accent-color: var(--blue); width: 15px; height: 15px; }
+
+  select, input[type="text"] {
+    width: 100%; border: 1px solid var(--line); border-radius: 9px;
+    padding: 8px 10px; font: inherit; font-size: 13px; color: var(--ink);
+    background: #fff;
+  }
+  select:focus, input[type="text"]:focus, .chip:focus-visible {
+    outline: 2px solid var(--blue-100); outline-offset: 1px;
+  }
+
+  .panel-actions { padding: 12px 0 10px; border-top: 1px solid var(--line); }
+  .btn-clear {
+    width: 100%; border: 1px solid var(--line); background: #fff; color: var(--ink-soft);
+    border-radius: 9px; padding: 9px; font: inherit; font-size: 13px; cursor: pointer;
+  }
+  .btn-clear:hover { border-color: var(--blue-100); color: var(--blue-dark); }
+
+  /* ---- Results ---- */
+  .results-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap; margin-bottom: 12px;
+  }
+  .count { font-size: 14px; color: var(--ink-soft); }
+  .count b { color: var(--blue-dark); font-size: 18px; }
+  .sort-note { font-size: 12px; color: var(--ink-faint); }
+
+  .cards { display: grid; gap: 14px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 16px 18px; position: relative;
+  }
+  .card h2 {
+    margin: 0 44px 4px 0; font-size: 16px; line-height: 1.45; color: var(--ink);
+  }
+  .card .provider { font-size: 12.5px; color: var(--ink-faint); margin-bottom: 10px; }
+  .rank-badge {
+    position: absolute; top: 14px; right: 16px;
+    font-size: 11px; font-weight: 700; color: var(--blue-dark);
+    background: var(--blue-050); border: 1px solid var(--blue-100);
+    border-radius: 999px; padding: 3px 9px;
+  }
+  .facts { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--ink-soft); margin-bottom: 10px; }
+  .facts .k { color: var(--ink-faint); }
+  .deadline-pill {
+    display: inline-block; font-size: 11.5px; font-weight: 700; border-radius: 999px;
+    padding: 2px 8px; border: 1px solid transparent;
+  }
+  .dl-soon { background: #fee2e2; color: var(--danger); border-color: #fecaca; }
+  .dl-mid  { background: #fef3c7; color: var(--warn-ink); border-color: #fde68a; }
+  .dl-far  { background: #dcfce7; color: var(--ok); border-color: #bbf7d0; }
+  .dl-none { background: #f3f4f6; color: var(--ink-faint); border-color: var(--line); }
+  .dl-past { background: #f3f4f6; color: var(--ink-faint); border-color: var(--line); text-decoration: line-through; }
+
+  .desc { font-size: 13px; color: var(--ink-soft); margin: 0 0 12px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+  .tag {
+    font-size: 11px; color: var(--ink-faint); background: #f3f4f6;
+    border-radius: 6px; padding: 2px 7px;
+  }
+  .why { font-size: 11.5px; color: var(--ink-faint); margin-bottom: 12px; }
+  .why b { color: var(--blue-dark); font-weight: 600; }
+  .card-foot { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .btn-official {
+    display: inline-block; background: var(--blue); color: #fff; text-decoration: none;
+    border-radius: 9px; padding: 8px 16px; font-size: 13px; font-weight: 600;
+  }
+  .btn-official:hover { background: var(--blue-dark); }
+  .src-label { font-size: 11.5px; color: var(--ink-faint); }
+  .src-stale { color: var(--warn-ink); }
+
+  .empty {
+    background: var(--card); border: 1px dashed var(--line); border-radius: var(--radius);
+    padding: 40px 24px; text-align: center; color: var(--ink-faint);
+  }
+  .empty h3 { margin: 0 0 6px; color: var(--ink-soft); font-size: 15px; }
+
+  footer.site {
+    border-top: 1px solid var(--line); background: #fff;
+    font-size: 12px; color: var(--ink-faint);
+  }
+  footer.site .wrap { padding: 20px; }
+  footer.site p { margin: 4px 0; }
+  .loading { padding: 60px 0; text-align: center; color: var(--ink-faint); }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <div class="title-row">
+      <h1>留学奨学金・補助金 検索ツール</h1>
+      <span class="subtitle">阪大基礎工・理工系の学生が海外留学時に使える公的・民間の奨学金を横断検索（無料・毎日更新）</span>
+    </div>
+    <div class="meta-row" id="metaRow"></div>
+    <div class="banner hidden" id="banner"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ===== Filter panel ===== -->
+  <aside class="panel">
+    <button class="panel-toggle" id="panelToggle" aria-expanded="true">絞り込み条件 ▾</button>
+    <div class="panel-body" id="panelBody">
+
+      <div class="fgroup">
+        <span class="label">学年・課程</span>
+        <div class="chips" id="fDegree" data-single="true">
+          <button class="chip" data-val="bachelor" aria-pressed="false">学部</button>
+          <button class="chip" data-val="master" aria-pressed="false">修士</button>
+          <button class="chip" data-val="doctor" aria-pressed="false">博士</button>
+          <button class="chip" data-val="research" aria-pressed="false">研究生</button>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <span class="label">専攻分野</span>
+        <div class="chips" id="fField" data-single="true">
+          <button class="chip" data-val="情報" aria-pressed="false">情報・計算科学</button>
+          <button class="chip" data-val="システム" aria-pressed="false">システム科学</button>
+          <button class="chip" data-val="電子物理" aria-pressed="false">電子物理科学</button>
+          <button class="chip" data-val="化学工学" aria-pressed="false">化学工学</button>
+          <button class="chip" data-val="物性物理" aria-pressed="false">物性・物理</button>
+          <button class="chip" data-val="機械" aria-pressed="false">機械・精密</button>
+          <button class="chip" data-val="数理" aria-pressed="false">数理科学</button>
+          <button class="chip" data-val="生物工学" aria-pressed="false">生物工学</button>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <span class="label">留学先</span>
+        <select id="fRegion">
+          <option value="">指定なし</option>
+          <option value="北米">北米（米国・カナダ）</option>
+          <option value="欧州">欧州</option>
+          <option value="アジア">アジア</option>
+          <option value="オセアニア">オセアニア</option>
+        </select>
+      </div>
+
+      <div class="fgroup">
+        <span class="label">留学の種別</span>
+        <div class="checks" id="fType">
+          <label><input type="checkbox" value="学位取得">学位取得</label>
+          <label><input type="checkbox" value="交換留学">交換留学</label>
+          <label><input type="checkbox" value="研究">研究・共同研究</label>
+          <label><input type="checkbox" value="語学">語学</label>
+          <label><input type="checkbox" value="インターン">インターン</label>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <span class="label">学内推薦</span>
+        <div class="radios" id="fNomination">
+          <label><input type="radio" name="nom" value="any" checked>不問</label>
+          <label><input type="radio" name="nom" value="none">学内推薦が不要なものだけ</label>
+          <label><input type="radio" name="nom" value="ok">推薦ありでも可（推薦不要を優先表示）</label>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <span class="label">その他</span>
+        <div class="checks">
+          <label><input type="checkbox" id="fOsaka">大阪大学が対象の制度のみ</label>
+          <label><input type="checkbox" id="fHidePast" checked>締切が過ぎたものを隠す</label>
+          <label><input type="checkbox" id="fSoon">締切まで30日以内のものだけ</label>
+          <label><input type="checkbox" id="fStrict">選択した条件に一致するものだけ表示</label>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <span class="label">フリーワード</span>
+        <input type="text" id="fQuery" placeholder="制度名・団体名・キーワード" autocomplete="off">
+      </div>
+
+      <div class="panel-actions">
+        <button class="btn-clear" id="btnClear">条件をすべてリセット</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== Results ===== -->
+  <section>
+    <div class="results-head">
+      <div class="count" id="count"></div>
+      <div class="sort-note">マッチ度スコアの高い順（同点は締切が近い順）</div>
+    </div>
+    <div id="cards" class="cards"></div>
+    <div id="loading" class="loading">読み込み中…</div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p><b>ご利用にあたって：</b>本ツールは公表済みの公募情報を集約する入口です。応募資格・締切・支給額は必ず各奨学金の<b>公式ページ</b>で最新情報をご確認ください。</p>
+    <p>情報は毎日自動収集していますが、サイト構造の変更等で一部が古い場合があります。上部の「最終更新」と、各制度の情報取得元をご確認ください。</p>
+    <p id="footMeta"></p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+/* ============ 定数・マッピング ============ */
+
+const DEGREE_LABEL = { bachelor: "学部", master: "修士", doctor: "博士", research: "研究生" };
+
+// 留学先セレクト値 → destination_countries に含まれ得る語
+const REGION_KEYWORDS = {
+  "北米": ["北米", "米国", "アメリカ", "カナダ", "USA", "US"],
+  "欧州": ["欧州", "ヨーロッパ", "英国", "イギリス", "ドイツ", "フランス", "スイス",
+           "オランダ", "スウェーデン", "デンマーク", "フィンランド", "イタリア", "スペイン", "EU"],
+  "アジア": ["アジア", "中国", "韓国", "台湾", "香港", "シンガポール", "タイ", "インド", "マレーシア"],
+  "オセアニア": ["オセアニア", "オーストラリア", "ニュージーランド"],
+};
+
+// 専攻チップ値 → target_fields に現れ得る語
+const FIELD_KEYWORDS = {
+  "情報": ["情報", "計算科学", "計算機", "コンピュータ", "AI", "データ"],
+  "システム": ["システム", "制御", "数理工学", "オペレーションズ"],
+  "電子物理": ["電子", "エレクトロニクス", "光", "量子", "半導体"],
+  "化学工学": ["化学工学", "化学", "分子", "材料化学"],
+  "物性物理": ["物性", "物理", "応用物理"],
+  "機械": ["機械", "精密", "ロボ", "航空", "宇宙"],
+  "数理": ["数理", "数学", "統計"],
+  "生物工学": ["生物工学", "生命", "バイオ", "生体"],
+};
+
+/* ============ 状態 ============ */
+
+const state = {
+  data: null,
+  degree: null,     // 単一 or null
+  field: null,      // 単一 or null
+  region: "",
+  types: new Set(),
+  nomination: "any",
+  osakaOnly: false,
+  hidePast: true,
+  soonOnly: false,
+  strict: false,
+  query: "",
+};
+
+/* ============ 読み込み ============ */
+
+async function loadData() {
+  for (const url of ["./scholarships.json", "./scholarships.sample.json"]) {
+    try {
+      const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) continue;
+      const json = await res.json();
+      if (json && Array.isArray(json.scholarships)) {
+        json._sourceFile = url;
+        return json;
+      }
+    } catch (e) { /* 次の候補へ */ }
+  }
+  return null;
+}
+
+/* ============ 日付ユーティリティ ============ */
+
+function today0() {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+function parseDate(s) {
+  if (!s) return null;
+  const d = new Date(s + "T00:00:00");
+  return isNaN(d) ? null : d;
+}
+function daysBetween(from, to) {
+  return Math.round((to - from) / 86400000);
+}
+function fmtDate(iso) {
+  const d = parseDate(iso) || (iso ? new Date(iso) : null);
+  if (!d || isNaN(d)) return "";
+  return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}`;
+}
+
+/* ============ マッチ判定 ============ */
+
+function textIncludesAny(haystackArr, keywords) {
+  const hs = (haystackArr || []).join(" ");
+  return keywords.some(k => hs.includes(k));
+}
+
+function degreeMatch(item) {
+  if (!state.degree) return null;
+  return (item.target_degree || []).includes(state.degree);
+}
+function fieldMatch(item) {
+  if (!state.field) return null;
+  const f = item.target_fields || [];
+  if (f.includes("全分野")) return true;
+  return textIncludesAny(f, FIELD_KEYWORDS[state.field] || [state.field]);
+}
+function regionMatch(item) {
+  if (!state.region) return null;
+  const d = item.destination_countries || [];
+  if (d.includes("全世界")) return true;
+  return textIncludesAny(d, REGION_KEYWORDS[state.region] || [state.region]);
+}
+function typeMatch(item) {
+  if (state.types.size === 0) return null;
+  const s = new Set(item.study_type || []);
+  for (const t of state.types) if (s.has(t)) return true;
+  return false;
+}
+function nominationCompatible(item) {
+  const req = item.requires_university_nomination; // true | false | null
+  if (state.nomination === "none") return req === false;
+  if (state.nomination === "ok") return true;
+  return null; // 不問
+}
+function osakaEligible(item) {
+  const u = item.eligible_universities || [];
+  return u.includes("大阪大学") || u.includes("全国");
+}
+function queryMatch(item) {
+  const q = state.query.trim().toLowerCase();
+  if (!q) return true;
+  const hay = [
+    item.title, item.provider, item.description, item.source,
+    ...(item.tags || []), ...(item.target_fields || [])
+  ].join(" ").toLowerCase();
+  return q.split(/\s+/).every(w => hay.includes(w));
+}
+
+/* ============ スコアリング ============ */
+
+function scoreItem(item) {
+  const t0 = today0();
+  const dl = parseDate(item.deadline);
+  const daysLeft = dl ? daysBetween(t0, dl) : null;
+
+  let score = 0;
+  const reasons = [];
+
+  // 条件一致ボーナス
+  const dM = degreeMatch(item);
+  if (dM === true) { score += 30; reasons.push("学年一致"); }
+  const fM = fieldMatch(item);
+  if (fM === true) { score += 20; reasons.push((item.target_fields || []).includes("全分野") ? "全分野対象" : "専攻一致"); }
+  const rM = regionMatch(item);
+  if (rM === true) { score += 15; reasons.push("留学先一致"); }
+  const tM = typeMatch(item);
+  if (tM === true) { score += 10; reasons.push("種別一致"); }
+  if (osakaEligible(item)) { score += 15; reasons.push("阪大対象"); }
+
+  // 学内推薦の希望と両立
+  const req = item.requires_university_nomination;
+  if (state.nomination === "none" && req === false) { score += 10; reasons.push("推薦不要"); }
+  else if (state.nomination === "ok" && req === false) { score += 10; reasons.push("推薦不要"); }
+  else if (state.nomination === "any" && req === false) { score += 5; }
+
+  // 締切の近さ
+  if (daysLeft === null) {
+    // 加点なし
+  } else if (daysLeft < 0) {
+    score -= 50;
+  } else if (daysLeft <= 7) {
+    score += 12; reasons.push(`締切${daysLeft}日`);
+  } else if (daysLeft <= 30) {
+    score += 8; reasons.push(`締切${daysLeft}日`);
+  } else if (daysLeft <= 90) {
+    score += 4;
+  }
+
+  // 金額（月額）を 0〜10 点に
+  const amt = item.amount_monthly_jpy;
+  if (typeof amt === "number" && amt > 0) {
+    score += Math.min(10, amt / 10000);
+  }
+
+  // 情報の鮮度
+  const seen = parseDate(item.last_seen);
+  if (seen && daysBetween(seen, t0) <= 3) score += 3;
+
+  return { score, reasons, daysLeft };
+}
+
+/* ============ フィルタ（ハード条件） ============ */
+
+function passesHardFilters(item, daysLeft) {
+  if (!queryMatch(item)) return false;
+  if (state.osakaOnly && !osakaEligible(item)) return false;
+  if (state.hidePast && daysLeft !== null && daysLeft < 0) return false;
+  if (state.soonOnly && !(daysLeft !== null && daysLeft >= 0 && daysLeft <= 30)) return false;
+
+  if (state.strict) {
+    if (degreeMatch(item) === false) return false;
+    if (fieldMatch(item) === false) return false;
+    if (regionMatch(item) === false) return false;
+    if (typeMatch(item) === false) return false;
+    if (nominationCompatible(item) === false) return false;
+  } else {
+    // 非厳格でも「学内推薦が不要なものだけ」は明示的な除外条件とする
+    if (state.nomination === "none" && item.requires_university_nomination !== false) return false;
+  }
+  return true;
+}
+
+/* ============ 描画 ============ */
+
+function deadlinePill(item, daysLeft) {
+  if (daysLeft === null) {
+    const label = item.deadline_type === "rolling" ? "通年・随時"
+                : item.deadline_type === "annual" ? "毎年・時期未定"
+                : "締切未定";
+    return `<span class="deadline-pill dl-none">${label}</span>`;
+  }
+  if (daysLeft < 0) return `<span class="deadline-pill dl-past">締切終了（${fmtDate(item.deadline)}）</span>`;
+  const cls = daysLeft <= 7 ? "dl-soon" : daysLeft <= 30 ? "dl-mid" : "dl-far";
+  return `<span class="deadline-pill ${cls}">締切まで${daysLeft}日（${fmtDate(item.deadline)}）</span>`;
+}
+
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function cardHTML(item, sc, rank) {
+  const degrees = (item.target_degree || []).map(d => DEGREE_LABEL[d] || d).join("・");
+  const nomText = item.requires_university_nomination === true ? "必要"
+                : item.requires_university_nomination === false ? "不要"
+                : "要確認";
+  const staleSrc = statusFor(item.source);
+  const srcLine = staleSrc && staleSrc.ok === false
+    ? `<span class="src-label src-stale">情報取得元: ${esc(item.source)}（前回取得分・最新の確認を推奨）</span>`
+    : `<span class="src-label">情報取得元: ${esc(item.source)}</span>`;
+
+  return `
+  <article class="card">
+    <span class="rank-badge">#${rank}</span>
+    <h2>${esc(item.title)}</h2>
+    <div class="provider">${esc(item.provider || "")}</div>
+    <div class="facts">
+      <span>${deadlinePill(item, sc.daysLeft)}</span>
+      ${item.amount_text ? `<span><span class="k">支給:</span> ${esc(item.amount_text)}</span>` : ""}
+      ${degrees ? `<span><span class="k">対象:</span> ${esc(degrees)}</span>` : ""}
+      <span><span class="k">学内推薦:</span> ${nomText}</span>
+      ${item.duration_text ? `<span><span class="k">期間:</span> ${esc(item.duration_text)}</span>` : ""}
+    </div>
+    ${item.description ? `<p class="desc">${esc(item.description)}</p>` : ""}
+    ${(item.tags && item.tags.length) ? `<div class="tags">${item.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>` : ""}
+    ${sc.reasons.length ? `<div class="why"><b>この順位の理由:</b> ${sc.reasons.map(esc).join(" ／ ")}（スコア ${Math.round(sc.score)}）</div>` : `<div class="why">現在の条件では加点なし（スコア ${Math.round(sc.score)}）</div>`}
+    <div class="card-foot">
+      <a class="btn-official" href="${esc(item.source_url)}" target="_blank" rel="noopener noreferrer">公式ページを見る</a>
+      ${srcLine}
+    </div>
+  </article>`;
+}
+
+function statusFor(source) {
+  const arr = (state.data && state.data.source_status) || [];
+  return arr.find(s => s.source === source) || null;
+}
+
+function render() {
+  const list = state.data.scholarships
+    .map(item => {
+      const sc = scoreItem(item);
+      return { item, sc };
+    })
+    .filter(x => passesHardFilters(x.item, x.sc.daysLeft))
+    .sort((a, b) => {
+      if (b.sc.score !== a.sc.score) return b.sc.score - a.sc.score;
+      const da = a.sc.daysLeft, db = b.sc.daysLeft;
+      const va = (da === null || da < 0) ? Infinity : da;
+      const vb = (db === null || db < 0) ? Infinity : db;
+      if (va !== vb) return va - vb;
+      return (a.item.title || "").localeCompare(b.item.title || "", "ja");
+    });
+
+  const cardsEl = document.getElementById("cards");
+  const countEl = document.getElementById("count");
+
+  countEl.innerHTML = `<b>${list.length}</b> 件の奨学金・補助金`;
+
+  if (list.length === 0) {
+    cardsEl.innerHTML = `
+      <div class="empty">
+        <h3>条件に合う制度が見つかりませんでした</h3>
+        <p>絞り込みを緩めるか、「選択した条件に一致するものだけ表示」をオフにしてみてください。</p>
+      </div>`;
+    return;
+  }
+  cardsEl.innerHTML = list.map((x, i) => cardHTML(x.item, x.sc, i + 1)).join("");
+}
+
+/* ============ ヘッダのメタ情報 ============ */
+
+function renderMeta() {
+  const d = state.data;
+  const metaEl = document.getElementById("metaRow");
+  const bannerEl = document.getElementById("banner");
+  const footEl = document.getElementById("footMeta");
+
+  const updated = d.generated_at ? fmtDate(d.generated_at) : "不明";
+  const total = d.scholarships.length;
+  const usingSample = (d._sourceFile || "").includes("sample");
+
+  metaEl.innerHTML = `
+    <span><b>最終更新:</b> ${updated}</span>
+    <span><b>収録件数:</b> ${total} 件</span>
+    ${usingSample ? `<span style="color:var(--warn-ink)"><b>※ サンプルデータ表示中</b>（scholarships.json 未生成）</span>` : ""}
+  `;
+
+  const failed = (d.source_status || []).filter(s => s.ok === false);
+  if (failed.length) {
+    bannerEl.classList.remove("hidden");
+    bannerEl.innerHTML = `⚠ 次の情報取得元は前回の収集に失敗しています（表示中のデータは前回取得分の可能性があります）: <b>${failed.map(s => esc(s.source)).join("、")}</b>。該当制度は公式ページで最新情報をご確認ください。`;
+  } else {
+    bannerEl.classList.add("hidden");
+  }
+
+  footEl.textContent = d.generated_at
+    ? `データ生成日時: ${new Date(d.generated_at).toLocaleString("ja-JP")}　/　ソース: ${d._sourceFile || "-"}`
+    : "";
+}
+
+/* ============ フィルタ UI 配線 ============ */
+
+function wireControls() {
+  // チップ（単一選択）
+  for (const id of ["fDegree", "fField"]) {
+    const box = document.getElementById(id);
+    const key = id === "fDegree" ? "degree" : "field";
+    box.addEventListener("click", e => {
+      const btn = e.target.closest(".chip");
+      if (!btn) return;
+      const val = btn.dataset.val;
+      const active = btn.getAttribute("aria-pressed") === "true";
+      box.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", "false"));
+      if (!active) { btn.setAttribute("aria-pressed", "true"); state[key] = val; }
+      else { state[key] = null; }
+      render();
+    });
+  }
+
+  document.getElementById("fRegion").addEventListener("change", e => {
+    state.region = e.target.value; render();
+  });
+
+  document.getElementById("fType").addEventListener("change", e => {
+    if (e.target.type !== "checkbox") return;
+    if (e.target.checked) state.types.add(e.target.value);
+    else state.types.delete(e.target.value);
+    render();
+  });
+
+  document.getElementById("fNomination").addEventListener("change", e => {
+    state.nomination = e.target.value; render();
+  });
+
+  const bind = (id, prop) => document.getElementById(id).addEventListener("change", e => {
+    state[prop] = e.target.checked; render();
+  });
+  bind("fOsaka", "osakaOnly");
+  bind("fHidePast", "hidePast");
+  bind("fSoon", "soonOnly");
+  bind("fStrict", "strict");
+
+  let qt;
+  document.getElementById("fQuery").addEventListener("input", e => {
+    clearTimeout(qt);
+    qt = setTimeout(() => { state.query = e.target.value; render(); }, 150);
+  });
+
+  document.getElementById("btnClear").addEventListener("click", () => {
+    Object.assign(state, {
+      degree: null, field: null, region: "", types: new Set(),
+      nomination: "any", osakaOnly: false, hidePast: true, soonOnly: false,
+      strict: false, query: "",
+    });
+    document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", "false"));
+    document.querySelectorAll('#fType input').forEach(c => c.checked = false);
+    document.querySelector('#fNomination input[value="any"]').checked = true;
+    document.getElementById("fRegion").value = "";
+    document.getElementById("fOsaka").checked = false;
+    document.getElementById("fHidePast").checked = true;
+    document.getElementById("fSoon").checked = false;
+    document.getElementById("fStrict").checked = false;
+    document.getElementById("fQuery").value = "";
+    render();
+  });
+
+  // モバイル: パネル開閉
+  const toggle = document.getElementById("panelToggle");
+  const body = document.getElementById("panelBody");
+  toggle.addEventListener("click", () => {
+    const collapsed = body.classList.toggle("collapsed");
+    toggle.setAttribute("aria-expanded", String(!collapsed));
+    toggle.textContent = collapsed ? "絞り込み条件 ▸" : "絞り込み条件 ▾";
+  });
+}
+
+/* ============ 起動 ============ */
+
+(async function init() {
+  wireControls();
+  const data = await loadData();
+  document.getElementById("loading").style.display = "none";
+
+  if (!data) {
+    document.getElementById("cards").innerHTML = `
+      <div class="empty">
+        <h3>データを読み込めませんでした</h3>
+        <p>scholarships.json / scholarships.sample.json のいずれも取得できません。
+        ローカルで開いている場合は <code>python3 -m http.server</code> 経由でアクセスしてください。</p>
+      </div>`;
+    return;
+  }
+
+  state.data = data;
+  renderMeta();
+  render();
+})();
+</script>
+</body>
+</html>

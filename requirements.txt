@@ -1,0 +1,9 @@
+# スクレイパー実行に必要なパッケージ（フロントエンドは依存なし）
+requests>=2.31,<3
+beautifulsoup4>=4.12,<5
+lxml>=5.1,<6
+python-dateutil>=2.9,<3
+jsonschema>=4.21,<5
+
+# 開発・テスト用
+pytest>=8.0,<9

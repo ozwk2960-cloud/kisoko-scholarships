@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "scholarships.json",
+  "type": "object",
+  "required": ["generated_at", "source_status", "scholarships"],
+  "additionalProperties": true,
+  "properties": {
+    "generated_at": { "type": "string", "format": "date-time" },
+    "source_status": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "ok"],
+        "additionalProperties": true,
+        "properties": {
+          "source": { "type": "string", "minLength": 1 },
+          "ok": { "type": "boolean" },
+          "count": { "type": "integer", "minimum": 0 },
+          "error": { "type": "string" },
+          "fetched_at": { "type": "string" },
+          "stale_since": { "type": "string" }
+        }
+      }
+    },
+    "scholarships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "source", "source_url", "title", "provider", "category", "last_seen"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "source": { "type": "string", "minLength": 1 },
+          "source_url": { "type": "string", "pattern": "^https?://" },
+          "title": { "type": "string", "minLength": 1 },
+          "provider": { "type": "string", "minLength": 1 },
+          "category": { "type": "string", "enum": ["public", "university", "private"] },
+          "amount_text": { "type": ["string", "null"] },
+          "amount_monthly_jpy": { "type": ["integer", "null"], "minimum": 0 },
+          "target_degree": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["bachelor", "master", "doctor", "research"] }
+          },
+          "target_fields": { "type": "array", "items": { "type": "string" } },
+          "eligible_universities": { "type": "array", "items": { "type": "string" } },
+          "requires_university_nomination": { "type": ["boolean", "null"] },
+          "destination_countries": { "type": "array", "items": { "type": "string" } },
+          "study_type": { "type": "array", "items": { "type": "string" } },
+          "duration_text": { "type": ["string", "null"] },
+          "deadline": {
+            "type": ["string", "null"],
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          },
+          "deadline_type": { "type": "string", "enum": ["fixed", "rolling", "annual", "unknown"] },
+          "application_period_text": { "type": ["string", "null"] },
+          "description": { "type": ["string", "null"] },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "last_seen": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+          "first_seen": {
+            "type": ["string", "null"],
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          }
+        }
+      }
+    }
+  }
+}
