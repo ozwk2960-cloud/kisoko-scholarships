@@ -16,4 +16,14 @@ venv/
 scraper/_debug/
 *.local.json
 
+# 作業メモ・スクショ・PDF等（プロジェクト外の個人資料。リポジトリに含めない）
+スクショ*/
+*.docx
+*.rtf
+*.pdf
+*.png
+*.jpg
+*.jpeg
+!tests/**/*.png
+
 # 注意: public/scholarships.json は "生成物だがコミット対象" のため無視しない
