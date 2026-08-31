@@ -1,6 +1,6 @@
 # 開発ログ — 阪大基礎工 留学奨学金・補助金 検索ツール
 
-対象期間: 2026-08-30（フェーズ0〜6 を1日で実施）
+対象期間: 2026-08-30〜08-31（フェーズ0〜6 を初日、フェーズ7 を翌日）
 設計方針は [`plan.md`](./plan.md)、使い方は [`README.md`](./README.md) を参照。
 
 **公開サイト: <https://kisoko-scholarships.pages.dev/>**
@@ -16,8 +16,12 @@
 | `2d09bd8` | 2026-08-30 16:34 | docs: 開発ログ追加 |
 | `976c753` | 2026-08-30 16:34 | chore: USER_AGENT・README のリポジトリ URL を確定 |
 | `420cc11` | 2026-08-30 17:09 | docs: 公開 URL をフッタ・README・canonical に記載 |
+| `c45210f` | 2026-08-31 | docs: フェーズ6（本番デプロイ）を開発ログに追記 |
+| `d190db4` | 2026-08-31 | docs: 運用方針を記録 + 作業メモ類を gitignore（誤コミット `730397c` のリカバリ）|
+| `95dcb23` | 2026-08-31 | ci: `[skip ci]` 除去でサイト反映を確実化 + 月次 keepalive（フェーズ7）|
 
 ブランチ `main`、リモート `origin` = GitHub（push 済み・Cloudflare Pages 連携済み）。
+GitHub 反映は `95dcb23` まで。この後の DEVLOG 追記コミットは別途 push が必要。
 
 ---
 
@@ -157,18 +161,70 @@
 - 次回ローカルから push する際は PAT を新規発行（Contents + Workflows の
   Read and write、対象リポジトリのみ）。
 
-**運用ループ（確立済み）**: 毎日 JST 06:00 に `scrape` → 変化があれば
+**運用ループ（この時点）**: 毎日 JST 06:00 に `scrape` → 変化があれば
 `github-actions[bot]` がコミット → `main` 更新で Cloudflare Pages が自動再デプロイ。
-手動作業なし。
+手動作業なし。（→ フェーズ7 で keepalive と `[skip ci]` 修正を追加）
+
+## フェーズ7 — 運用堅牢化（2026-08-31）
+
+デプロイ後、「公開の期限切れ」に相当するものを棚卸しし、日程管理が不要になるよう対策。
+
+**棚卸し結果**: サイトが止まる期限は存在しない。
+- Cloudflare Pages / `.pages.dev` / GitHub public リポジトリ / Cloudflare↔GitHub 連携
+  … いずれも無期限。
+- PAT は期限つきだが、Actions（`GITHUB_TOKEN` を使用）にも Cloudflare にも無関係。
+  影響はローカルからの `git push` だけ。
+- 唯一の実リスク = **GitHub Actions `schedule` は60日間リポジトリ無活動で自動停止**
+  （public リポジトリ）。停止時は管理者宛に GitHub が自動メール通知。
+
+**対策（コミット `95dcb23`）**
+1. **月次 keepalive**: `scrape.yml` に「毎月1日、空コミットを1つ push」するステップを追加
+   （`if: github.event_name == 'schedule'` かつ `date +%d == 01`）。最大でも約30日ごとに
+   活動が記録され、60日ルールに構造的に到達しない。人間の日程管理が不要になる。
+2. **`[skip ci]` 由来のデプロイ抜けを修正**: 日次データコミットのメッセージに付けていた
+   `[skip ci]` は、**Cloudflare Pages も**（大文字小文字を問わず）検知してビルドを
+   スキップする。このままだと「毎日収集・コミットするがサイトに反映されない」状態に
+   なるところだった（データ未変化のため顕在化前に発見）。データコミットから `[skip ci]`
+   を除去し、代わりに `ci.yml` の push トリガに `paths-ignore`（`public/scholarships.json`,
+   `public/deadlines.ics`）を設定して pytest の二重実行を回避。
+   - keepalive の空コミットには `[skip ci]` を残す（配信物に影響しないためビルド不要）。
+
+**この push 時の小ハマり**: コミットメッセージに説明として書いた「（[skip ci] 除去）」の
+文字列を GitHub が拾い、この push の `ci` 実行自体がスキップされた（実害なし・ローカルで
+39件パス済み・コード/データ変更なし）。以後の通常コミットでは `ci` は走る。
+
+**後片付け**: 今回発行した PAT（`kisoko-push-202608` 相当）も使用後に Delete、keychain
+も erase。ローカル push が必要になったら都度発行する運用（Contents + Workflows の
+Read and write、対象リポジトリのみ、の Fine-grained PAT）。
+
+**確立した運用ループ（最終形）**
+```
+毎日 06:00 JST  scrape 実行
+  ├─ データに実質変化あり → github-actions[bot] がコミット → push
+  │                          → Cloudflare Pages が自動再デプロイ（[skip ci] なし）
+  ├─ タイムスタンプのみ / 変化なし → コミットせず
+  └─ 毎月1日 → 空コミット（keepalive）で活動記録 → schedule 停止を防止
+push / PR（人間の変更） → ci（pytest + スキーマ検証）。ただし public/*.json,
+  *.ics のみの push は paths-ignore でスキップ。
+```
+運用上、人間が定期的に行う作業は無し（募集要項切替時期の `config.py` 見直しは任意）。
 
 **公開範囲の方針（2026-08-31 確認）**: サイト・GitHub リポジトリとも **完全公開**
-（認証なし、検索エンジンのインデックス対象）で運用する。掲載内容は公表済みの公募情報と
-一次リンクのみのため問題なし。「学内向けに広く使ってほしい」という目的に合致するため、
-Cloudflare Access による限定公開や `noindex` は導入しない。
+（認証なし、検索エンジンのインデックス対象）。掲載内容は公表済みの公募情報と一次リンク
+のみのため問題なし。「学内向けに広く使ってほしい」目的に合致するため、Cloudflare Access
+による限定公開や `noindex` は導入しない。
 - 共有方法: URL をそのまま配布。絞り込み状態は「🔗 この検索を共有」でURL化。
   締切カレンダーは `deadlines.ics` を各自のカレンダーに URL 購読。
-- 留意点（対応不要）: 募集要項の新年度切替時期（夏〜秋）に `config.py` の手入力値を
-  公式と突き合わせ。public リポジトリは60日無変化で `schedule` 停止 → Actions で再有効化。
+
+## 誤コミットとリカバリ（2026-08-31）
+
+`git add -A` で開発ログをコミットした際、ユーザーがプロジェクト直下に置いていた作業
+メモ 128 ファイル（スクショ `.png`、`.docx` / `.rtf` / `.pdf`、**トークン名の `.rtf`
+を含む**）を巻き込んで `730397c` を作成してしまった。push 前に気付き、
+`git reset --soft HEAD~1` で取り消し。GitHub 側への影響なし（当該時点で未 push）。
+再発防止として `.gitignore` に `スクショ*/` と `*.docx *.rtf *.pdf *.png *.jpg`
+（`tests/**/*.png` は例外許可）を追加（コミット `d190db4`）。今後この種のファイルは
+自動で無視される。露出したトークンはいずれも GitHub 上で Delete 済み＝無効。
 
 ---
 
