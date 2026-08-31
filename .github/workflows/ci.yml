@@ -3,6 +3,11 @@ name: ci
 on:
   push:
     branches: [main]
+    # 毎日の自動データ更新コミット（scrape が push）ではテストを回さない。
+    # scraper.run が書き出し前にスキーマ検証しており、二重実行は Actions 分数の無駄。
+    paths-ignore:
+      - "public/scholarships.json"
+      - "public/deadlines.ics"
   pull_request:
 
 permissions:

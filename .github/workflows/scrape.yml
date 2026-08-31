@@ -56,5 +56,20 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/scholarships.json public/deadlines.ics
-          git commit -m "data: 奨学金情報を更新 ($(date -u +%Y-%m-%d)) [skip ci]"
+          # [skip ci] は付けない: Cloudflare Pages も [skip ci] でデプロイを止めてしまい、
+          # 更新がサイトに反映されなくなる。ci(pytest) 側は paths-ignore で除外済み。
+          git commit -m "data: 奨学金情報を更新 ($(date -u +%Y-%m-%d))"
+          git push
+
+      - name: Keepalive（schedule が60日無活動で自動停止するのを防ぐ）
+        if: github.event_name == 'schedule'
+        run: |
+          set -euo pipefail
+          # 毎月1日だけ、空コミットを1つ入れてリポジトリ活動を記録する。
+          # 最大でも約30日ごとに活動があるため 60日ルールに到達しない。
+          [ "$(date -u +%d)" = "01" ] || exit 0
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # 空コミットは配信物に影響しないので Cloudflare のビルドは省略してよい
+          git commit --allow-empty -m "chore: keepalive $(date -u +%Y-%m) [skip ci]"
           git push
