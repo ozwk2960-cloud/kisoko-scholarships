@@ -6,6 +6,31 @@ METHOD:PUBLISH
 X-WR-CALNAME:留学奨学金・補助金 締切
 X-WR-TIMEZONE:Asia/Tokyo
 BEGIN:VEVENT
+UID:jasso-daigakuin-2027@kisoko-scholarships
+DTSTAMP:20260901T000000Z
+DTSTART;VALUE=DATE:20261008
+DTEND;VALUE=DATE:20261009
+SUMMARY:【留学奨学金 締切】2027年度海外留学支援制度（
+ 大学院学位取得型）
+DESCRIPTION:日本学生支援機構（JASSO）\n月額 177\,000〜388\,00
+ 0円（国・地域により異なる）＋ 授業料（上限あり）
+ 。特別枠は月額 227\,000〜833\,000円。詳細は募集要項を
+ 参照。\n【大学取りまとめ応募】【個人応募】 応募書
+ 類提出[応募者] 2026年9月1日(火曜日)~2026年10月8日(木曜
+ 日)13時(日本時間)締切 ※学位応募システムから提出\n
+ 詳細: https://www.jasso.go.jp/ryugaku/scholarship_a/daigakuin/2027.html
+ \n※学内締切は所属学部・研究科により異なる場合が
+ あります。必ず公式情報を確認してください。
+URL:https://www.jasso.go.jp/ryugaku/scholarship_a/daigakuin/2027.html
+CATEGORIES:奨学金,締切
+BEGIN:VALARM
+TRIGGER:-P7D
+ACTION:DISPLAY
+DESCRIPTION:2027年度海外留学支援制度（大学院学位取得型
+ ） の締切1週間前
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
 UID:jasso-gakubu-2027@kisoko-scholarships
 DTSTAMP:20260830T000000Z
 DTSTART;VALUE=DATE:20261001

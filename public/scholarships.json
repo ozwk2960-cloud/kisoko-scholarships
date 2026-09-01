@@ -1,84 +1,44 @@
 {
-  "generated_at": "2026-09-01T00:28:22Z",
+  "generated_at": "2026-09-01T23:09:34Z",
   "source_status": [
     {
       "source": "JASSO",
       "ok": true,
       "count": 4,
-      "fetched_at": "2026-09-01T00:27:46Z"
+      "fetched_at": "2026-09-01T23:09:00Z"
     },
     {
       "source": "トビタテ",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-09-01T00:28:07Z"
+      "fetched_at": "2026-09-01T23:09:19Z"
     },
     {
       "source": "船井情報科学振興財団",
       "ok": true,
       "count": 2,
-      "fetched_at": "2026-09-01T00:28:11Z"
+      "fetched_at": "2026-09-01T23:09:23Z"
     },
     {
       "source": "吉田育英会",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-09-01T00:28:15Z"
+      "fetched_at": "2026-09-01T23:09:27Z"
     },
     {
       "source": "孫正義育英財団",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-09-01T00:28:16Z"
+      "fetched_at": "2026-09-01T23:09:28Z"
     },
     {
       "source": "大阪大学",
       "ok": true,
       "count": 45,
-      "fetched_at": "2026-09-01T00:28:20Z"
+      "fetched_at": "2026-09-01T23:09:33Z"
     }
   ],
   "scholarships": [
-    {
-      "id": "jasso-daigakuin-2025",
-      "source": "JASSO",
-      "source_url": "https://www.jasso.go.jp/ryugaku/scholarship_a/daigakuin/2025.html",
-      "title": "2025年度海外留学支援制度（大学院学位取得型）",
-      "provider": "日本学生支援機構（JASSO）",
-      "category": "public",
-      "amount_text": "月額 177,000〜388,000円（国・地域により異なる）＋ 授業料（上限あり）。特別枠は月額 227,000〜833,000円。詳細は募集要項を参照。",
-      "amount_monthly_jpy": 177000,
-      "target_degree": [
-        "master",
-        "doctor"
-      ],
-      "target_fields": [
-        "全分野"
-      ],
-      "eligible_universities": [
-        "全国"
-      ],
-      "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
-      "study_type": [
-        "学位取得"
-      ],
-      "duration_text": "1年以上",
-      "deadline": null,
-      "deadline_type": "unknown",
-      "application_period_text": null,
-      "description": "2025年度海外留学支援制度(大学院学位取得型)の募集要項等、募集日程を掲載しております。",
-      "tags": [
-        "返済不要",
-        "学内取りまとめ応募",
-        "個人応募枠あり",
-        "現在は募集していません"
-      ],
-      "last_seen": "2026-09-01",
-      "first_seen": "2026-08-30"
-    },
     {
       "id": "jasso-daigakuin-2026",
       "source": "JASSO",
@@ -118,6 +78,45 @@
       ],
       "last_seen": "2026-09-01",
       "first_seen": "2026-08-30"
+    },
+    {
+      "id": "jasso-daigakuin-2027",
+      "source": "JASSO",
+      "source_url": "https://www.jasso.go.jp/ryugaku/scholarship_a/daigakuin/2027.html",
+      "title": "2027年度海外留学支援制度（大学院学位取得型）",
+      "provider": "日本学生支援機構（JASSO）",
+      "category": "public",
+      "amount_text": "月額 177,000〜388,000円（国・地域により異なる）＋ 授業料（上限あり）。特別枠は月額 227,000〜833,000円。詳細は募集要項を参照。",
+      "amount_monthly_jpy": 177000,
+      "target_degree": [
+        "master",
+        "doctor"
+      ],
+      "target_fields": [
+        "全分野"
+      ],
+      "eligible_universities": [
+        "全国"
+      ],
+      "requires_university_nomination": true,
+      "destination_countries": [
+        "全世界"
+      ],
+      "study_type": [
+        "学位取得"
+      ],
+      "duration_text": "1年以上",
+      "deadline": "2026-10-08",
+      "deadline_type": "fixed",
+      "application_period_text": "【大学取りまとめ応募】【個人応募】 応募書類提出[応募者] 2026年9月1日(火曜日)~2026年10月8日(木曜日)13時(日本時間)締切 ※学位応募システムから提出",
+      "description": "2027年度海外留学支援制度(大学院学位取得型)の募集関係書類、募集日程等を掲載しております。",
+      "tags": [
+        "返済不要",
+        "学内取りまとめ応募",
+        "個人応募枠あり"
+      ],
+      "last_seen": "2026-09-01",
+      "first_seen": "2026-09-01"
     },
     {
       "id": "jasso-gakubu-2026",
