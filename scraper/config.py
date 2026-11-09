@@ -209,3 +209,64 @@ OSAKA_EXCLUDE_TITLE_RE = r"JASSO|日本学生支援機構|トビタテ"
 OSAKA_MAX_AGE_DAYS = 450
 # 学内ログインが必要なリンクは公開の一覧ページ URL にフォールバック
 OSAKA_INTERNAL_HOST_RE = r"my\.osaka-u\.ac\.jp|koan|mahoroba"
+
+# 阪大の一覧ページに【対象】が載っていない「個人で直接応募」の制度は、各財団・機関の公式ページで
+# 確認できた事実だけをここに手で記録する（財団名キーなので年度が変わっても効く）。
+# 方針: 公式に明記されていることだけを書く。不明な項目はキーごと省略 → ツール上は「要確認」になる。
+#   match      : 一覧上のタイトルに当てる正規表現
+#   target_degree / study_type / target_fields / destination_countries : 上書きする値
+#   note       : カードの説明文に添える「公式情報」の要約
+OSAKA_CURATED = [
+    # 出典: https://www.inpex.co.jp/ (INPEX教育交流財団 募集要項。修士・博士課程の大学院生が対象)
+    {"match": r"INPEX", "target_degree": ["master", "doctor"], "target_fields": ["全分野"],
+     "destination_countries": ["インドネシア", "オーストラリア", "UAE"],
+     "note": "公式情報: 大学院（修士・博士）が対象。学部生は対象外。留学先はインドネシア・オーストラリア・UAE。"},
+    # 出典: 皇太子明仁親王奨学金（日米学生交流）公式案内。留学先は米国（ハワイ含む）
+    {"match": r"皇太子明仁親王", "target_degree": ["master", "doctor"],
+     "destination_countries": ["アメリカ", "ハワイ"],
+     "note": "公式情報: 大学院生が対象。留学先は米国（ハワイ）。"},
+    # 出典: 日中友好協会「中国政府奨学金留学生」募集案内
+    {"match": r"中国政府奨学金", "target_degree": ["bachelor", "master", "doctor"],
+     "destination_countries": ["中国"]},
+    # 出典: 在日フランス大使館 フランス政府奨学金 募集案内（修士・博士レベル）
+    {"match": r"フランス政府", "target_degree": ["master", "doctor"],
+     "destination_countries": ["フランス"], "study_type": ["学位取得", "研究"]},
+    # 出典: 豊田理化学研究所 海外大学院進学支援制度の案内（理工系）
+    {"match": r"豊田理化学", "target_degree": ["bachelor", "master"], "study_type": ["学位取得"],
+     "target_fields": ["理工系"], "destination_countries": ["全世界"]},
+    # 出典: 本庄国際奨学財団 募集要項（海外大学院の学位取得）
+    {"match": r"本庄", "target_degree": ["master", "doctor"], "study_type": ["学位取得"],
+     "target_fields": ["全分野"], "destination_countries": ["全世界"]},
+    # 出典: 重田教育財団 海外留学奨学金 募集要項
+    {"match": r"重田教育財団", "study_type": ["学位取得"], "target_fields": ["全分野"],
+     "destination_countries": ["全世界"]},
+    # 出典: 食生活研究会 海外留学奨学生 募集要項
+    {"match": r"食生活研究会", "study_type": ["学位取得"], "target_fields": ["全分野"]},
+    # 出典: 日米教育委員会（フルブライト・ジャパン）日本人対象プログラム案内
+    {"match": r"フルブライト", "study_type": ["学位取得", "研究"], "target_fields": ["全分野"],
+     "destination_countries": ["アメリカ"]},
+    # 出典: スイス政府奨学金（ESKAS）案内。博士・研究者向け
+    {"match": r"スイス政府", "target_degree": ["doctor", "research"], "study_type": ["研究"],
+     "destination_countries": ["スイス"]},
+    # 出典: 伊藤国際教育交流財団 募集要項（学位取得が対象。交換留学・短期・博士後期は対象外）
+    {"match": r"伊藤国際", "study_type": ["学位取得"], "target_fields": ["全分野"],
+     "destination_countries": ["全世界"],
+     "note": "公式情報: 学位取得を目的とする留学が対象。交換留学・短期留学は対象外。"},
+    # 出典: 霞山会 中国・台湾留学奨学金 案内
+    {"match": r"霞山会", "target_degree": ["bachelor", "master", "doctor"], "study_type": ["研究"],
+     "destination_countries": ["中国", "台湾"]},
+    # 出典: 松下幸之助国際スカラシップ 募集要項（人文社会科学系の研究、アジア・アフリカ・中南米）
+    {"match": r"松下幸之助", "target_degree": ["bachelor", "master", "doctor"], "study_type": ["研究"],
+     "target_fields": ["人文社会科学"],
+     "destination_countries": ["アジア", "アフリカ", "ラテンアメリカ"]},
+    # 出典: 中島記念国際交流財団 募集要項
+    {"match": r"中島記念", "study_type": ["学位取得"],
+     "target_fields": ["情報科学", "生命科学", "経営科学"]},
+    # 出典: 日中友好協会 アポロトレイディング奨学金 案内
+    {"match": r"アポロ", "destination_countries": ["中国"]},
+    # 出典: 福井県 フィンドレー大学・福井県奨学生 案内
+    {"match": r"フィンドレー", "destination_countries": ["アメリカ"]},
+    # 出典: 吉田育英会 日本人派遣留学プログラム（既存の CURATED_YOSHIDA と同じ内容）
+    {"match": r"吉田育英会", "target_degree": ["master", "doctor"], "study_type": ["学位取得", "研究"],
+     "target_fields": ["全分野"]},
+]

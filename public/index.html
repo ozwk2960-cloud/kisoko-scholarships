@@ -180,6 +180,10 @@
     font-size: 11px; color: var(--ink-faint); background: #f3f4f6;
     border-radius: 6px; padding: 2px 7px;
   }
+  .unverified {
+    background: var(--warn-bg); border: 1px solid var(--warn-line); color: var(--warn-ink);
+    border-radius: 8px; padding: 6px 10px; font-size: 12px; margin-bottom: 12px;
+  }
   .why { font-size: 11.5px; color: var(--ink-faint); margin-bottom: 12px; }
   .why b { color: var(--blue-dark); font-weight: 600; }
   .card-foot { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
@@ -292,7 +296,7 @@
           <label><input type="checkbox" id="fOsaka">大阪大学が対象の制度のみ</label>
           <label><input type="checkbox" id="fHidePast" checked>締切が過ぎたものを隠す</label>
           <label><input type="checkbox" id="fSoon">締切まで30日以内のものだけ</label>
-          <label><input type="checkbox" id="fStrict">選択した条件に一致するものだけ表示</label>
+          <label><input type="checkbox" id="fStrict">確認できたものだけ表示（対象が未確認のものを除く）</label>
         </div>
       </div>
 
@@ -340,10 +344,11 @@ const DEGREE_LABEL = { bachelor: "学部", master: "修士", doctor: "博士", r
 
 // 留学先セレクト値 → destination_countries に含まれ得る語
 const REGION_KEYWORDS = {
-  "北米": ["北米", "米国", "アメリカ", "カナダ", "USA", "US"],
+  "北米": ["北米", "米国", "アメリカ", "カナダ", "ハワイ", "USA", "US"],
   "欧州": ["欧州", "ヨーロッパ", "英国", "イギリス", "ドイツ", "フランス", "スイス",
            "オランダ", "スウェーデン", "デンマーク", "フィンランド", "イタリア", "スペイン", "EU"],
-  "アジア": ["アジア", "中国", "韓国", "台湾", "香港", "シンガポール", "タイ", "インド", "マレーシア"],
+  "アジア": ["アジア", "中国", "韓国", "台湾", "香港", "シンガポール", "タイ", "インド", "インドネシア",
+           "マレーシア", "ベトナム", "フィリピン"],
   "オセアニア": ["オセアニア", "オーストラリア", "ニュージーランド"],
 };
 
@@ -448,32 +453,65 @@ function fmtDate(iso) {
 
 /* ============ マッチ判定 ============ */
 
+/* ===== MATCH-LOGIC:START（tests/test_frontend_logic.py がこの区間だけを取り出して検証する）=====
+ *
+ * 条件ごとの照合結果は 4 値:
+ *   "na"       … その条件が未指定
+ *   "match"    … 制度側の情報が確認済みで、条件に一致
+ *   "mismatch" … 制度側の情報が確認済みで、条件に【一致しない】（例: 院生のみの制度に「学部」を指定）
+ *   "unknown"  … 制度側の情報が空（未確認）。一致とも不一致とも言えない
+ *
+ * 「確認済みの不一致」は常に結果から除外する。「未確認」は通常モードでは残して
+ * 「要確認」と明示し、厳格モード（確認できたものだけ）では除外する。
+ * 未確認を「一致」扱いにして加点したり、不一致と混同して落としたりしない。
+ */
+
+// 基礎工のどの専攻にも該当し得る汎用語（target_fields がこれを含めば専攻チップは一致扱い）
+const GENERIC_FIELDS = ["全分野", "理工系", "理系", "自然科学", "工学"];
+
 function textIncludesAny(haystackArr, keywords) {
   const hs = (haystackArr || []).join(" ");
   return keywords.some(k => hs.includes(k));
 }
 
-function degreeMatch(item) {
-  if (!state.degree) return null;
-  return (item.target_degree || []).includes(state.degree);
+function degreeStatus(item) {
+  if (!state.degree) return "na";
+  const a = item.target_degree || [];
+  if (a.length === 0) return "unknown";
+  return a.includes(state.degree) ? "match" : "mismatch";
 }
-function fieldMatch(item) {
-  if (!state.field) return null;
+function fieldStatus(item) {
+  if (!state.field) return "na";
   const f = item.target_fields || [];
-  if (f.includes("全分野")) return true;
-  return textIncludesAny(f, FIELD_KEYWORDS[state.field] || [state.field]);
+  if (f.length === 0) return "unknown";
+  if (f.some(x => GENERIC_FIELDS.includes(x))) return "match";
+  return textIncludesAny(f, FIELD_KEYWORDS[state.field] || [state.field]) ? "match" : "mismatch";
 }
-function regionMatch(item) {
-  if (!state.region) return null;
+function regionStatus(item) {
+  if (!state.region) return "na";
   const d = item.destination_countries || [];
-  if (d.includes("全世界")) return true;
-  return textIncludesAny(d, REGION_KEYWORDS[state.region] || [state.region]);
+  if (d.length === 0) return "unknown";
+  if (d.includes("全世界")) return "match";
+  return textIncludesAny(d, REGION_KEYWORDS[state.region] || [state.region]) ? "match" : "mismatch";
 }
-function typeMatch(item) {
-  if (state.types.size === 0) return null;
-  const s = new Set(item.study_type || []);
-  for (const t of state.types) if (s.has(t)) return true;
-  return false;
+function typeStatus(item) {
+  if (state.types.size === 0) return "na";
+  const s = item.study_type || [];
+  if (s.length === 0) return "unknown";
+  for (const t of state.types) if (s.includes(t)) return "match";
+  return "mismatch";
+}
+function conditionStatuses(item) {
+  return {
+    degree: degreeStatus(item), field: fieldStatus(item),
+    region: regionStatus(item), type: typeStatus(item),
+  };
+}
+const CONDITION_LABEL = { degree: "学年・課程", field: "専攻", region: "留学先", type: "留学の種別" };
+// 指定済みの条件のうち、制度側の情報が未確認のもの（カードに「要確認」と出す）
+function unverifiedConditions(item) {
+  const st = conditionStatuses(item);
+  return Object.keys(st).filter(k => st[k] === "unknown").map(k => CONDITION_LABEL[k]);
 }
 function nominationCompatible(item) {
   const req = item.requires_university_nomination; // true | false | null
@@ -481,6 +519,7 @@ function nominationCompatible(item) {
   if (state.nomination === "ok") return true;
   return null; // 不問
 }
+
 function osakaEligible(item) {
   const u = item.eligible_universities || [];
   return u.includes("大阪大学") || u.includes("全国");
@@ -495,6 +534,24 @@ function queryMatch(item) {
   return q.split(/\s+/).every(w => hay.includes(w));
 }
 
+/* ============ フィルタ（ハード条件） ============ */
+
+function passesHardFilters(item, daysLeft) {
+  if (!queryMatch(item)) return false;
+  if (state.osakaOnly && !osakaEligible(item)) return false;
+  if (state.hidePast && daysLeft !== null && daysLeft < 0) return false;
+  if (state.soonOnly && !(daysLeft !== null && daysLeft >= 0 && daysLeft <= 30)) return false;
+
+  const st = Object.values(conditionStatuses(item));
+  if (st.includes("mismatch")) return false;                 // 確認済みの不一致は常に除外
+  if (state.strict && st.includes("unknown")) return false;  // 厳格: 確認できたものだけ
+
+  // 「学内推薦が不要なものだけ」は明示的な除外条件（推薦要・推薦不明は除外）
+  if (state.nomination === "none" && item.requires_university_nomination !== false) return false;
+  return true;
+}
+/* ===== MATCH-LOGIC:END ===== */
+
 /* ============ スコアリング ============ */
 
 function scoreItem(item) {
@@ -506,14 +563,14 @@ function scoreItem(item) {
   const reasons = [];
 
   // 条件一致ボーナス
-  const dM = degreeMatch(item);
-  if (dM === true) { score += 30; reasons.push("学年一致"); }
-  const fM = fieldMatch(item);
-  if (fM === true) { score += 20; reasons.push((item.target_fields || []).includes("全分野") ? "全分野対象" : "専攻一致"); }
-  const rM = regionMatch(item);
-  if (rM === true) { score += 15; reasons.push("留学先一致"); }
-  const tM = typeMatch(item);
-  if (tM === true) { score += 10; reasons.push("種別一致"); }
+  const dM = degreeStatus(item);
+  if (dM === "match") { score += 30; reasons.push("学年一致"); }
+  const fM = fieldStatus(item);
+  if (fM === "match") { score += 20; reasons.push((item.target_fields || []).includes("全分野") ? "全分野対象" : "専攻一致"); }
+  const rM = regionStatus(item);
+  if (rM === "match") { score += 15; reasons.push("留学先一致"); }
+  const tM = typeStatus(item);
+  if (tM === "match") { score += 10; reasons.push("種別一致"); }
   if (osakaEligible(item)) { score += 15; reasons.push("阪大対象"); }
 
   // 学内推薦の希望と両立
@@ -548,26 +605,6 @@ function scoreItem(item) {
   return { score, reasons, daysLeft };
 }
 
-/* ============ フィルタ（ハード条件） ============ */
-
-function passesHardFilters(item, daysLeft) {
-  if (!queryMatch(item)) return false;
-  if (state.osakaOnly && !osakaEligible(item)) return false;
-  if (state.hidePast && daysLeft !== null && daysLeft < 0) return false;
-  if (state.soonOnly && !(daysLeft !== null && daysLeft >= 0 && daysLeft <= 30)) return false;
-
-  if (state.strict) {
-    if (degreeMatch(item) === false) return false;
-    if (fieldMatch(item) === false) return false;
-    if (regionMatch(item) === false) return false;
-    if (typeMatch(item) === false) return false;
-    if (nominationCompatible(item) === false) return false;
-  } else {
-    // 非厳格でも「学内推薦が不要なものだけ」は明示的な除外条件とする
-    if (state.nomination === "none" && item.requires_university_nomination !== false) return false;
-  }
-  return true;
-}
 
 /* ============ 描画 ============ */
 
@@ -590,6 +627,7 @@ function esc(s) {
 
 function cardHTML(item, sc, rank) {
   const degrees = (item.target_degree || []).map(d => DEGREE_LABEL[d] || d).join("・");
+  const unv = unverifiedConditions(item);
   const nomText = item.requires_university_nomination === true ? "必要"
                 : item.requires_university_nomination === false ? "不要"
                 : "要確認";
@@ -606,10 +644,11 @@ function cardHTML(item, sc, rank) {
     <div class="facts">
       <span>${deadlinePill(item, sc.daysLeft)}</span>
       ${item.amount_text ? `<span><span class="k">支給:</span> ${esc(item.amount_text)}</span>` : ""}
-      ${degrees ? `<span><span class="k">対象:</span> ${esc(degrees)}</span>` : ""}
+      <span><span class="k">対象:</span> ${degrees ? esc(degrees) : "未確認"}</span>
       <span><span class="k">学内推薦:</span> ${nomText}</span>
       ${item.duration_text ? `<span><span class="k">期間:</span> ${esc(item.duration_text)}</span>` : ""}
     </div>
+    ${unv.length ? `<div class="unverified"><b>要確認:</b> ${unv.map(esc).join("・")}は、このツールでは判定できていません。応募前に公式ページで対象を確認してください。</div>` : ""}
     ${item.description ? `<p class="desc">${esc(item.description)}</p>` : ""}
     ${(item.tags && item.tags.length) ? `<div class="tags">${item.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>` : ""}
     ${sc.reasons.length ? `<div class="why"><b>この順位の理由:</b> ${sc.reasons.map(esc).join(" ／ ")}（スコア ${Math.round(sc.score)}）</div>` : `<div class="why">現在の条件では加点なし（スコア ${Math.round(sc.score)}）</div>`}
@@ -693,7 +732,7 @@ function render() {
     cardsEl.innerHTML = `
       <div class="empty">
         <h3>条件に合う制度が見つかりませんでした</h3>
-        <p>絞り込みを緩めるか、「選択した条件に一致するものだけ表示」をオフにしてみてください。</p>
+        <p>絞り込みを緩めるか、「確認できたものだけ表示」をオフにしてみてください。</p>
       </div>`;
     return;
   }

@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-11-09T00:39:15Z",
+  "generated_at": "2026-11-09T13:23:44Z",
   "source_status": [
     {
       "source": "JASSO",
       "ok": true,
       "count": 4,
-      "fetched_at": "2026-11-09T00:38:33Z"
+      "fetched_at": "2026-11-09T13:23:08Z"
     },
     {
       "source": "トビタテ",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-09T00:38:52Z"
+      "fetched_at": "2026-11-09T13:23:27Z"
     },
     {
       "source": "船井情報科学振興財団",
       "ok": true,
       "count": 2,
-      "fetched_at": "2026-11-09T00:38:56Z"
+      "fetched_at": "2026-11-09T13:23:30Z"
     },
     {
       "source": "吉田育英会",
       "ok": false,
       "error": "FetchError: 取得失敗（3回試行）: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html :: HTTP 503: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html",
-      "fetched_at": "2026-11-09T00:39:00Z",
+      "fetched_at": "2026-11-09T13:23:34Z",
       "stale_since": "2026-10-22"
     },
     {
       "source": "孫正義育英財団",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-09T00:39:10Z"
+      "fetched_at": "2026-11-09T13:23:40Z"
     },
     {
       "source": "大阪大学",
       "ok": true,
       "count": 43,
-      "fetched_at": "2026-11-09T00:39:15Z"
+      "fetched_at": "2026-11-09T13:23:44Z"
     }
   ],
   "scholarships": [
@@ -294,15 +294,13 @@
       "amount_text": null,
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
       "destination_countries": [
-        "全世界"
+        "中国"
       ],
       "study_type": [],
       "duration_text": null,
@@ -326,18 +324,18 @@
       "category": "private",
       "amount_text": "月額:15万円または20万円 および一時金:15万円または25万円(どちらも留学先国・地域による)",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "bachelor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
+      "destination_countries": [],
+      "study_type": [
+        "交換留学"
       ],
-      "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -359,23 +357,25 @@
       "category": "private",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "master",
+        "doctor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
       "destination_countries": [
-        "全世界"
+        "アメリカ",
+        "ハワイ"
       ],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-04-07。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": null,
+      "description": "公式情報: 大学院生が対象。留学先は米国(ハワイ)。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -393,16 +393,12 @@
       "amount_text": null,
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -427,16 +423,18 @@
       "amount_monthly_jpy": null,
       "target_degree": [],
       "target_fields": [
-        "全分野"
+        "情報科学",
+        "生命科学",
+        "経営科学"
       ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
-      "destination_countries": [
-        "全世界"
+      "destination_countries": [],
+      "study_type": [
+        "学位取得"
       ],
-      "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -459,16 +457,12 @@
       "amount_text": "40/70/90万円(留学先国・地域による)",
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -491,18 +485,18 @@
       "category": "private",
       "amount_text": "月額10万円",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "bachelor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
+      "destination_countries": [],
+      "study_type": [
+        "交換留学"
       ],
-      "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -525,16 +519,12 @@
       "amount_text": null,
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -557,17 +547,17 @@
       "category": "private",
       "amount_text": "55万円",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "bachelor",
+        "master",
+        "doctor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [
         "語学"
       ],
@@ -592,16 +582,18 @@
       "category": "public",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "bachelor",
+        "master",
+        "doctor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
       "destination_countries": [
-        "全世界"
+        "中国"
       ],
       "study_type": [],
       "duration_text": null,
@@ -625,18 +617,22 @@
       "category": "public",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "master",
+        "doctor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
       "destination_countries": [
-        "全世界"
+        "フランス"
       ],
-      "study_type": [],
+      "study_type": [
+        "学位取得",
+        "研究"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -658,18 +654,18 @@
       "category": "private",
       "amount_text": "月額20万円、渡航費用",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "bachelor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
+      "destination_countries": [],
+      "study_type": [
+        "交換留学"
       ],
-      "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -692,16 +688,12 @@
       "amount_text": "奨学金30万円/1回、渡航準備金:12万円",
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -724,17 +716,17 @@
       "category": "private",
       "amount_text": "月額:15万円、渡航費:20万円",
       "amount_monthly_jpy": null,
-      "target_degree": [],
+      "target_degree": [
+        "master"
+      ],
       "target_fields": [
-        "全分野"
+        "理工系"
       ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -758,16 +750,12 @@
       "amount_text": "授業料等大学への納付金として250万円を上限とする実費、及び滞在費・渡航費等に充当するものとして年額250万円を上限とする費用の合計金額を実情に応じて支給",
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -790,9 +778,12 @@
       "category": "private",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
+      "target_degree": [
+        "bachelor",
+        "master"
+      ],
       "target_fields": [
-        "全分野"
+        "理工系"
       ],
       "eligible_universities": [
         "大阪大学"
@@ -801,7 +792,9 @@
       "destination_countries": [
         "全世界"
       ],
-      "study_type": [],
+      "study_type": [
+        "学位取得"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -823,18 +816,18 @@
       "category": "private",
       "amount_text": "月額:15万円または20万円(留学先国・地域による)、留学一時金",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "bachelor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
+      "destination_countries": [],
+      "study_type": [
+        "交換留学"
       ],
-      "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -856,18 +849,20 @@
       "category": "private",
       "amount_text": "年間180万円(※準備金:45万円、奨学金:2026年8月~2027年4月まで毎月15万円)",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "bachelor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
       "destination_countries": [
-        "全世界"
+        "アメリカ"
       ],
-      "study_type": [],
+      "study_type": [
+        "交換留学"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -889,18 +884,18 @@
       "category": "private",
       "amount_text": "月額10万円",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "bachelor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
+      "destination_countries": [],
+      "study_type": [
+        "交換留学"
       ],
-      "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -922,17 +917,19 @@
       "category": "university",
       "amount_text": "渡航期間6か月未満:60~80万円/渡航期間6か月以上:90~120万円",
       "amount_monthly_jpy": null,
-      "target_degree": [],
+      "target_degree": [
+        "bachelor",
+        "master",
+        "doctor"
+      ],
       "target_fields": [
-        "全分野"
+        "理工系"
       ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -955,18 +952,18 @@
       "category": "private",
       "amount_text": "月額:15万円、渡航準備金:20万円",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "bachelor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
+      "destination_countries": [],
+      "study_type": [
+        "交換留学"
       ],
-      "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -988,7 +985,10 @@
       "category": "private",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
+      "target_degree": [
+        "master",
+        "doctor"
+      ],
       "target_fields": [
         "全分野"
       ],
@@ -999,7 +999,9 @@
       "destination_countries": [
         "全世界"
       ],
-      "study_type": [],
+      "study_type": [
+        "学位取得"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -1022,16 +1024,12 @@
       "amount_text": null,
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -1055,15 +1053,13 @@
       "amount_text": null,
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
       "destination_countries": [
-        "全世界"
+        "アメリカ"
       ],
       "study_type": [],
       "duration_text": null,
@@ -1088,16 +1084,12 @@
       "amount_text": "月額10万円、および支度一時金(60万円×留学月数÷12)",
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -1120,17 +1112,16 @@
       "category": "private",
       "amount_text": "年間500万円(一律支給)",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "master",
+        "doctor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -1154,16 +1145,12 @@
       "amount_text": "月額6万円",
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [
         "交換留学"
       ],
@@ -1189,17 +1176,18 @@
       "amount_text": "月額:15/20万円、渡航費:25万円、一時金:20万円、保険料及び海外安全危機管理サービス費:15万円を限度とする実費",
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
       "destination_countries": [
-        "全世界"
+        "東南アジア",
+        "南西アジア"
       ],
-      "study_type": [],
+      "study_type": [
+        "交換留学"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -1232,7 +1220,9 @@
       "destination_countries": [
         "全世界"
       ],
-      "study_type": [],
+      "study_type": [
+        "学位取得"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -1254,7 +1244,11 @@
       "category": "private",
       "amount_text": "一ヶ月当たり20万円(但し上限は、480万円)",
       "amount_monthly_jpy": null,
-      "target_degree": [],
+      "target_degree": [
+        "bachelor",
+        "master",
+        "doctor"
+      ],
       "target_fields": [
         "全分野"
       ],
@@ -1262,9 +1256,7 @@
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -1295,10 +1287,10 @@
         "大阪大学"
       ],
       "requires_university_nomination": false,
-      "destination_countries": [
-        "全世界"
+      "destination_countries": [],
+      "study_type": [
+        "学位取得"
       ],
-      "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -1320,7 +1312,10 @@
       "category": "private",
       "amount_text": "生活滞在費:月額2,500米ドル、学校納付金:25,000※ドル以内の実費、往復の渡航に要する交通費 等",
       "amount_monthly_jpy": null,
-      "target_degree": [],
+      "target_degree": [
+        "master",
+        "doctor"
+      ],
       "target_fields": [
         "全分野"
       ],
@@ -1328,10 +1323,11 @@
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
+      "destination_countries": [],
+      "study_type": [
+        "学位取得",
+        "研究"
       ],
-      "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -1362,9 +1358,12 @@
       ],
       "requires_university_nomination": false,
       "destination_countries": [
-        "全世界"
+        "アメリカ"
       ],
-      "study_type": [],
+      "study_type": [
+        "学位取得",
+        "研究"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -1386,18 +1385,21 @@
       "category": "public",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "doctor",
+        "research"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
       "destination_countries": [
-        "全世界"
+        "スイス"
       ],
-      "study_type": [],
+      "study_type": [
+        "研究"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -1420,16 +1422,12 @@
       "amount_text": null,
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -1463,12 +1461,14 @@
       "destination_countries": [
         "全世界"
       ],
-      "study_type": [],
+      "study_type": [
+        "学位取得"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-06-26。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": null,
+      "description": "公式情報: 学位取得を目的とする留学が対象。交換留学・短期留学は対象外。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -1485,17 +1485,16 @@
       "category": "private",
       "amount_text": "月額35万円、最長2年間(840万円)",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "master",
+        "doctor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -1519,16 +1518,12 @@
       "amount_text": "月額10万円、および支度一時金(60万円×留学月数÷12)",
       "amount_monthly_jpy": null,
       "target_degree": [],
-      "target_fields": [
-        "全分野"
-      ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
-      ],
+      "destination_countries": [],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
@@ -1551,18 +1546,18 @@
       "category": "private",
       "amount_text": "月額:7万円、留学準備金:35万円",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "bachelor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [
-        "全世界"
+      "destination_countries": [],
+      "study_type": [
+        "交換留学"
       ],
-      "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -1584,18 +1579,23 @@
       "category": "private",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "bachelor",
+        "master",
+        "doctor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
       "destination_countries": [
-        "全世界"
+        "中国",
+        "台湾"
       ],
-      "study_type": [],
+      "study_type": [
+        "研究"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -1617,18 +1617,26 @@
       "category": "private",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
+      "target_degree": [
+        "bachelor",
+        "master",
+        "doctor"
+      ],
       "target_fields": [
-        "全分野"
+        "人文社会科学"
       ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
       "destination_countries": [
-        "全世界"
+        "アジア",
+        "アフリカ",
+        "ラテンアメリカ"
       ],
-      "study_type": [],
+      "study_type": [
+        "研究"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
@@ -1650,7 +1658,10 @@
       "category": "private",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
+      "target_degree": [
+        "master",
+        "doctor"
+      ],
       "target_fields": [
         "全分野"
       ],
@@ -1659,14 +1670,16 @@
       ],
       "requires_university_nomination": false,
       "destination_countries": [
-        "全世界"
+        "インドネシア",
+        "オーストラリア",
+        "UAE"
       ],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-06-26。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": null,
+      "description": "公式情報: 大学院(修士・博士)が対象。学部生は対象外。留学先はインドネシア・オーストラリア・UAE。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -1683,18 +1696,22 @@
       "category": "public",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [
-        "全分野"
+      "target_degree": [
+        "master",
+        "doctor"
       ],
+      "target_fields": [],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
       "destination_countries": [
-        "全世界"
+        "フランス"
       ],
-      "study_type": [],
+      "study_type": [
+        "学位取得",
+        "研究"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
