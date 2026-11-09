@@ -165,3 +165,13 @@ def test_osaka_curated_from_official_requirements():
     assert _find(items, "フクシマグローバル人材支援奨学財団（短期）").target_degree == ["bachelor"]
     # 寺浦（同名2件とも）
     assert all(it.target_degree for t, it in items.items() if "寺浦" in t) or _find(items, "寺浦").target_degree
+
+
+def test_osaka_all_fields_only_when_official_requirements_have_no_field_condition():
+    items = _osaka_live_items()
+    for key in ("業務スーパージャパンドリーム", "阪和育英会", "みずほ国際交流", "大遊協"):
+        it = _find(items, key)
+        assert it.target_fields == ["全分野"] and it.target_degree == ["bachelor"], key
+    # 公式要項を読めていない制度には「全分野」を付けない
+    for key in ("安田奨学財団", "TOMODACHI", "佐藤陽"):
+        assert _find(items, key).target_fields == [], key

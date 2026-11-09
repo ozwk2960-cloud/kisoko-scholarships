@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-11-09T14:29:14Z",
+  "generated_at": "2026-11-09T14:33:39Z",
   "source_status": [
     {
       "source": "JASSO",
       "ok": true,
       "count": 4,
-      "fetched_at": "2026-11-09T14:28:38Z"
+      "fetched_at": "2026-11-09T14:33:03Z"
     },
     {
       "source": "トビタテ",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-09T14:28:57Z"
+      "fetched_at": "2026-11-09T14:33:22Z"
     },
     {
       "source": "船井情報科学振興財団",
       "ok": true,
       "count": 2,
-      "fetched_at": "2026-11-09T14:29:00Z"
+      "fetched_at": "2026-11-09T14:33:25Z"
     },
     {
       "source": "吉田育英会",
       "ok": false,
       "error": "FetchError: 取得失敗（3回試行）: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html :: HTTP 503: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html",
-      "fetched_at": "2026-11-09T14:29:03Z",
+      "fetched_at": "2026-11-09T14:33:28Z",
       "stale_since": "2026-10-22"
     },
     {
       "source": "孫正義育英財団",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-09T14:29:10Z"
+      "fetched_at": "2026-11-09T14:33:35Z"
     },
     {
       "source": "大阪大学",
       "ok": true,
       "count": 43,
-      "fetched_at": "2026-11-09T14:29:14Z"
+      "fetched_at": "2026-11-09T14:33:39Z"
     }
   ],
   "scholarships": [
@@ -334,12 +334,16 @@
       "target_degree": [
         "bachelor"
       ],
-      "target_fields": [],
+      "target_fields": [
+        "全分野"
+      ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [],
+      "destination_countries": [
+        "全世界"
+      ],
       "study_type": [
         "交換留学"
       ],
@@ -347,7 +351,7 @@
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-12-09。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": "対象: 2026年5月1日~2026年11月30日の間に大学間または部局間交換留学を開始する学部生 / 内容: 月額:15万円または20万円 および一時金:15万円または25万円(どちらも留学先国・地域による)",
+      "description": "対象: 2026年5月1日~2026年11月30日の間に大学間または部局間交換留学を開始する学部生 / 内容: 月額:15万円または20万円 および一時金:15万円または25万円(どちらも留学先国・地域による) / 公式情報: 学部2年生以上(大学院は不可)・35歳以下。語学研修を含まない6か月以上の大学間協定留学が対象。学内選考あり。専攻の制限は無い(文系・文理融合型学部のみ単位認定等の追加条件)。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -503,12 +507,16 @@
       "target_degree": [
         "bachelor"
       ],
-      "target_fields": [],
+      "target_fields": [
+        "全分野"
+      ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [],
+      "destination_countries": [
+        "全世界"
+      ],
       "study_type": [
         "交換留学"
       ],
@@ -516,7 +524,7 @@
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-01-26。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": "対象: 大阪府在住で2026年度に8か月~1年内の大学間または部局間交換留学を開始する学部生 / 内容: 月額10万円",
+      "description": "対象: 大阪府在住で2026年度に8か月~1年内の大学間または部局間交換留学を開始する学部生 / 内容: 月額10万円 / 公式情報: 大阪に居住し大阪の大学に通う学部生が、8か月〜1年の交換留学をする場合。経済的理由で自費のみの留学が困難な人が対象。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -681,12 +689,16 @@
       "target_degree": [
         "bachelor"
       ],
-      "target_fields": [],
+      "target_fields": [
+        "全分野"
+      ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [],
+      "destination_countries": [
+        "全世界"
+      ],
       "study_type": [
         "交換留学"
       ],
@@ -694,7 +706,7 @@
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-10-13。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": "対象: 2027年7月~10月に開始の2セメスターの大学間または部局間交換留学をする学部生 / 内容: 月額20万円、渡航費用",
+      "description": "対象: 2027年7月~10月に開始の2セメスターの大学間または部局間交換留学をする学部生 / 内容: 月額20万円、渡航費用 / 公式情報: 学部生で、大学の選考により協定大学への交換留学が決定している人。最長1年(半年は不可)。大学が財団から推薦依頼を受けている場合のみ応募可。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -849,12 +861,16 @@
       "target_degree": [
         "bachelor"
       ],
-      "target_fields": [],
+      "target_fields": [
+        "全分野"
+      ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [],
+      "destination_countries": [
+        "全世界"
+      ],
       "study_type": [
         "交換留学"
       ],
@@ -862,7 +878,7 @@
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-06-04。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": "対象: 2026年12月1日~2027年4月30日の間に大学間または部局間交換留学を開始する学部生 / 内容: 月額:15万円または20万円(留学先国・地域による)、留学一時金",
+      "description": "対象: 2026年12月1日~2027年4月30日の間に大学間または部局間交換留学を開始する学部生 / 内容: 月額:15万円または20万円(留学先国・地域による)、留学一時金 / 公式情報: 学部2年生以上(大学院は不可)・35歳以下。語学研修を含まない6か月以上の大学間協定留学が対象。学内選考あり。専攻の制限は無い(文系・文理融合型学部のみ単位認定等の追加条件)。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1613,12 +1629,16 @@
       "target_degree": [
         "bachelor"
       ],
-      "target_fields": [],
+      "target_fields": [
+        "全分野"
+      ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [],
+      "destination_countries": [
+        "全世界"
+      ],
       "study_type": [
         "交換留学"
       ],
@@ -1626,7 +1646,7 @@
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-11-06。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": "対象: 2026年度中(2026年4月1日~2027年3月31日の間)に大学間または部局間交換留学をする学部生 / 内容: 月額:7万円、留学準備金:35万円",
+      "description": "対象: 2026年度中(2026年4月1日~2027年3月31日の間)に大学間または部局間交換留学をする学部生 / 内容: 月額:7万円、留学準備金:35万円 / 公式情報: 指定大学の学部生。家計の年収合計1,000万円以内、学校長(学部長)の推薦が必要。語学研修目的は不可。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"

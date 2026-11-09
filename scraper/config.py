@@ -301,6 +301,26 @@ OSAKA_CURATED = [
     # 出典: フクシマグローバル人材支援奨学財団 2026年度募集要項 https://www.fukushima-global.or.jp/overseas.html
     {"match": r"フクシマ.*短期", "target_degree": ["bachelor"], "target_fields": ["全分野"], "destination_countries": ["全世界"],
      "note": "公式情報: 25歳以下の学部生が2週間以上6か月未満の留学をする場合。30万円以上の留学プログラムが対象。"},
+    # 出典: 業務スーパージャパンドリーム財団 2026年度留学支援事業 募集要項（大学事務担当者用）PDF
+    #   https://www.kobebussan.or.jp/pdf/guideline_202601_02.pdf （第1回・第2回共通）
+    {"match": r"業務スーパージャパンドリーム", "target_degree": ["bachelor"], "study_type": ["交換留学"],
+     "target_fields": ["全分野"], "destination_countries": ["全世界"],
+     "note": "公式情報: 学部2年生以上（大学院は不可）・35歳以下。語学研修を含まない6か月以上の大学間協定留学が対象。"
+             "学内選考あり。専攻の制限は無い（文系・文理融合型学部のみ単位認定等の追加条件）。"},
+    # 出典: 阪和育英会 海外留学奨学生の資格 https://hanwa-ikueikai.or.jp/recruiting2/index.html
+    {"match": r"阪和育英会", "target_degree": ["bachelor"], "target_fields": ["全分野"],
+     "destination_countries": ["全世界"],
+     "note": "公式情報: 指定大学の学部生。家計の年収合計1,000万円以内、学校長（学部長）の推薦が必要。語学研修目的は不可。"},
+    # 出典: みずほ国際交流奨学財団 日本人奨学生募集要項（2027年度） https://mizuhokokusai.la.coocan.jp/information.html
+    {"match": r"みずほ国際交流", "target_degree": ["bachelor"], "study_type": ["交換留学"],
+     "target_fields": ["全分野"], "destination_countries": ["全世界"],
+     "note": "公式情報: 学部生で、大学の選考により協定大学への交換留学が決定している人。最長1年（半年は不可）。"
+             "大学が財団から推薦依頼を受けている場合のみ応募可。"},
+    # 出典: 大遊協国際交流・援助・研究協会 日本人留学生向け応募要領 https://www.daiyukyo-kokusaikoryu.or.jp/scholarship.html
+    {"match": r"大遊協", "target_degree": ["bachelor"], "study_type": ["交換留学"],
+     "target_fields": ["全分野"], "destination_countries": ["全世界"],
+     "note": "公式情報: 大阪に居住し大阪の大学に通う学部生が、8か月〜1年の交換留学をする場合。"
+             "経済的理由で自費のみの留学が困難な人が対象。"},
     {"match": r"フクシマ.*長期", "target_degree": ["bachelor"], "target_fields": ["全分野"], "destination_countries": ["全世界"],
      "note": "公式情報: 25歳以下の学部生が6か月以上12か月未満の留学をする場合。"},
     # 出典: 吉田育英会 日本人派遣留学プログラム（既存の CURATED_YOSHIDA と同じ内容）
