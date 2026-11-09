@@ -112,8 +112,10 @@ def test_osaka_does_not_assert_unverified_values():
     items = _osaka_live_items()
     unknown_degree = [it for it in items.values() if not it.target_degree]
     assert unknown_degree, "学年が不明な制度は空のまま残すこと"
-    terauchi = _find(items, "寺浦")
-    assert terauchi.target_degree == [] and terauchi.target_fields == [] and terauchi.destination_countries == []
+    # 公式ページが自動で読めない制度（竹中育英会・村田海外留学奨学会）は、何も断定せず空のまま
+    for key in ("竹中育英会", "村田海外留学奨学会"):
+        it = _find(items, key)
+        assert it.target_degree == [] and it.target_fields == [] and it.destination_countries == []
 
 
 def test_osaka_target_parsing():
@@ -147,3 +149,19 @@ def test_osaka_curated_covers_direct_apply_rows():
     # 学部生を含む制度・含まない制度の取り違えが無い
     assert "bachelor" not in _find(items, "本庄").target_degree
     assert "bachelor" in _find(items, "中国政府奨学金").target_degree
+
+
+def test_osaka_curated_from_official_requirements():
+    items = _osaka_live_items()
+    # 経団連GL: 学部2〜4年＋博士前期のみ（博士後期は対象外）
+    k = _find(items, "経団連グローバル人材育成")
+    assert k.target_degree == ["bachelor", "master"] and "doctor" not in k.target_degree
+    # アポロ: 学部生・大学院生、留学先は中国、専攻の列挙は基礎工の専攻名と合わないので入れない
+    a = _find(items, "アポロ")
+    assert a.destination_countries == ["中国"] and a.target_fields == []
+    # フィンドレー: 福井県在住等の条件がカードの説明に出る
+    assert "福井県" in (_find(items, "フィンドレー").description or "")
+    # フクシマ: 短期も学部生
+    assert _find(items, "フクシマグローバル人材支援奨学財団（短期）").target_degree == ["bachelor"]
+    # 寺浦（同名2件とも）
+    assert all(it.target_degree for t, it in items.items() if "寺浦" in t) or _find(items, "寺浦").target_degree

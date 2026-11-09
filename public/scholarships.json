@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-11-09T13:23:44Z",
+  "generated_at": "2026-11-09T14:29:14Z",
   "source_status": [
     {
       "source": "JASSO",
       "ok": true,
       "count": 4,
-      "fetched_at": "2026-11-09T13:23:08Z"
+      "fetched_at": "2026-11-09T14:28:38Z"
     },
     {
       "source": "トビタテ",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-09T13:23:27Z"
+      "fetched_at": "2026-11-09T14:28:57Z"
     },
     {
       "source": "船井情報科学振興財団",
       "ok": true,
       "count": 2,
-      "fetched_at": "2026-11-09T13:23:30Z"
+      "fetched_at": "2026-11-09T14:29:00Z"
     },
     {
       "source": "吉田育英会",
       "ok": false,
       "error": "FetchError: 取得失敗（3回試行）: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html :: HTTP 503: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html",
-      "fetched_at": "2026-11-09T13:23:34Z",
+      "fetched_at": "2026-11-09T14:29:03Z",
       "stale_since": "2026-10-22"
     },
     {
       "source": "孫正義育英財団",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-09T13:23:40Z"
+      "fetched_at": "2026-11-09T14:29:10Z"
     },
     {
       "source": "大阪大学",
       "ok": true,
       "count": 43,
-      "fetched_at": "2026-11-09T13:23:44Z"
+      "fetched_at": "2026-11-09T14:29:14Z"
     }
   ],
   "scholarships": [
@@ -293,7 +293,11 @@
       "category": "private",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
+      "target_degree": [
+        "bachelor",
+        "master",
+        "doctor"
+      ],
       "target_fields": [],
       "eligible_universities": [
         "大阪大学"
@@ -302,12 +306,15 @@
       "destination_countries": [
         "中国"
       ],
-      "study_type": [],
+      "study_type": [
+        "学位取得",
+        "交換留学"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-12-08。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": null,
+      "description": "公式情報: 中国の4年制大学・研究機関に9か月以上留学する学部生・大学院生(交換留学可)。HSK4級/中検3級以上・30歳以下。専攻は政治・経済・歴史・文化・科学。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -392,19 +399,27 @@
       "category": "private",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [],
+      "target_degree": [
+        "bachelor",
+        "master",
+        "doctor"
+      ],
+      "target_fields": [
+        "全分野"
+      ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
-      "destination_countries": [],
+      "destination_countries": [
+        "全世界"
+      ],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-05-12。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": null,
+      "description": "公式情報: 海外の大学・大学院(語学研修校を除く)へ半年以上留学する日本国籍の方。大阪府内在住の学生、または府内の学校法人・留学支援団体所属の学生が対象。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -518,19 +533,28 @@
       "category": "private",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [],
+      "target_degree": [
+        "bachelor",
+        "master"
+      ],
+      "target_fields": [
+        "全分野"
+      ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": false,
-      "destination_countries": [],
-      "study_type": [],
+      "destination_countries": [
+        "全世界"
+      ],
+      "study_type": [
+        "交換留学"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-08-10。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": null,
+      "description": "公式情報: 学部2〜4年生または博士前期課程1〜2年生。8か月以上1年未満の留学(理工系は研究室での研究・講義受講で6か月以上も可)。支給200万円。TOEFL iBT61/IELTS5.0相当と学部長等の推薦状が必要。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -687,19 +711,25 @@
       "category": "private",
       "amount_text": "奨学金30万円/1回、渡航準備金:12万円",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [],
+      "target_degree": [
+        "bachelor"
+      ],
+      "target_fields": [
+        "全分野"
+      ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [],
+      "destination_countries": [
+        "全世界"
+      ],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-03-13。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": "内容: 奨学金30万円/1回、渡航準備金:12万円",
+      "description": "内容: 奨学金30万円/1回、渡航準備金:12万円 / 公式情報: 25歳以下の学部生が2週間以上6か月未満の留学をする場合。30万円以上の留学プログラムが対象。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -955,12 +985,16 @@
       "target_degree": [
         "bachelor"
       ],
-      "target_fields": [],
+      "target_fields": [
+        "全分野"
+      ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [],
+      "destination_countries": [
+        "全世界"
+      ],
       "study_type": [
         "交換留学"
       ],
@@ -968,7 +1002,7 @@
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-12-01。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": "対象: 大学間または部局間交換留学プログラムで留学をする学部生 / 内容: 月額:15万円、渡航準備金:20万円",
+      "description": "対象: 大学間または部局間交換留学プログラムで留学をする学部生 / 内容: 月額:15万円、渡航準備金:20万円 / 公式情報: 25歳以下の学部生が6か月以上12か月未満の留学をする場合。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1029,13 +1063,20 @@
         "大阪大学"
       ],
       "requires_university_nomination": false,
-      "destination_countries": [],
-      "study_type": [],
+      "destination_countries": [
+        "アメリカ",
+        "イギリス",
+        "オーストラリア",
+        "マレーシア"
+      ],
+      "study_type": [
+        "インターン"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-12-18。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": null,
+      "description": "公式情報: IBPビジネス留学プログラム(約12か月・現地大学+インターン)の参加費を免除する奨学金。応募資格は18歳以上の学生。公式ページに『募集は終了』の表示あり。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -1052,7 +1093,11 @@
       "category": "public",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
+      "target_degree": [
+        "bachelor",
+        "master",
+        "doctor"
+      ],
       "target_fields": [],
       "eligible_universities": [
         "大阪大学"
@@ -1061,12 +1106,15 @@
       "destination_countries": [
         "アメリカ"
       ],
-      "study_type": [],
+      "study_type": [
+        "学位取得",
+        "語学"
+      ],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-05-28。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": null,
+      "description": "公式情報: 応募資格は原則として福井県内在住または県内の高校卒業者。フィンドレー大学(米国)の学部・大学院・集中英語コースの1年分の授業料を免除。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -1083,19 +1131,27 @@
       "category": "private",
       "amount_text": "月額10万円、および支度一時金(60万円×留学月数÷12)",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [],
+      "target_degree": [
+        "bachelor",
+        "master",
+        "doctor"
+      ],
+      "target_fields": [
+        "全分野"
+      ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [],
+      "destination_countries": [
+        "全世界"
+      ],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-08-31。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": "対象: 2027年1月~4月の間に海外の大学または大学院への留学を開始する者 / 内容: 月額10万円、および支度一時金(60万円×留学月数÷12)",
+      "description": "対象: 2027年1月~4月の間に海外の大学または大学院への留学を開始する者 / 内容: 月額10万円、および支度一時金(60万円×留学月数÷12) / 公式情報: 海外の大学・大学院等へ留学する学生のうち、経済的に学資の支弁が困難な優秀な者。大学・大学院生は月額10万円+支度一時金。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1517,19 +1573,27 @@
       "category": "private",
       "amount_text": "月額10万円、および支度一時金(60万円×留学月数÷12)",
       "amount_monthly_jpy": null,
-      "target_degree": [],
-      "target_fields": [],
+      "target_degree": [
+        "bachelor",
+        "master",
+        "doctor"
+      ],
+      "target_fields": [
+        "全分野"
+      ],
       "eligible_universities": [
         "大阪大学"
       ],
       "requires_university_nomination": true,
-      "destination_countries": [],
+      "destination_countries": [
+        "全世界"
+      ],
       "study_type": [],
       "duration_text": null,
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-02-03。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "description": "対象: 2026年7月~11月の間に海外の大学または大学院への留学を開始する者 / 内容: 月額10万円、および支度一時金(60万円×留学月数÷12)",
+      "description": "対象: 2026年7月~11月の間に海外の大学または大学院への留学を開始する者 / 内容: 月額10万円、および支度一時金(60万円×留学月数÷12) / 公式情報: 海外の大学・大学院等へ留学する学生のうち、経済的に学資の支弁が困難な優秀な者。大学・大学院生は月額10万円+支度一時金。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"

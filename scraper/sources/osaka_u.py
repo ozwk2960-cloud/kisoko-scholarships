@@ -127,7 +127,7 @@ class OsakaUSource(BaseSource):
             desc_bits.append("内容: " + cur["amount"])
         if note:
             desc_bits.append(note)
-        description = truncate(" / ".join(desc_bits), 260) if desc_bits else None
+        description = truncate(" / ".join(desc_bits), 420) if desc_bits else None
 
         nomination_note = (
             "この一覧では『大学を通じて応募する奨学金』に分類（学内選考・学内締切あり）。"

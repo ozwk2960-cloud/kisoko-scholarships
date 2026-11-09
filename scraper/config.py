@@ -213,6 +213,7 @@ OSAKA_INTERNAL_HOST_RE = r"my\.osaka-u\.ac\.jp|koan|mahoroba"
 # 阪大の一覧ページに【対象】が載っていない「個人で直接応募」の制度は、各財団・機関の公式ページで
 # 確認できた事実だけをここに手で記録する（財団名キーなので年度が変わっても効く）。
 # 方針: 公式に明記されていることだけを書く。不明な項目はキーごと省略 → ツール上は「要確認」になる。
+#   target_fields の「全分野」は、公式の応募資格に専攻の条件が一切書かれていない（または不問と明記）場合のみ。
 #   match      : 一覧上のタイトルに当てる正規表現
 #   target_degree / study_type / target_fields / destination_countries : 上書きする値
 #   note       : カードの説明文に添える「公式情報」の要約
@@ -262,10 +263,46 @@ OSAKA_CURATED = [
     # 出典: 中島記念国際交流財団 募集要項
     {"match": r"中島記念", "study_type": ["学位取得"],
      "target_fields": ["情報科学", "生命科学", "経営科学"]},
-    # 出典: 日中友好協会 アポロトレイディング奨学金 案内
-    {"match": r"アポロ", "destination_countries": ["中国"]},
-    # 出典: 福井県 フィンドレー大学・福井県奨学生 案内
-    {"match": r"フィンドレー", "destination_countries": ["アメリカ"]},
+    # 出典: 日中友好協会 2026年度アポロトレイディング奨学金 募集要項（第2版）PDF
+    #   https://www.j-cfa.com/project/apolloshogaku/ から取得（専攻の列挙は基礎工の専攻名と
+    #   対応しないため target_fields は入れず、note で伝える）
+    {"match": r"アポロ", "target_degree": ["bachelor", "master", "doctor"],
+     "study_type": ["学位取得", "交換留学"], "destination_countries": ["中国"],
+     "note": "公式情報: 中国の4年制大学・研究機関に9か月以上留学する学部生・大学院生（交換留学可）。"
+             "HSK4級／中検3級以上・30歳以下。専攻は政治・経済・歴史・文化・科学。"},
+    # 出典: 福井県国際交流協会 フィンドレー大学・福井県奨学生 募集要項（令和8年度版）
+    #   https://www.f-i-a.or.jp/ja/fia/findlay/ の一式zip内 PDF
+    {"match": r"フィンドレー", "target_degree": ["bachelor", "master", "doctor"],
+     "study_type": ["学位取得", "語学"], "destination_countries": ["アメリカ"],
+     "note": "公式情報: 応募資格は原則として福井県内在住または県内の高校卒業者。"
+             "フィンドレー大学（米国）の学部・大学院・集中英語コースの1年分の授業料を免除。"},
+    # 出典: 経団連国際教育交流財団 2027年度奨学生募集要項 PDF
+    #   https://idc.disc.co.jp/keidanren/scholarship/scholarshipyoukou.pdf
+    {"match": r"経団連グローバル人材育成", "target_degree": ["bachelor", "master"], "target_fields": ["全分野"],
+     "study_type": ["交換留学"], "destination_countries": ["全世界"],
+     "note": "公式情報: 学部2〜4年生または博士前期課程1〜2年生。8か月以上1年未満の留学（理工系は研究室での"
+             "研究・講義受講で6か月以上も可）。支給200万円。TOEFL iBT61／IELTS5.0相当と学部長等の推薦状が必要。"},
+    # 出典: 大蔵共助会 海外留学生支援 http://www.jhayashida.co.jp/okurakyojokai/sa.html
+    #   学年の明記は無いが、過去の支援実績に阪大の学部生・大学院生の両方が載っている
+    {"match": r"大蔵共助会", "target_degree": ["bachelor", "master", "doctor"], "target_fields": ["全分野"],
+     "destination_countries": ["全世界"],
+     "note": "公式情報: 海外の大学・大学院（語学研修校を除く）へ半年以上留学する日本国籍の方。"
+             "大阪府内在住の学生、または府内の学校法人・留学支援団体所属の学生が対象。"},
+    # 出典: SEKAIA IBPグローバル留学奨学金 https://www.sekaia.co.jp/ibp/student/scholarship/
+    {"match": r"SEKAIA", "study_type": ["インターン"],
+     "destination_countries": ["アメリカ", "イギリス", "オーストラリア", "マレーシア"],
+     "note": "公式情報: IBPビジネス留学プログラム（約12か月・現地大学＋インターン）の参加費を免除する奨学金。"
+             "応募資格は18歳以上の学生。公式ページに『募集は終了』の表示あり。"},
+    # 出典: 寺浦さよ子記念奨学会 募集要項 http://www.sayoko-shougakukai.or.jp/guidelines-for-applicants/
+    {"match": r"寺浦", "target_degree": ["bachelor", "master", "doctor"], "target_fields": ["全分野"],
+     "destination_countries": ["全世界"],
+     "note": "公式情報: 海外の大学・大学院等へ留学する学生のうち、経済的に学資の支弁が困難な優秀な者。"
+             "大学・大学院生は月額10万円＋支度一時金。"},
+    # 出典: フクシマグローバル人材支援奨学財団 2026年度募集要項 https://www.fukushima-global.or.jp/overseas.html
+    {"match": r"フクシマ.*短期", "target_degree": ["bachelor"], "target_fields": ["全分野"], "destination_countries": ["全世界"],
+     "note": "公式情報: 25歳以下の学部生が2週間以上6か月未満の留学をする場合。30万円以上の留学プログラムが対象。"},
+    {"match": r"フクシマ.*長期", "target_degree": ["bachelor"], "target_fields": ["全分野"], "destination_countries": ["全世界"],
+     "note": "公式情報: 25歳以下の学部生が6か月以上12か月未満の留学をする場合。"},
     # 出典: 吉田育英会 日本人派遣留学プログラム（既存の CURATED_YOSHIDA と同じ内容）
     {"match": r"吉田育英会", "target_degree": ["master", "doctor"], "study_type": ["学位取得", "研究"],
      "target_fields": ["全分野"]},
