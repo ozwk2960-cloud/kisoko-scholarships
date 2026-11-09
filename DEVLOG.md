@@ -293,6 +293,10 @@ push / PR（人間の変更） → ci（pytest + スキーマ検証）。ただ�
   → キーチェーンの認証情報を `git credential-osxkeychain erase` で消去、GitHub 側のトークンも削除済み。
   **教訓: Username には `ozwk2960-cloud` のみ。トークンは Password（入力が見えない欄）にだけ貼る。**
 - 後片付け完了: fine-grained トークンなし、キーチェーンに github.com の認証情報なし。
+  GitHub の Tokens (classic) も空であることを画面で確認（2026-11-09）。
+  ※ 削除ボタンの二重クリックで赤い「unable to be deleted」が出るが、1回目で消えていれば問題なし。
+- 補足: Claude 側の確認で、キーチェーンの認証情報は `git credential-osxkeychain erase` 後に
+  `security find-internet-password -s github.com` で「なし」を確認（中身は表示しない方法）。
 
 ## 誤コミットとリカバリ（2026-08-31）
 
