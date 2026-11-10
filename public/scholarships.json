@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-11-10T07:30:49Z",
+  "generated_at": "2026-11-10T08:24:17Z",
   "source_status": [
     {
       "source": "JASSO",
       "ok": true,
       "count": 4,
-      "fetched_at": "2026-11-10T07:30:12Z"
+      "fetched_at": "2026-11-10T08:23:41Z"
     },
     {
       "source": "トビタテ",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-10T07:30:31Z"
+      "fetched_at": "2026-11-10T08:23:59Z"
     },
     {
       "source": "船井情報科学振興財団",
       "ok": true,
       "count": 2,
-      "fetched_at": "2026-11-10T07:30:34Z"
+      "fetched_at": "2026-11-10T08:24:03Z"
     },
     {
       "source": "吉田育英会",
       "ok": false,
       "error": "FetchError: 取得失敗（3回試行）: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html :: HTTP 503: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html",
-      "fetched_at": "2026-11-10T07:30:37Z",
+      "fetched_at": "2026-11-10T08:24:06Z",
       "stale_since": "2026-10-22"
     },
     {
       "source": "孫正義育英財団",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-10T07:30:44Z"
+      "fetched_at": "2026-11-10T08:24:12Z"
     },
     {
       "source": "大阪大学",
       "ok": true,
       "count": 42,
-      "fetched_at": "2026-11-10T07:30:49Z"
+      "fetched_at": "2026-11-10T08:24:16Z"
     }
   ],
   "scholarships": [
@@ -211,7 +211,7 @@
       "title": "トビタテ！留学JAPAN 新・日本代表プログラム（大学生等対象・第19期）",
       "provider": "文部科学省／官民協働海外留学支援制度（トビタテ！留学JAPAN）",
       "category": "public",
-      "amount_text": "返済不要。月額 60,000〜160,000円（地域による）＋ 授業料負担金（最大60万円）＋ 事前・事後研修参加費。留学期間・活動内容により異なる。詳細は募集要項を参照。",
+      "amount_text": "返済不要。奨学金は月額 60,000〜160,000円（留学先の地域と家計基準による）＋ 留学準備金（アジア15万円／その他25万円。物価高騰対応でアジア+6万円・その他+10万円）＋ 授業料の支援（全地域 30万円）。詳細は募集要項を参照。",
       "amount_monthly_jpy": 60000,
       "target_degree": [
         "bachelor",
@@ -238,10 +238,10 @@
       "duration_text": "28日以上2年以内",
       "deadline": null,
       "deadline_type": "annual",
-      "application_period_text": "現在募集中。応募は在籍大学の学内選考を経て行うため、学内締切は所属大学の国際交流担当に確認。募集要項で最新日程を確認すること。",
-      "application_status": null,
+      "application_period_text": "第19期(2027年度)の募集要項が公開済み。学生本人の応募期間は在籍大学等が指定するため、学内締切は所属大学の担当窓口で確認すること。参考: 大学から機構への応募申請は2026年12月上旬開始・2027年2月25日17時が期限(学内締切はこれより前)。書面審査結果は4月下旬、面接は5月15・16日(東京)、採否は6月中旬の予定。",
+      "application_status": "open",
       "koan_posted": null,
-      "description": "官民協働の留学支援制度。留学計画を自分で設計でき、研究・インターン・ボランティア・語学・学位取得など幅広い活動が対象。成績・語学力の足切りは原則なし。民間寄附を原資とする返済不要の奨学金。事前・事後研修と留学後の情報発信(留学大使活動)が必須。理工系向けの STEAM コースあり。",
+      "description": "官民協働の留学支援制度。留学計画を自分で設計でき、研究・インターン・ボランティア・語学・学位取得など幅広い活動が対象。成績・語学力の足切りは原則なし。民間寄附を原資とする返済不要の奨学金。事前・事後研修と留学後の情報発信(留学大使活動)が必須。理工系向けの STEAM コースあり。 留学開始は2027年8月1日〜2028年3月31日。大学院生も新大学1年生以外のスケジュールで応募。",
       "tags": [
         "返済不要",
         "学内選考あり",

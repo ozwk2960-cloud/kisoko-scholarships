@@ -47,11 +47,14 @@ class TobitateSource(BaseSource):
         is_open = status == "open"
         is_closed = status == "closed"
 
+        schedule = config.TOBITATE_SCHEDULES.get(term) if term else None
+
         if is_open:
             deadline_type = "annual"
             period_text = (
-                "現在募集中。応募は在籍大学の学内選考を経て行うため、"
-                "学内締切は所属大学の国際交流担当に確認。募集要項で最新日程を確認すること。"
+                (schedule["text"] if schedule else
+                 "現在募集中。応募は在籍大学の学内選考を経て行うため、"
+                 "学内締切は所属大学の国際交流担当に確認。募集要項で最新日程を確認すること。")
             )
         elif is_closed:
             deadline_type = "unknown"
@@ -70,7 +73,10 @@ class TobitateSource(BaseSource):
             tags.append("募集中")
 
         # 説明文はキュレーション固定（サイトの meta は募集状況の記述がずれることがあるため）
-        desc = truncate(curated["description"], 200)
+        desc = curated["description"]
+        if schedule and is_open:
+            desc = desc + " " + schedule["note"]
+        desc = truncate(desc, 300)
 
         item = Scholarship(
             id=make_id(self.slug, "shin-nihon-daihyo", "uv"),
@@ -88,9 +94,10 @@ class TobitateSource(BaseSource):
             destination_countries=["全世界"],
             study_type=list(curated["study_type"]),
             duration_text=curated["duration_text"],
-            deadline=None,  # HTML から確実な締切日は取れない
+            deadline=None,  # 学生本人の締切は大学ごとに異なる（機構への期限は説明文にだけ書く）
             deadline_type=deadline_type,
-            application_period_text=truncate(period_text, 300),
+            application_status="open" if is_open else ("closed" if is_closed else None),
+            application_period_text=truncate(period_text, 400),
             description=desc,
             tags=tags,
         )

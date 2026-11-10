@@ -237,3 +237,14 @@ def test_masason_deadline_is_read(fixture_fetcher):
     # 募集要項の「締切：2026年3月3日…」を読む（今期は終了済み）
     assert it.deadline == "2026-03-03" and it.deadline_type == "fixed"
     assert "現在は募集していません" in it.tags
+
+
+def test_tobitate_schedule_is_term_specific(fixture_fetcher):
+    from scraper import config
+    from scraper.sources.tobitate import TobitateSource
+    it = TobitateSource(fetcher=fixture_fetcher).run()[0][0]
+    # 第19期の日程は期をキーにしている（期が変われば当たらない）
+    assert "19" in config.TOBITATE_SCHEDULES and "20" not in config.TOBITATE_SCHEDULES
+    if "第19期" in it.title and it.application_status == "open":
+        assert "2027年2月25日" in it.application_period_text
+        assert it.deadline is None     # 学生本人の締切は大学ごと。機構の期限を締切として出さない
