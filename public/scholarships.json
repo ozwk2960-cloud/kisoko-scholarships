@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-11-10T06:49:10Z",
+  "generated_at": "2026-11-10T07:30:49Z",
   "source_status": [
     {
       "source": "JASSO",
       "ok": true,
       "count": 4,
-      "fetched_at": "2026-11-10T06:48:34Z"
+      "fetched_at": "2026-11-10T07:30:12Z"
     },
     {
       "source": "トビタテ",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-10T06:48:53Z"
+      "fetched_at": "2026-11-10T07:30:31Z"
     },
     {
       "source": "船井情報科学振興財団",
       "ok": true,
       "count": 2,
-      "fetched_at": "2026-11-10T06:48:56Z"
+      "fetched_at": "2026-11-10T07:30:34Z"
     },
     {
       "source": "吉田育英会",
       "ok": false,
       "error": "FetchError: 取得失敗（3回試行）: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html :: HTTP 503: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html",
-      "fetched_at": "2026-11-10T06:48:59Z",
+      "fetched_at": "2026-11-10T07:30:37Z",
       "stale_since": "2026-10-22"
     },
     {
       "source": "孫正義育英財団",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-10T06:49:06Z"
+      "fetched_at": "2026-11-10T07:30:44Z"
     },
     {
       "source": "大阪大学",
       "ok": true,
       "count": 42,
-      "fetched_at": "2026-11-10T06:49:10Z"
+      "fetched_at": "2026-11-10T07:30:49Z"
     }
   ],
   "scholarships": [
@@ -735,12 +735,12 @@
         "研究"
       ],
       "duration_text": null,
-      "deadline": null,
-      "deadline_type": "unknown",
+      "deadline": "2026-11-20",
+      "deadline_type": "fixed",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-08-21。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-08-21",
-      "description": null,
+      "description": "公式情報: オンライン出願の締切は2026/11/20。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -919,12 +919,12 @@
         "学位取得"
       ],
       "duration_text": null,
-      "deadline": null,
-      "deadline_type": "unknown",
+      "deadline": "2026-05-06",
+      "deadline_type": "fixed",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-02-12。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-02-12",
-      "description": null,
+      "description": "公式情報: 次回の募集は2027年2月頃の見込み。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -1517,12 +1517,12 @@
         "研究"
       ],
       "duration_text": null,
-      "deadline": null,
-      "deadline_type": "unknown",
+      "deadline": "2026-05-01",
+      "deadline_type": "fixed",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-02-18。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-02-18",
-      "description": null,
+      "description": "公式情報: オンライン登録 2026/3/1〜5/1。書類提出は7/1消印有効。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -1608,7 +1608,9 @@
       "category": "private",
       "amount_text": null,
       "amount_monthly_jpy": null,
-      "target_degree": [],
+      "target_degree": [
+        "master"
+      ],
       "target_fields": [
         "全分野"
       ],
@@ -1623,12 +1625,12 @@
         "学位取得"
       ],
       "duration_text": null,
-      "deadline": null,
-      "deadline_type": "unknown",
+      "deadline": "2026-08-26",
+      "deadline_type": "fixed",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-06-26。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-06-26",
-      "description": "公式情報: 学位取得を目的とする留学が対象。交換留学・短期留学は対象外。",
+      "description": "公式情報: 修士課程での学位取得を目的とする留学が対象(専攻不問)。交換留学・短期留学は対象外。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -1739,9 +1741,9 @@
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-10-22。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "application_status": null,
+      "application_status": "closed",
       "koan_posted": "2025-10-22",
-      "description": null,
+      "description": "公式情報: 現在は募集を行っていません。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -1861,9 +1863,9 @@
       "deadline": null,
       "deadline_type": "unknown",
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-08-22。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
-      "application_status": null,
+      "application_status": "closed",
       "koan_posted": "2025-08-22",
-      "description": null,
+      "description": "公式情報: 2027年度の募集が始まっており、この回の募集は終了しています。",
       "tags": [
         "大阪大学掲載",
         "直接応募"
@@ -1901,9 +1903,9 @@
         "研究"
       ],
       "duration_text": "支援期間の定めなし（財団生資格）",
-      "deadline": null,
-      "deadline_type": "unknown",
-      "application_period_text": "直近（第10期）の募集は終了。例年1〜2月頃に翌期の募集を開始。募集要項で最新情報を確認。",
+      "deadline": "2026-03-03",
+      "deadline_type": "fixed",
+      "application_period_text": "直近（第10期）の募集は終了（エントリー締切 2026-03-03）。例年1〜2月頃に翌期の募集を開始。募集要項で最新情報を確認。",
       "application_status": null,
       "koan_posted": null,
       "description": "分野を問わず突出した才能を持つ26歳未満の若者を支援する英才育成プログラム。専用施設の提供、イベント参加、活動資金支援に加え、海外大学進学・留学時の経済的支援も受けられる。国際大会・全国大会での実績等が応募資格。",

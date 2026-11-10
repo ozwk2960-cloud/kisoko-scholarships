@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import re
+from datetime import date
 from typing import List, Optional
 
 from bs4 import BeautifulSoup
@@ -23,9 +24,20 @@ class MasasonSource(BaseSource):
     slug = "masason"
 
     def fetch_items(self) -> List[Scholarship]:
-        req_soup = BeautifulSoup(self.fetch(config.MASASON_REQUIREMENTS_URL), "lxml")
+        req_html = self.fetch(config.MASASON_REQUIREMENTS_URL)
+        req_soup = BeautifulSoup(req_html, "lxml")
         req_text = clean_text((req_soup.find("main") or req_soup.body or req_soup).get_text(" ", strip=True))
         closed = contains(config.MASASON_CLOSED_RE, req_text)
+
+        # 募集要項ページの「エントリー 締切：2026年3月3日（火）…」から締切日を読む（無ければ None）
+        deadline = None
+        # lxml はこのページを途中で打ち切ることがあるので、締切だけは生HTMLからタグを除いて探す
+        raw_text = clean_text(re.sub(r"<[^>]+>", " ", req_html))
+        m = re.search(r"締切[：:]\s*(20\d{2})年\s*(\d{1,2})月\s*(\d{1,2})日", raw_text)
+        if m:
+            deadline = f"{int(m.group(1)):04d}-{int(m.group(2)):02d}-{int(m.group(3)):02d}"
+            if deadline < date.today().isoformat():
+                closed = True      # 締切を過ぎていれば、ページに「終了」と書かれていなくても募集中ではない
 
         term, term_date = self._latest_term(self.fetch(config.MASASON_TOP_URL))
 
@@ -37,8 +49,8 @@ class MasasonSource(BaseSource):
         title = f"孫正義育英財団 財団生募集（{term_label}）".replace("（）", "")
 
         if closed:
-            deadline_type = "unknown"
-            period = (f"直近（{term_label or '前期'}）の募集は終了。"
+            deadline_type = "fixed" if deadline else "unknown"
+            period = (f"直近（{term_label or '前期'}）の募集は終了" + (f"（エントリー締切 {deadline}）" if deadline else "") + "。"
                       "例年1〜2月頃に翌期の募集を開始。募集要項で最新情報を確認。")
         else:
             deadline_type = "annual"
@@ -64,7 +76,7 @@ class MasasonSource(BaseSource):
             destination_countries=["全世界"],
             study_type=list(c["study_type"]),
             duration_text=c["duration_text"],
-            deadline=None,
+            deadline=deadline,
             deadline_type=deadline_type,
             application_period_text=period,
             description=c["description"],

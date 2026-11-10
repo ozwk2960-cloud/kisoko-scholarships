@@ -60,7 +60,7 @@ def test_masason(fixture_fetcher):
     it = items[0]
     assert "第10期" in it.title                   # top ニュースから期を取得
     assert "現在は募集していません" in it.tags       # requirements ページの「今期の募集は終了」
-    assert it.deadline_type == "unknown"
+    assert it.deadline_type == "fixed" and it.deadline == "2026-03-03"   # 募集要項の「締切：」から
 
 
 def test_osaka(fixture_fetcher):
@@ -213,3 +213,27 @@ def test_osaka_fukushima_short_is_language_not_exchange():
     short = _find(_osaka_live_items(), "フクシマグローバル人材支援奨学財団（短期）")
     assert short.study_type == ["語学"]
     assert "海外研修プログラム" in (short.description or "")
+
+
+# ---- 締切調査（2026-11-10）で公式ページから確認できた募集回の締切 ----
+
+def test_osaka_researched_deadlines():
+    items = _osaka_live_items()
+    assert _find(items, "伊藤国際").deadline == "2026-08-26"
+    assert _find(items, "伊藤国際").target_degree == ["master"]
+    assert _find(items, "フルブライト").deadline == "2026-05-01"
+    assert _find(items, "豊田理化学").deadline == "2026-05-06"
+    assert _find(items, "霞山会").application_status == "closed"
+    fr = {t: it for t, it in items.items() if "フランス政府" in t}
+    new = next(it for t, it in fr.items() if "2027年度留学生" in t and "2026-2027" not in t)
+    old = next(it for t, it in fr.items() if "2026-2027年度" in t)
+    assert new.deadline == "2026-11-20" and new.application_status != "closed"
+    # 前回の回に新しい締切が移らない
+    assert old.application_status == "closed" and old.deadline is None
+
+
+def test_masason_deadline_is_read(fixture_fetcher):
+    it = MasasonSource(fetcher=fixture_fetcher).run()[0][0]
+    # 募集要項の「締切：2026年3月3日…」を読む（今期は終了済み）
+    assert it.deadline == "2026-03-03" and it.deadline_type == "fixed"
+    assert "現在は募集していません" in it.tags

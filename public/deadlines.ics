@@ -29,6 +29,29 @@ DESCRIPTION:【皇太子明仁親王奨学金】令和9年度奨学生 の
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
+UID:osaka-4e874d50b3@kisoko-scholarships
+DTSTAMP:20260830T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:【留学奨学金 締切】【フランス政府奨学金】2027
+ 年度留学生
+DESCRIPTION:大阪大学（留学助成制度一覧に掲載）\n大阪大
+ 学 KOAN/マイハンダイ 掲示日 2026-08-21。この一覧では『
+ 個人で直接応募する奨学金』に分類。 学内締切・詳細
+ は所属学部/研究科および募集要項で確認。\n詳細: https
+ ://jp.diplomatie.gouv.fr/ja/Bourses-France-Excellence\n※学内締切は
+ 所属学部・研究科により異なる場合があります。必ず
+ 公式情報を確認してください。
+URL:https://jp.diplomatie.gouv.fr/ja/Bourses-France-Excellence
+CATEGORIES:奨学金,締切
+BEGIN:VALARM
+TRIGGER:-P7D
+ACTION:DISPLAY
+DESCRIPTION:【フランス政府奨学金】2027年度留学生 の締切
+ 1週間前
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
 UID:osaka-b2b0d41f99@kisoko-scholarships
 DTSTAMP:20260914T000000Z
 DTSTART;VALUE=DATE:20261113
