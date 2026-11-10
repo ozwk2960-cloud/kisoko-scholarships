@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-11-10T06:46:58Z",
+  "generated_at": "2026-11-10T06:49:10Z",
   "source_status": [
     {
       "source": "JASSO",
       "ok": true,
       "count": 4,
-      "fetched_at": "2026-11-10T06:46:22Z"
+      "fetched_at": "2026-11-10T06:48:34Z"
     },
     {
       "source": "トビタテ",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-10T06:46:40Z"
+      "fetched_at": "2026-11-10T06:48:53Z"
     },
     {
       "source": "船井情報科学振興財団",
       "ok": true,
       "count": 2,
-      "fetched_at": "2026-11-10T06:46:44Z"
+      "fetched_at": "2026-11-10T06:48:56Z"
     },
     {
       "source": "吉田育英会",
       "ok": false,
       "error": "FetchError: 取得失敗（3回試行）: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html :: HTTP 503: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html",
-      "fetched_at": "2026-11-10T06:46:47Z",
+      "fetched_at": "2026-11-10T06:48:59Z",
       "stale_since": "2026-10-22"
     },
     {
       "source": "孫正義育英財団",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-10T06:46:53Z"
+      "fetched_at": "2026-11-10T06:49:06Z"
     },
     {
       "source": "大阪大学",
       "ok": true,
       "count": 42,
-      "fetched_at": "2026-11-10T06:46:57Z"
+      "fetched_at": "2026-11-10T06:49:10Z"
     }
   ],
   "scholarships": [
