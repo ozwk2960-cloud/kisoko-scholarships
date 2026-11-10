@@ -53,6 +53,11 @@
           },
           "deadline_type": { "type": "string", "enum": ["fixed", "rolling", "annual", "unknown"] },
           "application_period_text": { "type": ["string", "null"] },
+          "application_status": { "type": ["string", "null"], "enum": ["open", "closed", null] },
+          "koan_posted": {
+            "type": ["string", "null"],
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          },
           "description": { "type": ["string", "null"] },
           "tags": { "type": "array", "items": { "type": "string" } },
           "last_seen": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },

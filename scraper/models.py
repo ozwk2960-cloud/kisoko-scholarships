@@ -12,6 +12,7 @@ from typing import List, Optional
 VALID_DEGREES = {"bachelor", "master", "doctor", "research"}
 VALID_CATEGORIES = {"public", "university", "private"}
 VALID_DEADLINE_TYPES = {"fixed", "rolling", "annual", "unknown"}
+VALID_APPLICATION_STATUS = {"open", "closed"}
 
 
 @dataclass
@@ -37,6 +38,11 @@ class Scholarship:
     deadline: Optional[str] = None       # ISO date or None
     deadline_type: str = "unknown"       # fixed | rolling | annual | unknown
     application_period_text: Optional[str] = None
+    # 募集の状況。ソース自身が「募集終了」などを示している場合のみ設定（不明は None）
+    #   阪大の留学助成ページでは各行に「募集終了」の表示があり、それを closed、無ければ open とする
+    application_status: Optional[str] = None   # open | closed | None
+    # 阪大 KOAN への掲示日（阪大ページの行頭の日付）。他のソースでは None
+    koan_posted: Optional[str] = None          # ISO date or None
     description: Optional[str] = None
     tags: List[str] = field(default_factory=list)
 
@@ -53,6 +59,8 @@ class Scholarship:
             raise ValueError(f"{self.id}: category が不正: {self.category!r}")
         if self.deadline_type not in VALID_DEADLINE_TYPES:
             raise ValueError(f"{self.id}: deadline_type が不正: {self.deadline_type!r}")
+        if self.application_status is not None and self.application_status not in VALID_APPLICATION_STATUS:
+            raise ValueError(f"{self.id}: application_status が不正: {self.application_status!r}")
         bad = set(self.target_degree) - VALID_DEGREES
         if bad:
             raise ValueError(f"{self.id}: target_degree に不正値: {bad}")

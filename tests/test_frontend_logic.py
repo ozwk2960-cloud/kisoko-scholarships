@@ -32,19 +32,24 @@ def _js_prelude() -> str:
     return "\n".join(consts) + "\n" + region.group(0)
 
 
-def run_filter(items, **cond):
+def run_filter(items, today="2026-11-10", **cond):
     """条件 cond（state の上書き）で絞り込み、残ったタイトル一覧を返す。"""
     state = {"degree": None, "field": None, "region": "", "types": [], "nomination": "any",
-             "osakaOnly": False, "hidePast": False, "soonOnly": False, "strict": False, "query": ""}
+             "osakaOnly": False, "hidePast": False, "soonOnly": False, "showUnverified": False, "query": ""}
     state.update(cond)
     script = _js_prelude() + """
 const input = JSON.parse(require('fs').readFileSync(0, 'utf8'));
 const state = Object.assign({}, input.state, { types: new Set(input.state.types) });
-const out = input.items.filter(it => passesHardFilters(it, null)).map(it => it.title);
+function daysLeftOf(it) {
+  if (!it.deadline) return null;
+  return Math.round((new Date(it.deadline + "T00:00:00") - new Date(input.today + "T00:00:00")) / 86400000);
+}
+const out = input.items.filter(it => passesHardFilters(it, daysLeftOf(it))).map(it => it.title);
+const cls = Object.fromEntries(input.items.map(it => [it.title, classify(it, daysLeftOf(it))]));
 const unv = Object.fromEntries(input.items.map(it => [it.title, unverifiedConditions(it)]));
-console.log(JSON.stringify({ out, unv }));
+console.log(JSON.stringify({ out, unv, cls }));
 """
-    p = subprocess.run(["node", "-e", script], input=json.dumps({"items": items, "state": state}),
+    p = subprocess.run(["node", "-e", script], input=json.dumps({"items": items, "state": state, "today": today}),
                        capture_output=True, text=True, check=True)
     return json.loads(p.stdout)
 
@@ -71,15 +76,14 @@ def test_confirmed_degree_mismatch_is_excluded():
     assert "学部交換" in r["out"]
 
 
-def test_unknown_is_kept_but_flagged_in_normal_mode():
-    r = run_filter([UNKNOWN], degree="bachelor")
-    assert r["out"] == ["未確認"]
-    assert r["unv"]["未確認"] == ["学年・課程"]
-
-
-def test_strict_mode_drops_unknown():
-    r = run_filter([UG_EXCHANGE, UNKNOWN], degree="bachelor", strict=True)
+def test_unknown_is_hidden_by_default_and_shown_on_request():
+    # 既定では「条件に合うと確認できたもの」だけ。未確認は区分だけ返り、トグルで表示できる
+    r = run_filter([UG_EXCHANGE, UNKNOWN], degree="bachelor")
     assert r["out"] == ["学部交換"]
+    assert r["cls"]["未確認"] == "unverified"
+    r = run_filter([UG_EXCHANGE, UNKNOWN], degree="bachelor", showUnverified=True)
+    assert set(r["out"]) == {"学部交換", "未確認"}
+    assert r["unv"]["未確認"] == ["学年・課程"]
 
 
 def test_study_type_mismatch_is_excluded():
@@ -112,17 +116,66 @@ def test_nomination_none_requires_confirmed_false():
     assert r["out"] == ["推薦不要"]
 
 
-def test_user_scenario_on_real_data():
-    """利用者が実際に試した検索を、現行の scholarships.json で再現する。"""
+def test_closed_items_are_hidden_when_requested():
+    closed_by_status = item("学内終了", target_degree=["bachelor"], application_status="closed")
+    closed_by_deadline = item("締切過ぎ", target_degree=["bachelor"], deadline="2026-10-01", deadline_type="fixed")
+    open_one = item("募集中", target_degree=["bachelor"], application_status="open")
+    future = item("締切前", target_degree=["bachelor"], deadline="2026-12-01", deadline_type="fixed")
+    items = [closed_by_status, closed_by_deadline, open_one, future]
+    assert set(run_filter(items, hidePast=True)["out"]) == {"募集中", "締切前"}
+    assert len(run_filter(items, hidePast=False)["out"]) == 4
+
+
+def test_soon_only_needs_known_deadline_within_30_days():
+    soon = item("締切間近", deadline="2026-11-30", deadline_type="fixed")
+    far = item("まだ先", deadline="2027-03-01", deadline_type="fixed")
+    unknown = item("締切不明")
+    r = run_filter([soon, far, unknown], soonOnly=True)
+    assert r["out"] == ["締切間近"]
+
+
+def test_osaka_only_means_listed_on_osaka_page():
+    on_osaka = item("阪大掲載", source="大阪大学")
+    national = item("全国制度", source="JASSO", eligible_universities=["全国"])
+    assert run_filter([on_osaka, national], osakaOnly=True)["out"] == ["阪大掲載"]
+    assert len(run_filter([on_osaka, national])["out"]) == 2
+
+
+def _real_items():
     path = os.path.join(ROOT, "public", "scholarships.json")
     if not os.path.exists(path):
         pytest.skip("scholarships.json 未生成")
-    items = json.load(open(path, encoding="utf-8"))["scholarships"]
+    return json.load(open(path, encoding="utf-8"))["scholarships"]
+
+
+def test_user_scenario_on_real_data():
+    """利用者が実際に試した検索を、現行の scholarships.json で再現する。"""
+    items = _real_items()
     r = run_filter(items, degree="bachelor", field="システム", types=["交換留学"], nomination="none")
     assert not any("INPEX" in t for t in r["out"])
     by_title = {i["title"]: i for i in items}
     for t in r["out"]:
         it = by_title[t]
-        # 残ったものに「学部が対象外と確認済み」の制度は無い
-        assert not it["target_degree"] or "bachelor" in it["target_degree"], t
+        assert "bachelor" in it["target_degree"], t          # 学部が確認できたものだけが並ぶ
+        assert "交換留学" in it["study_type"], t
         assert it["requires_university_nomination"] is False, t
+
+
+def test_language_search_returns_only_language_programs():
+    """「語学」で絞ると、語学と確認できた制度だけが並ぶ（利用者の指摘②）。"""
+    items = _real_items()
+    r = run_filter(items, types=["語学"], hidePast=True)
+    assert r["out"], "語学の制度が1件も出ない"
+    by_title = {i["title"]: i for i in items}
+    for t in r["out"]:
+        assert "語学" in by_title[t]["study_type"], t
+
+
+def test_each_type_filter_only_returns_confirmed_matches():
+    """留学の種別（③）: どの種別でも、並ぶのは種別が確認できたものだけ。"""
+    items = _real_items()
+    by_title = {i["title"]: i for i in items}
+    for t in ("学位取得", "交換留学", "研究", "語学", "インターン"):
+        r = run_filter(items, types=[t])
+        for title in r["out"]:
+            assert t in by_title[title]["study_type"], (t, title)

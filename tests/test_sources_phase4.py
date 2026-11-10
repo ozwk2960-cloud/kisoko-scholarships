@@ -94,7 +94,7 @@ def test_osaka_internal_links_fall_back(fixture_fetcher):
 # ---- 阪大: 【対象】の解析と公式情報の補正（2026-11 時点の実ページのスナップショット） ----
 
 def _osaka_live_items():
-    path = os.path.join(os.path.dirname(__file__), "fixtures", "osaka_outbound_scholarship_2026-11.html")
+    path = os.path.join(os.path.dirname(__file__), "fixtures", "osaka_outbound_scholarship_2026-11-10.html")
     html = open(path, encoding="utf-8").read()
     items, status = OsakaUSource(fetcher=lambda url: html).run()
     assert status["ok"], status
@@ -173,5 +173,43 @@ def test_osaka_all_fields_only_when_official_requirements_have_no_field_conditio
         it = _find(items, key)
         assert it.target_fields == ["全分野"] and it.target_degree == ["bachelor"], key
     # 公式要項を読めていない制度には「全分野」を付けない
-    for key in ("安田奨学財団", "TOMODACHI", "佐藤陽"):
+    for key in ("TOMODACHI", "佐藤陽"):
         assert _find(items, key).target_fields == [], key
+
+
+# ---- 阪大: 学内募集の状況（「募集終了」表示）と募集回ごとの締切 ----
+
+def test_osaka_closed_marker_is_read():
+    items = _osaka_live_items()
+    # 学内推薦の表: 「募集終了」と表示されている行は closed、無い行は open
+    assert _find(items, "業務スーパージャパンドリーム財団 2026年度第2回").application_status == "closed"
+    assert _find(items, "阪和育英会").application_status == "open"
+    assert _find(items, "業務スーパージャパンドリーム財団 2026年度第2回").koan_posted == "2026-06-04"
+    # 直接応募の表には終了表示が無いので、日付や公式情報が無い限り「不明」のまま（open と断定しない）
+    assert _find(items, "村田海外留学奨学会").application_status is None
+
+
+def test_osaka_round_deadlines_apply_only_to_that_round():
+    items = _osaka_live_items()
+    prince = _find(items, "皇太子明仁親王")
+    assert prince.deadline == "2026-11-30" and prince.deadline_type == "fixed"
+    assert _find(items, "SEKAIA").application_status == "closed"
+    # 年度が違うタイトル・掲示日が違う行には当たらない（古い締切が次の募集に残らない）
+    import re
+    from scraper import config
+    def hits(title, posted=None):
+        for r in config.OSAKA_ROUNDS:
+            if re.search(r["match"], title) and ("posted" not in r or r["posted"] == posted):
+                return True
+        return False
+    assert hits("【経団連グローバル人材育成スカラーシップ】2027年度奨学生")
+    assert not hits("【経団連グローバル人材育成スカラーシップ】2028年度奨学生")
+    assert hits("【福井県】フィンドレー大学・福井県奨学生", "2026-05-28")
+    assert not hits("【福井県】フィンドレー大学・福井県奨学生", "2027-05-20")
+
+
+def test_osaka_fukushima_short_is_language_not_exchange():
+    # 【対象】が「※…」の前置き付きでも読めること。「交換留学は含みません」を交換留学と誤読しない
+    short = _find(_osaka_live_items(), "フクシマグローバル人材支援奨学財団（短期）")
+    assert short.study_type == ["語学"]
+    assert "海外研修プログラム" in (short.description or "")

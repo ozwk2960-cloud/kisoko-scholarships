@@ -299,7 +299,9 @@ OSAKA_CURATED = [
      "note": "公式情報: 海外の大学・大学院等へ留学する学生のうち、経済的に学資の支弁が困難な優秀な者。"
              "大学・大学院生は月額10万円＋支度一時金。"},
     # 出典: フクシマグローバル人材支援奨学財団 2026年度募集要項 https://www.fukushima-global.or.jp/overseas.html
-    {"match": r"フクシマ.*短期", "target_degree": ["bachelor"], "target_fields": ["全分野"], "destination_countries": ["全世界"],
+    #   短期は「本学主催の海外研修プログラム」への参加が条件（阪大ページの【対象】）。交換留学は含まない。
+    #   種別「語学」は利用者（阪大関係者）の指摘による分類。
+    {"match": r"フクシマ.*短期", "target_degree": ["bachelor"], "target_fields": ["全分野"], "study_type": ["語学"], "destination_countries": ["全世界"],
      "note": "公式情報: 25歳以下の学部生が2週間以上6か月未満の留学をする場合。30万円以上の留学プログラムが対象。"},
     # 出典: 業務スーパージャパンドリーム財団 2026年度留学支援事業 募集要項（大学事務担当者用）PDF
     #   https://www.kobebussan.or.jp/pdf/guideline_202601_02.pdf （第1回・第2回共通）
@@ -326,4 +328,46 @@ OSAKA_CURATED = [
     # 出典: 吉田育英会 日本人派遣留学プログラム（既存の CURATED_YOSHIDA と同じ内容）
     {"match": r"吉田育英会", "target_degree": ["master", "doctor"], "study_type": ["学位取得", "研究"],
      "target_fields": ["全分野"]},
+]
+
+# 募集回（年度）ごとの締切・募集状況。OSAKA_CURATED（制度の性質）と違い、毎回の募集に固有の事実なので
+# 年度入りのタイトル、または阪大掲示日（posted）で特定の回にだけ当てる。次の年度の行には当たらない
+# ＝古い締切が新しい募集に残ることはない。公式ページで確認できたものだけ記録する。
+#   match / posted : タイトルの正規表現 / 阪大ページの掲示日（ISO）。両方指定なら両方満たすこと
+#   deadline       : 公式に明記された応募締切（ISO）。過ぎたら「募集終了」として扱う
+#   application_status : 日付が無く「募集終了」とだけ書かれている場合
+#   note           : カードの説明に添える公式情報
+OSAKA_ROUNDS = [
+    # 出典: 経団連 皇太子明仁親王奨学金 http://www.keidanren.or.jp/japanese/profile/prince.html
+    {"match": r"皇太子明仁親王.*令和9年度", "deadline": "2026-11-30",
+     "note": "公式情報: 応募受付 2026/10/1〜11/30 必着。"},
+    # 出典: 食生活研究会 https://www.z-ssk.org/ab_study/guideline.html （2027年度渡航留学生）
+    {"match": r"食生活研究会.*2027年度", "deadline": "2026-11-13",
+     "note": "公式情報: 応募書類は2026/11/13必着。"},
+    # 出典: 大蔵共助会 http://www.jhayashida.co.jp/okurakyojokai/sa.html （募集期間 2026/5/1〜6/15）
+    {"match": r"大蔵共助会.*2026年度", "deadline": "2026-06-15"},
+    # 出典: 中島記念国際交流財団 http://nakajimafound.or.jp/koubo.html （受付 令和8年8/1〜8/20）
+    {"match": r"中島記念.*令和9年度", "deadline": "2026-08-20"},
+    # 出典: 経団連 募集要項PDF（応募受付 2026/8/4〜10/7）
+    {"match": r"経団連グローバル人材育成.*2027年度", "deadline": "2026-10-07"},
+    # 出典: 日中友好協会 https://www.j-cfa.com/studyabroad/ （出願 2025/12/8〜12/25）
+    {"match": r"2026年度.*中国政府奨学金", "deadline": "2025-12-25"},
+    # 出典: 本庄国際奨学財団 https://www.hisf.or.jp/scholarship/abroad （募集 2026/2/2〜4/30）
+    {"match": r"本庄.*2026年度", "deadline": "2026-04-30"},
+    # 出典: 重田教育財団 https://s-ef.or.jp/scholarship/ （募集 2026/5/1〜6/30 必着）
+    {"match": r"重田教育財団.*2026年度", "deadline": "2026-06-30"},
+    # 出典: 松下幸之助国際スカラシップ （応募受付 2026/6/1〜7/23）
+    {"match": r"松下幸之助.*2026年度", "deadline": "2026-07-23"},
+    # 出典: INPEX教育交流財団 https://www.inpex-s.com/ （2026/10/31『2027年度奨学金の募集を締め切りました』）
+    {"match": r"INPEX.*2027年度", "deadline": "2026-10-31"},
+    # 出典: 日中友好協会 https://www.j-cfa.com/project/apolloshogaku/ （出願 〜2026/5/18）
+    {"match": r"2026年度.*アポロトレイディング", "deadline": "2026-05-18"},
+    # 出典: 福井県国際交流協会 令和8年度募集要項（応募締切 2026/10/31）。タイトルに年度が無いので掲示日で特定
+    {"match": r"フィンドレー", "posted": "2026-05-28", "deadline": "2026-10-31"},
+    # 出典: SEKAIA IBP 公式ページに「募集は終了いたしました」。日付の記載は無い
+    {"match": r"SEKAIA", "posted": "2025-12-18", "application_status": "closed"},
+    # 出典: JASSO 外国政府等奨学金（スイス） https://ryugaku.jasso.go.jp/.../scholarship_ch.html
+    #   阪大ページの行は「2026-2027年度」のままだが、公式ページが募集中なのは「2027-2028年度」の回
+    {"match": r"スイス政府.*2026-2027年度", "posted": "2025-09-02", "deadline": "2026-11-30",
+     "note": "公式情報: 現在募集中なのは2027-2028年度の回（申請期限 2026/11/30）。阪大ページの行は旧年度表記のまま。"},
 ]

@@ -180,6 +180,18 @@
     font-size: 11px; color: var(--ink-faint); background: #f3f4f6;
     border-radius: 6px; padding: 2px 7px;
   }
+  .unv-bar {
+    background: var(--warn-bg); border: 1px solid var(--warn-line); color: var(--warn-ink);
+    border-radius: 10px; padding: 8px 12px; margin: 0 0 12px; font-size: 13px;
+  }
+  .unv-bar label { cursor: pointer; font-weight: 600; }
+  .unv-bar input { margin-right: 6px; }
+  .count-sub { font-weight: 400; font-size: 12px; color: var(--ink-faint); margin-left: 8px; }
+  .unv-hint { display: block; font-size: 12px; margin-top: 2px; }
+  .sect-head {
+    margin: 18px 0 10px; padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 700;
+    background: var(--warn-bg); border: 1px solid var(--warn-line); color: var(--warn-ink);
+  }
   .unverified {
     background: var(--warn-bg); border: 1px solid var(--warn-line); color: var(--warn-ink);
     border-radius: 8px; padding: 6px 10px; font-size: 12px; margin-bottom: 12px;
@@ -287,16 +299,16 @@
           <label><input type="radio" name="nom" value="any" checked>不問</label>
           <label><input type="radio" name="nom" value="none">学内推薦が不要なものだけ</label>
           <label><input type="radio" name="nom" value="ok">推薦ありでも可（推薦不要を優先表示）</label>
+          <label><input type="radio" name="nom" value="must">学内推薦があるものだけ（阪大KOAN掲示の情報を表示）</label>
         </div>
       </div>
 
       <div class="fgroup">
         <span class="label">その他</span>
         <div class="checks">
-          <label><input type="checkbox" id="fOsaka">大阪大学が対象の制度のみ</label>
-          <label><input type="checkbox" id="fHidePast" checked>締切が過ぎたものを隠す</label>
-          <label><input type="checkbox" id="fSoon">締切まで30日以内のものだけ</label>
-          <label><input type="checkbox" id="fStrict">確認できたものだけ表示（対象が未確認のものを除く）</label>
+          <label><input type="checkbox" id="fOsaka">阪大の留学助成ページに載っている制度のみ（JASSO・トビタテなど全国の制度を除く）</label>
+          <label><input type="checkbox" id="fHidePast" checked>募集が終了したもの・締切が過ぎたものを隠す</label>
+          <label><input type="checkbox" id="fSoon">締切まで30日以内のものだけ（締切日が分かっている制度に限る）</label>
         </div>
       </div>
 
@@ -319,6 +331,10 @@
         <button class="btn-ghost" id="btnShare" title="現在の絞り込み条件を URL でコピー">🔗 この検索を共有</button>
         <span class="sort-note">マッチ度スコアの高い順（同点は締切が近い順）</span>
       </div>
+    </div>
+    <div id="unvBar" class="unv-bar" hidden>
+      <label><input type="checkbox" id="fUnv"><span id="unvLabel"></span></label>
+      <span class="unv-hint">条件に合うかどうかを、このツールでは確認できていない制度です。応募前に公式ページでご確認ください。</span>
     </div>
     <div id="cards" class="cards"></div>
     <div id="loading" class="loading">読み込み中…</div>
@@ -368,14 +384,14 @@ const FIELD_KEYWORDS = {
 
 const DEFAULT_STATE = {
   degree: null, field: null, region: "", types: new Set(), nomination: "any",
-  osakaOnly: false, hidePast: true, soonOnly: false, strict: false, query: "",
+  osakaOnly: false, hidePast: true, soonOnly: false, showUnverified: false, query: "",
 };
 
 const state = { data: null, ...DEFAULT_STATE, types: new Set() };
 
 /* ============ URL パラメータ同期 ============ */
 
-// state <-> ?d=master&f=情報&r=欧州&t=研究,語学&nom=none&osaka=1&past=1&soon=1&strict=1&q=...
+// state <-> ?d=master&f=情報&r=欧州&t=研究,語学&nom=none&osaka=1&past=1&soon=1&unv=1&q=...
 function stateToParams() {
   const p = new URLSearchParams();
   if (state.degree) p.set("d", state.degree);
@@ -386,7 +402,7 @@ function stateToParams() {
   if (state.osakaOnly) p.set("osaka", "1");
   if (!state.hidePast) p.set("past", "1");        // 既定は隠す。表示なら past=1
   if (state.soonOnly) p.set("soon", "1");
-  if (state.strict) p.set("strict", "1");
+  if (state.showUnverified) p.set("unv", "1");
   if (state.query.trim()) p.set("q", state.query.trim());
   return p;
 }
@@ -398,11 +414,11 @@ function paramsToState(search) {
   if (p.get("f") && FIELD_KEYWORDS[p.get("f")]) state.field = p.get("f");
   if (["北米", "欧州", "アジア", "オセアニア"].includes(p.get("r"))) state.region = p.get("r");
   if (p.get("t")) state.types = new Set(p.get("t").split(",").filter(Boolean));
-  if (["none", "ok"].includes(p.get("nom"))) state.nomination = p.get("nom");
+  if (["none", "ok", "must"].includes(p.get("nom"))) state.nomination = p.get("nom");
   state.osakaOnly = p.get("osaka") === "1";
   state.hidePast = p.get("past") !== "1";
   state.soonOnly = p.get("soon") === "1";
-  state.strict = p.get("strict") === "1";
+  state.showUnverified = p.get("unv") === "1";
   if (p.get("q")) state.query = p.get("q");
 }
 
@@ -516,6 +532,7 @@ function unverifiedConditions(item) {
 function nominationCompatible(item) {
   const req = item.requires_university_nomination; // true | false | null
   if (state.nomination === "none") return req === false;
+  if (state.nomination === "must") return req === true;
   if (state.nomination === "ok") return true;
   return null; // 不問
 }
@@ -523,6 +540,15 @@ function nominationCompatible(item) {
 function osakaEligible(item) {
   const u = item.eligible_universities || [];
   return u.includes("大阪大学") || u.includes("全国");
+}
+// 阪大の留学助成ページ（KOAN 掲示）に載っている制度か（JASSO・トビタテ等の全国制度は別ソース）
+function listedOnOsaka(item) {
+  return item.source === "大阪大学";
+}
+// 募集が終わっているか: 阪大ページの「募集終了」表示、または確認できた締切日が過去
+function isClosed(item, daysLeft) {
+  if (item.application_status === "closed") return true;
+  return daysLeft !== null && daysLeft < 0;
 }
 function queryMatch(item) {
   const q = state.query.trim().toLowerCase();
@@ -536,19 +562,26 @@ function queryMatch(item) {
 
 /* ============ フィルタ（ハード条件） ============ */
 
-function passesHardFilters(item, daysLeft) {
-  if (!queryMatch(item)) return false;
-  if (state.osakaOnly && !osakaEligible(item)) return false;
-  if (state.hidePast && daysLeft !== null && daysLeft < 0) return false;
-  if (state.soonOnly && !(daysLeft !== null && daysLeft >= 0 && daysLeft <= 30)) return false;
+// 結果の区分: "match"（条件に合うと確認できた）／"unverified"（確認済みの不一致は無いが、未確認の条件がある）／"excluded"
+function classify(item, daysLeft) {
+  if (!queryMatch(item)) return "excluded";
+  if (state.osakaOnly && !listedOnOsaka(item)) return "excluded";
+  if (state.hidePast && isClosed(item, daysLeft)) return "excluded";
+  if (state.soonOnly && !(daysLeft !== null && daysLeft >= 0 && daysLeft <= 30)) return "excluded";
 
   const st = Object.values(conditionStatuses(item));
-  if (st.includes("mismatch")) return false;                 // 確認済みの不一致は常に除外
-  if (state.strict && st.includes("unknown")) return false;  // 厳格: 確認できたものだけ
+  if (st.includes("mismatch")) return "excluded";            // 確認済みの不一致は常に除外
 
   // 「学内推薦が不要なものだけ」は明示的な除外条件（推薦要・推薦不明は除外）
-  if (state.nomination === "none" && item.requires_university_nomination !== false) return false;
-  return true;
+  if (state.nomination === "none" && item.requires_university_nomination !== false) return "excluded";
+  // 「学内推薦があるものだけ」も、推薦ありと確認できたものだけ
+  if (state.nomination === "must" && item.requires_university_nomination !== true) return "excluded";
+  return st.includes("unknown") ? "unverified" : "match";
+}
+// 一覧に出すか。未確認の制度は「未確認も表示」をオンにしたときだけ出す
+function passesHardFilters(item, daysLeft) {
+  const c = classify(item, daysLeft);
+  return c === "match" || (c === "unverified" && state.showUnverified);
 }
 /* ===== MATCH-LOGIC:END ===== */
 
@@ -609,6 +642,13 @@ function scoreItem(item) {
 /* ============ 描画 ============ */
 
 function deadlinePill(item, daysLeft) {
+  if (item.application_status === "closed") {
+    const when = daysLeft !== null ? `（締切 ${fmtDate(item.deadline)}）` : "";
+    return `<span class="deadline-pill dl-past">募集終了${when}</span>`;
+  }
+  if (daysLeft === null && item.application_status === "open") {
+    return `<span class="deadline-pill dl-far">学内募集中（締切は所属の学部・研究科で確認）</span>`;
+  }
   if (daysLeft === null) {
     const label = item.deadline_type === "rolling" ? "通年・随時"
                 : item.deadline_type === "annual" ? "毎年・時期未定"
@@ -643,6 +683,7 @@ function cardHTML(item, sc, rank) {
     <div class="provider">${esc(item.provider || "")}</div>
     <div class="facts">
       <span>${deadlinePill(item, sc.daysLeft)}</span>
+      ${item.koan_posted ? `<span><span class="k">阪大KOAN掲示:</span> ${fmtDate(item.koan_posted)}</span>` : ""}
       ${item.amount_text ? `<span><span class="k">支給:</span> ${esc(item.amount_text)}</span>` : ""}
       <span><span class="k">対象:</span> ${degrees ? esc(degrees) : "未確認"}</span>
       <span><span class="k">学内推薦:</span> ${nomText}</span>
@@ -706,37 +747,53 @@ function statusFor(source) {
   return arr.find(s => s.source === source) || null;
 }
 
+function compareEntries(a, b) {
+  if (b.sc.score !== a.sc.score) return b.sc.score - a.sc.score;
+  const da = a.sc.daysLeft, db = b.sc.daysLeft;
+  const va = (da === null || da < 0) ? Infinity : da;
+  const vb = (db === null || db < 0) ? Infinity : db;
+  if (va !== vb) return va - vb;
+  return (a.item.title || "").localeCompare(b.item.title || "", "ja");
+}
+
 function render() {
   syncUrl();
-  const list = state.data.scholarships
-    .map(item => {
-      const sc = scoreItem(item);
-      return { item, sc };
-    })
-    .filter(x => passesHardFilters(x.item, x.sc.daysLeft))
-    .sort((a, b) => {
-      if (b.sc.score !== a.sc.score) return b.sc.score - a.sc.score;
-      const da = a.sc.daysLeft, db = b.sc.daysLeft;
-      const va = (da === null || da < 0) ? Infinity : da;
-      const vb = (db === null || db < 0) ? Infinity : db;
-      if (va !== vb) return va - vb;
-      return (a.item.title || "").localeCompare(b.item.title || "", "ja");
-    });
+  const all = state.data.scholarships.map(item => {
+    const sc = scoreItem(item);
+    return { item, sc, cls: classify(item, sc.daysLeft) };
+  });
+  const matches = all.filter(x => x.cls === "match").sort(compareEntries);
+  const unverified = all.filter(x => x.cls === "unverified").sort(compareEntries);
 
   const cardsEl = document.getElementById("cards");
   const countEl = document.getElementById("count");
+  const bar = document.getElementById("unvBar");
 
-  countEl.innerHTML = `<b>${list.length}</b> 件の奨学金・補助金`;
+  countEl.innerHTML = `<b>${matches.length}</b> 件の奨学金・補助金` +
+    (unverified.length && !state.showUnverified ? `<span class="count-sub">（ほかに条件が未確認の制度 ${unverified.length} 件）</span>` : "");
 
-  if (list.length === 0) {
-    cardsEl.innerHTML = `
+  // 未確認の制度があるときだけ、表示切り替えを出す
+  bar.hidden = unverified.length === 0;
+  document.getElementById("fUnv").checked = state.showUnverified;
+  document.getElementById("unvLabel").textContent = `条件に合うか未確認の制度（${unverified.length}件）も表示する`;
+
+  let html = "";
+  if (matches.length === 0) {
+    html += `
       <div class="empty">
-        <h3>条件に合う制度が見つかりませんでした</h3>
-        <p>絞り込みを緩めるか、「確認できたものだけ表示」をオフにしてみてください。</p>
+        <h3>条件に合うと確認できた制度は見つかりませんでした</h3>
+        <p>${unverified.length && !state.showUnverified
+          ? `条件に合うか未確認の制度が ${unverified.length} 件あります。上の「未確認の制度も表示する」をオンにすると確認できます。`
+          : "絞り込みを緩めてみてください（「募集が終了したものを隠す」をオフにすると、終了済みの制度も見られます）。"}</p>
       </div>`;
-    return;
+  } else {
+    html += matches.map((x, i) => cardHTML(x.item, x.sc, i + 1)).join("");
   }
-  cardsEl.innerHTML = list.map((x, i) => cardHTML(x.item, x.sc, i + 1)).join("");
+  if (state.showUnverified && unverified.length) {
+    html += `<div class="sect-head">条件に合うか未確認の制度（${unverified.length}件）— 応募前に公式ページで対象をご確認ください</div>`;
+    html += unverified.map((x, i) => cardHTML(x.item, x.sc, matches.length + i + 1)).join("");
+  }
+  cardsEl.innerHTML = html;
 }
 
 /* ============ ヘッダのメタ情報 ============ */
@@ -810,7 +867,7 @@ function wireControls() {
   bind("fOsaka", "osakaOnly");
   bind("fHidePast", "hidePast");
   bind("fSoon", "soonOnly");
-  bind("fStrict", "strict");
+  bind("fUnv", "showUnverified");
 
   let qt;
   document.getElementById("fQuery").addEventListener("input", e => {
@@ -860,7 +917,7 @@ function applyStateToControls() {
   document.getElementById("fOsaka").checked = state.osakaOnly;
   document.getElementById("fHidePast").checked = state.hidePast;
   document.getElementById("fSoon").checked = state.soonOnly;
-  document.getElementById("fStrict").checked = state.strict;
+  document.getElementById("fUnv").checked = state.showUnverified;
   document.getElementById("fQuery").value = state.query;
 }
 

@@ -76,6 +76,9 @@ class OsakaUSource(BaseSource):
                     continue
                 cur = {
                     "posted": parse_jp_date(first.replace("／", "/")),
+                    # 日付セルに「募集終了」と書かれていれば学内の募集は終了している
+                    "closed": "募集終了" in first,
+                    "note": None,
                     "title": title,
                     "url": self._pick_url(name_cell),
                     "target": None,
@@ -83,8 +86,12 @@ class OsakaUSource(BaseSource):
                 }
             elif len(tds) == 1 and cur is not None:
                 line = clean_text(tds[0].get_text(" ", strip=True), fold=False)
-                if line.startswith("【対象】"):
-                    cur["target"] = line[len("【対象】"):].strip()
+                if "【対象】" in line:
+                    # 「※本学では…は実施しない予定です。【対象】…」のように前置きが付く行がある
+                    pre, _, rest = line.partition("【対象】")
+                    cur["target"] = rest.strip()
+                    if pre.strip():
+                        cur["note"] = pre.strip()
                 elif line.startswith("【内容】"):
                     cur["amount"] = line[len("【内容】"):].strip()
                 # 【応募書類】等は無視
@@ -120,13 +127,31 @@ class OsakaUSource(BaseSource):
                 note = rule.get("note")
                 break
 
+        # 3) 募集回ごとの締切・状況（年度入りタイトルか掲示日で特定の回にだけ当てる）
+        deadline = None
+        status = "closed" if cur["closed"] else ("open" if requires_nomination else None)
+        round_note = None
+        for r in config.OSAKA_ROUNDS:
+            if not re.search(r["match"], title):
+                continue
+            if "posted" in r and r["posted"] != cur["posted"]:
+                continue
+            deadline = r.get("deadline") or deadline
+            status = r.get("application_status") or status
+            round_note = r.get("note")
+            break
+
         desc_bits = []
         if cur["target"]:
             desc_bits.append("対象: " + cur["target"])
         if cur["amount"]:
             desc_bits.append("内容: " + cur["amount"])
+        if cur.get("note"):
+            desc_bits.insert(0, "阪大ページの注記: " + cur["note"])
         if note:
             desc_bits.append(note)
+        if round_note:
+            desc_bits.append(round_note)
         description = truncate(" / ".join(desc_bits), 420) if desc_bits else None
 
         nomination_note = (
@@ -155,9 +180,11 @@ class OsakaUSource(BaseSource):
             destination_countries=facts["destination_countries"],
             study_type=facts["study_type"],
             duration_text=None,
-            deadline=None,
-            deadline_type="unknown",
+            deadline=deadline,
+            deadline_type="fixed" if deadline else "unknown",
             application_period_text=truncate(period, 260),
+            application_status=status,
+            koan_posted=cur["posted"],
             description=description,
             tags=["大阪大学掲載"] + (["学内選考あり"] if requires_nomination else ["直接応募"]),
         )
@@ -197,7 +224,8 @@ def parse_target(target: Optional[str], title: str) -> dict:
         out["target_fields"] = ["全分野"]
 
     # 留学の種別（タイトルか【対象】に書かれている語だけ）
-    text = title + " " + t
+    # 「交換留学は含みません」「交換留学を除く」は否定なので、種別として拾わない
+    text = re.sub(r"[（(]?交換留学(?:は|を)(?:含みません|含まない|除く|対象外)[。）)]*", "", title + " " + t)
     if "語学" in text:
         out["study_type"].append("語学")
     if "交換留学" in text:

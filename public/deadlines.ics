@@ -5,4 +5,75 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 X-WR-CALNAME:留学奨学金・補助金 締切
 X-WR-TIMEZONE:Asia/Tokyo
+BEGIN:VEVENT
+UID:osaka-17d205301a@kisoko-scholarships
+DTSTAMP:20260830T000000Z
+DTSTART;VALUE=DATE:20261130
+DTEND;VALUE=DATE:20261201
+SUMMARY:【留学奨学金 締切】【皇太子明仁親王奨学金】
+ 令和9年度奨学生
+DESCRIPTION:大阪大学（留学助成制度一覧に掲載）\n大阪大
+ 学 KOAN/マイハンダイ 掲示日 2026-04-07。この一覧では『
+ 個人で直接応募する奨学金』に分類。 学内締切・詳細
+ は所属学部/研究科および募集要項で確認。\n詳細: http:
+ //www.keidanren.or.jp/japanese/profile/prince.html\n※学内締切は所
+ 属学部・研究科により異なる場合があります。必ず公
+ 式情報を確認してください。
+URL:http://www.keidanren.or.jp/japanese/profile/prince.html
+CATEGORIES:奨学金,締切
+BEGIN:VALARM
+TRIGGER:-P7D
+ACTION:DISPLAY
+DESCRIPTION:【皇太子明仁親王奨学金】令和9年度奨学生 の
+ 締切1週間前
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:osaka-b2b0d41f99@kisoko-scholarships
+DTSTAMP:20260914T000000Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:【留学奨学金 締切】【食生活研究会】2027年度海
+ 外留学奨学生
+DESCRIPTION:大阪大学（留学助成制度一覧に掲載）\n大阪大
+ 学 KOAN/マイハンダイ 掲示日 2026-09-14。この一覧では『
+ 個人で直接応募する奨学金』に分類。 学内締切・詳細
+ は所属学部/研究科および募集要項で確認。\n詳細: https
+ ://www.z-ssk.org/ab_study/guideline.html\n※学内締切は所属学部
+ ・研究科により異なる場合があります。必ず公式情報
+ を確認してください。
+URL:https://www.z-ssk.org/ab_study/guideline.html
+CATEGORIES:奨学金,締切
+BEGIN:VALARM
+TRIGGER:-P7D
+ACTION:DISPLAY
+DESCRIPTION:【食生活研究会】2027年度海外留学奨学生 の締
+ 切1週間前
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:osaka-b67e79b4b8@kisoko-scholarships
+DTSTAMP:20260830T000000Z
+DTSTART;VALUE=DATE:20261130
+DTEND;VALUE=DATE:20261201
+SUMMARY:【留学奨学金 締切】【スイス政府奨学金】2026-202
+ 7年度留学生
+DESCRIPTION:大阪大学（留学助成制度一覧に掲載）\n大阪大
+ 学 KOAN/マイハンダイ 掲示日 2025-09-02。この一覧では『
+ 個人で直接応募する奨学金』に分類。 学内締切・詳細
+ は所属学部/研究科および募集要項で確認。\n詳細: https
+ ://ryugaku.jasso.go.jp/scholarship/scholarship_foreign/switzerland/schola
+ rship_ch.html\n※学内締切は所属学部・研究科により異な
+ る場合があります。必ず公式情報を確認してください
+ 。
+URL:https://ryugaku.jasso.go.jp/scholarship/scholarship_foreign/switzerlan
+ d/scholarship_ch.html
+CATEGORIES:奨学金,締切
+BEGIN:VALARM
+TRIGGER:-P7D
+ACTION:DISPLAY
+DESCRIPTION:【スイス政府奨学金】2026-2027年度留学生 の締
+ 切1週間前
+END:VALARM
+END:VEVENT
 END:VCALENDAR
