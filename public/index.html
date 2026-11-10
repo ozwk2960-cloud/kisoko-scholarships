@@ -226,6 +226,56 @@
   footer.site .wrap { padding: 20px; }
   footer.site p { margin: 4px 0; }
   .loading { padding: 60px 0; text-align: center; color: var(--ink-faint); }
+
+  /* ---- 使い方ボタンとガイド ---- */
+  .title-row { position: relative; padding-right: 150px; }
+  .help-btn {
+    position: absolute; top: 0; right: 0;
+    display: inline-flex; align-items: center; gap: 6px;
+    font: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+    color: #fff; background: var(--blue); border: 0; border-radius: 999px;
+    padding: 9px 16px; box-shadow: 0 2px 6px rgba(26,86,219,.35);
+  }
+  .help-btn:hover { background: var(--blue-dark); }
+  .help-btn:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+  .help-btn .q { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%;
+                 background: #fff; color: var(--blue); font-size: 13px; }
+  dialog.guide {
+    width: min(760px, calc(100vw - 24px)); max-height: calc(100vh - 32px);
+    padding: 0; border: 0; border-radius: 16px; color: var(--ink); background: var(--card);
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  }
+  dialog.guide::backdrop { background: rgba(15,23,42,.55); }
+  .guide-head {
+    position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 14px 18px; background: var(--blue-050); border-bottom: 1px solid var(--blue-100);
+  }
+  .guide-head h2 { margin: 0; font-size: 18px; color: var(--blue-dark); }
+  .guide-close {
+    font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; white-space: nowrap;
+    border: 1px solid var(--blue-100); background: #fff; color: var(--blue-dark); border-radius: 999px; padding: 7px 14px;
+  }
+  .guide-body { padding: 6px 20px 24px; overflow-y: auto; max-height: calc(100vh - 110px); font-size: 15px; line-height: 1.8; }
+  .guide-body h3 { margin: 26px 0 8px; font-size: 16.5px; color: var(--blue-dark); border-left: 5px solid var(--blue); padding-left: 10px; }
+  .guide-body p { margin: 6px 0; }
+  .guide-body ol, .guide-body ul { margin: 6px 0; padding-left: 1.5em; }
+  .guide-body li { margin: 4px 0; }
+  .guide-body .must {
+    background: #fef2f2; border: 2px solid #fca5a5; color: #7f1d1d; border-radius: 12px; padding: 12px 14px; margin: 14px 0;
+  }
+  .guide-body .must b { color: var(--danger); }
+  .guide-body .tip { background: var(--warn-bg); border: 1px solid var(--warn-line); color: var(--warn-ink); border-radius: 10px; padding: 10px 14px; margin: 10px 0; }
+  .guide-body table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 14px; }
+  .guide-body th, .guide-body td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+  .guide-body th { background: #f3f4f6; white-space: nowrap; }
+  .guide-body details { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; margin: 8px 0; }
+  .guide-body summary { cursor: pointer; font-weight: 700; }
+  .guide-body .pill { display: inline-block; border-radius: 999px; padding: 1px 10px; font-size: 12.5px; font-weight: 700; border: 1px solid var(--line); background: #f3f4f6; color: var(--ink-faint); }
+  @media (max-width: 560px) {
+    .title-row { padding-right: 0; padding-top: 44px; }
+    .help-btn { top: 0; }
+    .guide-body { padding: 4px 14px 22px; font-size: 14.5px; }
+  }
 </style>
 </head>
 <body>
@@ -233,6 +283,7 @@
 <header class="site">
   <div class="wrap">
     <div class="title-row">
+      <button type="button" class="help-btn" id="helpBtn" aria-haspopup="dialog" aria-controls="guideDlg"><span class="q" aria-hidden="true">?</span>使い方・注意点</button>
       <h1>留学奨学金・補助金 検索ツール</h1>
       <span class="subtitle">阪大基礎工・理工系の学生が海外留学時に使える公的・民間の奨学金を横断検索（無料・毎日更新）</span>
     </div>
@@ -240,6 +291,101 @@
     <div class="banner hidden" id="banner"></div>
   </div>
 </header>
+
+<dialog class="guide" id="guideDlg" aria-labelledby="guideTitle">
+  <div class="guide-head">
+    <h2 id="guideTitle">📖 使い方と、気をつけること</h2>
+    <button type="button" class="guide-close" id="guideClose">閉じる ✕</button>
+  </div>
+  <div class="guide-body">
+
+    <div class="must">
+      <b>いちばん大事なこと</b><br>
+      このサイトは、奨学金を<b>見つけるための「入口」</b>です。申し込む前には、必ず各制度の<b>「公式ページを見る」</b>ボタンから公式のページを開いて、
+      <b>対象の人・しめきり・もらえる金額</b>を自分の目で確かめてください。このサイトの表示だけで「申し込める」と決めないでください。
+    </div>
+
+    <h3>1. このサイトでできること</h3>
+    <p>留学するときに使える奨学金（お金のサポート）を、<b>たくさんの団体の分をまとめて</b>探せます。大阪大学のページには、たくさんの制度が長い表で並んでいて探しにくいので、
+    「自分に合うもの」だけを選んで、しめきりの近い順などに並べかえられるようにしています。</p>
+
+    <h3>2. 使い方（3ステップ）</h3>
+    <ol>
+      <li><b>左の「絞り込み条件」</b>で、自分に当てはまるものを選びます（学部・修士・博士、専攻、行きたい地域など）。<br>
+          スマホのときは、上にある「絞り込み条件」ボタンを押すと開きます。</li>
+      <li><b>右に出てくるカード</b>を上から見ます。気になる制度は、しめきり・対象・もらえる金額を読みます。</li>
+      <li>よさそうなら<b>「公式ページを見る」</b>を押して、公式の募集要項を読み、そこに書かれた方法で申し込みます。</li>
+    </ol>
+    <div class="tip">💡 全部を選ぶ必要はありません。まずは「学年」だけ選んで、結果を見てから少しずつ条件を足すのがおすすめです。結果が0件になったら、条件をへらしてみましょう。</div>
+
+    <h3>3. 気をつけること（かならず読んでね）</h3>
+    <ul>
+      <li><b>表示が古いことがあります。</b>情報は毎日自動で集めていますが、相手のサイトが変わると、うまく読み取れないことがあります。ページ上のほうにある「最終更新」の日付も見てください。</li>
+      <li><b>しめきりや条件は、毎年かわります。</b>去年の情報のまま残っている制度もあるので、年度（2026年度、2027年度など）を必ず見てください。</li>
+      <li><b>「学内のしめきり」は、このサイトに出ているしめきりより早いことがあります。</b>大阪大学を通して申し込む制度は、学部・研究科ごとに先に大学へ出すしめきりがあります。所属の学部・研究科の掲示や教務の窓口で確認してください。</li>
+      <li><b>このサイトの順番は「おすすめ度」ではありません。</b>条件に合う度合いの目安なので、上にあるからいちばん良い制度、というわけではありません。</li>
+      <li><b>お金に関わることは、大学の窓口や先生にも相談してください。</b>このサイトは公式の窓口ではありません。</li>
+    </ul>
+
+    <h3>4. 「要確認」「未確認」ってなに？</h3>
+    <p>制度ごとの条件（対象の学年、専攻、行き先など）は、公式ページに書いてあることだけをもとにしています。<b>書いてあるかどうか、このサイトが確かめられなかった条件</b>は、まちがえないように
+    「<b>要確認</b>」と表示します。</p>
+    <table>
+      <tr><th>表示</th><td>意味</td></tr>
+      <tr><th>条件に合う</th><td>公式の情報から「合う」と確かめられた制度です。ふだんはこれだけが出ます。</td></tr>
+      <tr><th>要確認</th><td>合うかどうか、このサイトでは分かっていません。応募する前に公式ページで自分が対象か確かめてください。</td></tr>
+      <tr><th>表示されない</th><td>公式の情報から「合わない」と分かった制度です（例：学部生は対象外の制度を、学部を選んだときなど）。</td></tr>
+    </table>
+    <p>「要確認」の制度も見たいときは、結果の上にある<b>「条件に合うか未確認の制度（○件）も表示する」</b>のチェックを入れると、別のまとまりで出てきます。</p>
+    <div class="tip">💡 「要確認」＝ダメ、ではありません。「このサイトでは分からなかった」という意味です。当てはまるかもしれないので、気になるなら公式ページを見てください。</div>
+
+    <h3>5. しめきりの表示の見かた</h3>
+    <table>
+      <tr><th>表示</th><td>意味</td></tr>
+      <tr><th><span class="pill">締切まで○日（日付）</span></th><td>しめきりが分かっている制度です。7日以内は赤、30日以内はオレンジ、それより先は青です。</td></tr>
+      <tr><th><span class="pill">学内募集中</span></th><td>大阪大学の中で募集中ですが、しめきりの日は分かっていません。所属の学部・研究科で確認してください。</td></tr>
+      <tr><th><span class="pill">募集終了</span></th><td>もう終わった募集です。ふだんは隠れます（「その他」のチェックで変えられます）。</td></tr>
+      <tr><th><span class="pill">毎年・時期未定／通年・随時</span></th><td>毎年ほぼ同じ時期に募集がありますが、今年の日が決まっていない、またはいつでも受け付けています。</td></tr>
+      <tr><th><span class="pill">締切未定</span></th><td>しめきりが見つかっていません。公式ページで確認してください。</td></tr>
+    </table>
+    <p>「締切まで30日以内のものだけ」のチェックは、<b>しめきりの日が分かっている制度だけ</b>が対象です。しめきりが分からない制度は出てこないので、見落としたくないときはチェックを外してください。</p>
+
+    <h3>6. 「学内推薦」ってなに？</h3>
+    <p>奨学金の中には、<b>大学が「この人を推薦します」と団体に出す</b>ものがあります。この場合、自分で直接申し込むのではなく、<b>先に大学の中で選ばれる</b>必要があります。そのため、
+    大学の中のしめきりが、団体のしめきりよりずっと早いことがあります。</p>
+    <ul>
+      <li><b>学内推薦が不要なものだけ</b>：自分で直接申し込める制度だけを出します。</li>
+      <li><b>推薦ありでも可</b>：どちらも出し、推薦が不要なものを上に並べます。</li>
+      <li><b>学内推薦があるものだけ</b>：大阪大学を通して申し込む制度だけを出します。大阪大学の「KOAN」という掲示板に載った日付も出ます。</li>
+    </ul>
+
+    <h3>7. 「その他」のチェックの意味</h3>
+    <ul>
+      <li><b>阪大の留学助成ページに載っている制度のみ</b>：大阪大学のページに出ている制度だけにします。JASSOやトビタテなど、全国向けの制度は出なくなります。</li>
+      <li><b>募集が終了したもの・締切が過ぎたものを隠す</b>：最初からチェックが入っています。外すと、終わった制度も見られます（来年の参考になります）。</li>
+      <li><b>締切まで30日以内のものだけ</b>：もうすぐしめきりの制度だけを出します（5番の注意を読んでね）。</li>
+    </ul>
+
+    <h3>8. よくある「あれ？」</h3>
+    <details><summary>結果が0件になった</summary>
+      <p>条件を多く選びすぎているかもしれません。「条件をすべてリセット」を押して、まず「学年」だけ選んでみてください。「その他」のチェック（30日以内など）も確かめてください。</p></details>
+    <details><summary>大阪大学のページにあるのに、見つからない</summary>
+      <p>大阪大学のページが新しく更新された直後は、反映が1日ほど遅れることがあります。また、公式の情報が読み取れなかった制度は、条件を選ぶと「要確認」の別のまとまりに入ることがあります。結果の上のチェック（条件に合うか未確認の制度も表示する）を入れてみてください。</p></details>
+    <details><summary>締切が「未定」のまま</summary>
+      <p>公式ページに、今年のしめきりがまだ書かれていないか、このサイトが読み取れていない制度です。公式ページで確かめてください。</p></details>
+    <details><summary>「専攻不問」と書いてないと、対象外？</summary>
+      <p>いいえ。専攻の条件が見つからないだけのことが多いです。「要確認」の制度は、公式ページの「対象」の欄を読んで、自分の専攻が入るか確かめてください。</p></details>
+    <details><summary>友だちにも同じ検索結果を見せたい</summary>
+      <p>結果の上の「🔗 この検索を共有」を押すと、いまの条件が入ったリンクがコピーされます。それを送れば、同じ条件で開けます。</p></details>
+    <details><summary>しめきりをカレンダーに入れたい</summary>
+      <p>カードの「📅 締切を追加」ボタンで（締切が先の制度のみ）、その制度のしめきりを1件ずつ入れられます。ページ下の「deadlines.ics」をカレンダーアプリに登録すると、しめきりが分かっている制度がまとめて入ります。</p></details>
+
+    <h3>9. 個人情報について</h3>
+    <p>このサイトは、あなたの名前やメールアドレスなどを聞きません。選んだ条件は、あなたの画面の中だけで使われます（名前などと結びつけて保存することはありません）。応募のときの個人情報は、<b>かならず公式ページ</b>に入力してください。</p>
+
+    <p style="text-align:center;margin-top:22px"><button type="button" class="guide-close" id="guideClose2">閉じて検索にもどる</button></p>
+  </div>
+</dialog>
 
 <main class="wrap">
   <!-- ===== Filter panel ===== -->
@@ -943,6 +1089,22 @@ function applyStateToControls() {
   state.data = data;
   renderMeta();
   render();
+})();
+
+/* ============ 使い方ガイド（右上ボタン） ============ */
+(function setupGuide() {
+  const dlg = document.getElementById("guideDlg");
+  const btn = document.getElementById("helpBtn");
+  if (!dlg || !btn) return;
+  const open = () => {
+    if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
+    const body = dlg.querySelector(".guide-body"); if (body) body.scrollTop = 0;
+  };
+  const close = () => { if (typeof dlg.close === "function") dlg.close(); else dlg.removeAttribute("open"); btn.focus(); };
+  btn.addEventListener("click", open);
+  ["guideClose", "guideClose2"].forEach(id => { const b = document.getElementById(id); if (b) b.addEventListener("click", close); });
+  // 暗い部分（枠の外）を押しても閉じる
+  dlg.addEventListener("click", e => { if (e.target === dlg) close(); });
 })();
 </script>
 

@@ -179,3 +179,13 @@ def test_each_type_filter_only_returns_confirmed_matches():
         r = run_filter(items, types=[t])
         for title in r["out"]:
             assert t in by_title[title]["study_type"], (t, title)
+
+
+def test_help_guide_button_and_dialog_exist():
+    # 右上の「使い方・注意点」ボタンと、押すと開くガイド（<dialog>）があること
+    html = open(os.path.join(os.path.dirname(__file__), "..", "public", "index.html"), encoding="utf-8").read()
+    assert 'id="helpBtn"' in html and "使い方・注意点" in html
+    assert '<dialog class="guide" id="guideDlg"' in html
+    # 最重要の注意（公式ページで確認）と「要確認」の説明が入っている
+    assert "公式ページを見る" in html and "要確認" in html
+    assert "showModal" in html
