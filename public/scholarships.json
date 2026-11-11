@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-11-11T01:07:24Z",
+  "generated_at": "2026-11-11T10:08:03Z",
   "source_status": [
     {
       "source": "JASSO",
       "ok": true,
       "count": 4,
-      "fetched_at": "2026-11-11T01:06:38Z"
+      "fetched_at": "2026-11-11T10:07:27Z"
     },
     {
       "source": "トビタテ",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-11T01:06:58Z"
+      "fetched_at": "2026-11-11T10:07:46Z"
     },
     {
       "source": "船井情報科学振興財団",
       "ok": true,
       "count": 2,
-      "fetched_at": "2026-11-11T01:07:02Z"
+      "fetched_at": "2026-11-11T10:07:49Z"
     },
     {
       "source": "吉田育英会",
       "ok": false,
       "error": "FetchError: 取得失敗（3回試行）: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html :: HTTP 503: https://www.ysf.or.jp/scholarship/visitor/universal/os_guideline.html",
-      "fetched_at": "2026-11-11T01:07:07Z",
+      "fetched_at": "2026-11-11T10:07:52Z",
       "stale_since": "2026-10-22"
     },
     {
       "source": "孫正義育英財団",
       "ok": true,
       "count": 1,
-      "fetched_at": "2026-11-11T01:07:18Z"
+      "fetched_at": "2026-11-11T10:07:59Z"
     },
     {
       "source": "大阪大学",
       "ok": true,
-      "count": 42,
-      "fetched_at": "2026-11-11T01:07:23Z"
+      "count": 52,
+      "fetched_at": "2026-11-11T10:08:03Z"
     }
   ],
   "scholarships": [
@@ -72,6 +72,7 @@
       "application_period_text": "【大学取りまとめ応募】【個人応募】 応募書類提出[応募者] 2025年9月1日(月曜日)~2025年10月9日(木曜日)13時(日本時間)締切 ※学位応募システムから提出",
       "application_status": null,
       "koan_posted": null,
+      "koan": null,
       "description": "2026年度海外留学支援制度(大学院学位取得型)の募集関係書類、募集日程等を掲載しております。",
       "tags": [
         "返済不要",
@@ -114,6 +115,7 @@
       "application_period_text": "【大学取りまとめ応募】【個人応募】 応募書類提出[応募者] 2026年9月1日(火曜日)~2026年10月8日(木曜日)13時(日本時間)締切 ※学位応募システムから提出",
       "application_status": null,
       "koan_posted": null,
+      "koan": null,
       "description": "2027年度海外留学支援制度(大学院学位取得型)の募集関係書類、募集日程等を掲載しております。",
       "tags": [
         "返済不要",
@@ -154,6 +156,7 @@
       "application_period_text": "応募書類提出【応募者】 2025年9月1日(月曜日)~2025年10月2日(木曜日)13時(日本時間)締切 ※学位応募システムから提出(郵送等は10月2日(木曜日)必着)",
       "application_status": null,
       "koan_posted": null,
+      "koan": null,
       "description": "2026年度海外留学支援制度(学部学位取得型)の募集関係書類、募集日程等を掲載しております。",
       "tags": [
         "返済不要",
@@ -195,6 +198,7 @@
       "application_period_text": "応募書類提出【応募者】 2026年9月1日(火曜日)~2026年10月1日(木曜日)13時(日本時間)締切 ※学位応募システムから提出(郵送等は10月1日(木曜日)必着)",
       "application_status": null,
       "koan_posted": null,
+      "koan": null,
       "description": "2027年度海外留学支援制度(学部学位取得型)の募集関係書類、募集日程等を掲載しております。 応募方法は個人が直接応募する通常の応募と都道府県推薦枠の2種類があり、通常の応募と都道府県推薦枠は併願することが可能です。 それぞれの詳細については、目次よりご確認ください。",
       "tags": [
         "返済不要",
@@ -241,6 +245,7 @@
       "application_period_text": "第19期(2027年度)の募集要項が公開済み。学生本人の応募期間は在籍大学等が指定するため、学内締切は所属大学の担当窓口で確認すること。参考: 大学から機構への応募申請は2026年12月上旬開始・2027年2月25日17時が期限(学内締切はこれより前)。書面審査結果は4月下旬、面接は5月15・16日(東京)、採否は6月中旬の予定。",
       "application_status": "open",
       "koan_posted": null,
+      "koan": null,
       "description": "官民協働の留学支援制度。留学計画を自分で設計でき、研究・インターン・ボランティア・語学・学位取得など幅広い活動が対象。成績・語学力の足切りは原則なし。民間寄附を原資とする返済不要の奨学金。事前・事後研修と留学後の情報発信(留学大使活動)が必須。理工系向けの STEAM コースあり。 留学開始は2027年8月1日〜2028年3月31日。大学院生も新大学1年生以外のスケジュールで応募。",
       "tags": [
         "返済不要",
@@ -295,6 +300,47 @@
       "first_seen": "2026-08-30"
     },
     {
+      "id": "osaka-0da91c3fb4",
+      "source": "大阪大学",
+      "source_url": "https://ryugaku.jasso.go.jp/scholarship/scholarship_foreign/korea/scholarship_kr_GKS.html",
+      "title": "【JASSO協力】2026年度 GKS韓日教育交流協力事業奨学生（大学院／大学／専門大学）",
+      "provider": "大阪大学（留学助成制度一覧に掲載）",
+      "category": "public",
+      "amount_text": null,
+      "amount_monthly_jpy": null,
+      "target_degree": [],
+      "target_fields": [],
+      "eligible_universities": [
+        "大阪大学"
+      ],
+      "requires_university_nomination": false,
+      "destination_countries": [],
+      "study_type": [],
+      "duration_text": null,
+      "deadline": null,
+      "deadline_type": "unknown",
+      "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-09-30。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
+      "application_status": null,
+      "koan_posted": "2025-09-30",
+      "koan": {
+        "title": "【JASSO協力】2026年度 GKS韓日教育交流協力事業奨学生（大学院／大学／専門大学）",
+        "posted": "2025-09-30",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
+      "tags": [
+        "大阪大学掲載",
+        "直接応募"
+      ],
+      "last_seen": "2026-11-11",
+      "first_seen": "2026-11-11"
+    },
+    {
       "id": "osaka-17be25da25",
       "source": "大阪大学",
       "source_url": "https://www.j-cfa.com/project/apolloshogaku/",
@@ -326,6 +372,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-12-08。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2025-12-08",
+      "koan": {
+        "title": "【日中友好協会】2026年度 日中友好協会アポロトレイディング奨学金",
+        "posted": "2025-12-08",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: 中国の4年制大学・研究機関に9か月以上留学する学部生・大学院生(交換留学可)。HSK4級/中検3級以上・30歳以下。専攻は政治・経済・歴史・文化・科学。",
       "tags": [
         "大阪大学掲載",
@@ -365,7 +421,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-12-09。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2025-12-09",
-      "description": "対象: 2026年5月1日~2026年11月30日の間に大学間または部局間交換留学を開始する学部生 / 内容: 月額:15万円または20万円 および一時金:15万円または25万円(どちらも留学先国・地域による) / 公式情報: 学部2年生以上(大学院は不可)・35歳以下。語学研修を含まない6か月以上の大学間協定留学が対象。学内選考あり。専攻の制限は無い(文系・文理融合型学部のみ単位認定等の追加条件)。",
+      "koan": {
+        "title": "業務スーパージャパンドリーム財団 2026年度第1回派遣留学生",
+        "posted": "2025-12-09",
+        "closed": true,
+        "nominated": true,
+        "target": "2026年5月1日~2026年11月30日の間に大学間または部局間交換留学を開始する学部生",
+        "content": "月額:15万円または20万円 および一時金:15万円または25万円(どちらも留学先国・地域による)",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": "公式情報: 学部2年生以上(大学院は不可)・35歳以下。語学研修を含まない6か月以上の大学間協定留学が対象。学内選考あり。専攻の制限は無い(文系・文理融合型学部のみ単位認定等の追加条件)。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -402,6 +468,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-04-07。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-04-07",
+      "koan": {
+        "title": "【皇太子明仁親王奨学金】令和9年度奨学生",
+        "posted": "2026-04-07",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: 大学院生が対象。留学先は米国(ハワイ)。 / 公式情報: 応募受付 2026/10/1〜11/30 必着。",
       "tags": [
         "大阪大学掲載",
@@ -409,6 +485,47 @@
       ],
       "last_seen": "2026-11-11",
       "first_seen": "2026-08-30"
+    },
+    {
+      "id": "osaka-2331c9284b",
+      "source": "大阪大学",
+      "source_url": "https://ryugaku.jasso.go.jp/scholarship/scholarship_foreign/poland/scholarship_pl.html",
+      "title": "【JASSO協力】2026年度ポーランド政府奨学金",
+      "provider": "大阪大学（留学助成制度一覧に掲載）",
+      "category": "public",
+      "amount_text": null,
+      "amount_monthly_jpy": null,
+      "target_degree": [],
+      "target_fields": [],
+      "eligible_universities": [
+        "大阪大学"
+      ],
+      "requires_university_nomination": false,
+      "destination_countries": [],
+      "study_type": [],
+      "duration_text": null,
+      "deadline": null,
+      "deadline_type": "unknown",
+      "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-03-25。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
+      "application_status": null,
+      "koan_posted": "2026-03-25",
+      "koan": {
+        "title": "【JASSO協力】2026年度ポーランド政府奨学金",
+        "posted": "2026-03-25",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
+      "tags": [
+        "大阪大学掲載",
+        "直接応募"
+      ],
+      "last_seen": "2026-11-11",
+      "first_seen": "2026-11-11"
     },
     {
       "id": "osaka-28aa6b76fc",
@@ -441,6 +558,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-05-12。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-05-12",
+      "koan": {
+        "title": "【大蔵共助会】2026年度海外留学支援",
+        "posted": "2026-05-12",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: 海外の大学・大学院(語学研修校を除く)へ半年以上留学する日本国籍の方。大阪府内在住の学生、または府内の学校法人・留学支援団体所属の学生が対象。",
       "tags": [
         "大阪大学掲載",
@@ -478,6 +605,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-06-11。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-06-11",
+      "koan": {
+        "title": "【中島記念国際交流財団】令和9年度日本人海外留学奨学生募集",
+        "posted": "2026-06-11",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": null,
       "tags": [
         "大阪大学掲載",
@@ -509,7 +646,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-08-28。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-08-28",
-      "description": "対象: 2027年1月~3月の間に、28日以上3ヶ月以内の海外留学をする者、且つ、生計維持者が東京都内に1年以上在住している者 / 内容: 40/70/90万円(留学先国・地域による)",
+      "koan": {
+        "title": "東京グローバル・パスポート（令和8年度(2026年度) 短期コース（春留学））",
+        "posted": "2026-08-28",
+        "closed": true,
+        "nominated": true,
+        "target": "2027年1月~3月の間に、28日以上3ヶ月以内の海外留学をする者、且つ、生計維持者が東京都内に1年以上在住している者",
+        "content": "40/70/90万円(留学先国・地域による)",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -548,7 +695,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-11-09。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "open",
       "koan_posted": "2026-11-09",
-      "description": "対象: 2027年度中(2027年4月1日~2028年3月31日の間)に大学間または部局間交換留学をする学部生 / 内容: 月額:7万円、留学準備金:35万円 / 公式情報: 指定大学の学部生。家計の年収合計1,000万円以内、学校長(学部長)の推薦が必要。語学研修目的は不可。",
+      "koan": {
+        "title": "阪和育英会",
+        "posted": "2026-11-09",
+        "closed": false,
+        "nominated": true,
+        "target": "2027年度中(2027年4月1日~2028年3月31日の間)に大学間または部局間交換留学をする学部生",
+        "content": "月額:7万円、留学準備金:35万円",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": "公式情報: 指定大学の学部生。家計の年収合計1,000万円以内、学校長(学部長)の推薦が必要。語学研修目的は不可。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -587,13 +744,107 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-01-26。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-01-26",
-      "description": "対象: 大阪府在住で2026年度に8か月~1年内の大学間または部局間交換留学を開始する学部生 / 内容: 月額10万円 / 公式情報: 大阪に居住し大阪の大学に通う学部生が、8か月〜1年の交換留学をする場合。経済的理由で自費のみの留学が困難な人が対象。",
+      "koan": {
+        "title": "大遊協国際交流・援助・研究協会 日本人学生海外留学奨学金",
+        "posted": "2026-01-26",
+        "closed": true,
+        "nominated": true,
+        "target": "大阪府在住で2026年度に8か月~1年内の大学間または部局間交換留学を開始する学部生",
+        "content": "月額10万円",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": "公式情報: 大阪に居住し大阪の大学に通う学部生が、8か月〜1年の交換留学をする場合。経済的理由で自費のみの留学が困難な人が対象。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
       ],
       "last_seen": "2026-11-11",
       "first_seen": "2026-08-30"
+    },
+    {
+      "id": "osaka-3cdb8d061f",
+      "source": "大阪大学",
+      "source_url": "https://www.jasso.go.jp/ryugaku/scholarship_a/haken/index.html",
+      "title": "JASSO海外留学支援制度(協定派遣) ※給付型奨学金",
+      "provider": "大阪大学（留学助成制度一覧に掲載）",
+      "category": "public",
+      "amount_text": "月額8/9/11/12万円 渡航支援金(1万/16万円:条件有り)",
+      "amount_monthly_jpy": null,
+      "target_degree": [],
+      "target_fields": [],
+      "eligible_universities": [
+        "大阪大学"
+      ],
+      "requires_university_nomination": true,
+      "destination_countries": [],
+      "study_type": [
+        "交換留学"
+      ],
+      "duration_text": null,
+      "deadline": null,
+      "deadline_type": "unknown",
+      "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-07-31。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
+      "application_status": "closed",
+      "koan_posted": "2026-07-31",
+      "koan": {
+        "title": "JASSO海外留学支援制度(協定派遣) ※給付型奨学金",
+        "posted": "2026-07-31",
+        "closed": true,
+        "nominated": true,
+        "target": "交換留学にて2027年1月~3月までに留学を開始する者",
+        "content": "月額8/9/11/12万円 渡航支援金(1万/16万円:条件有り)",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
+      "tags": [
+        "大阪大学掲載",
+        "学内選考あり"
+      ],
+      "last_seen": "2026-11-11",
+      "first_seen": "2026-11-11"
+    },
+    {
+      "id": "osaka-3f107bf592",
+      "source": "大阪大学",
+      "source_url": "https://ryugaku.jasso.go.jp/scholarship/scholarship_foreign/hungary/scholarship_hu_stipendium.html",
+      "title": "【JASSO協力】2026-2027ハンガリー政府Stipendium Hungaricum奨学金募集",
+      "provider": "大阪大学（留学助成制度一覧に掲載）",
+      "category": "public",
+      "amount_text": null,
+      "amount_monthly_jpy": null,
+      "target_degree": [],
+      "target_fields": [],
+      "eligible_universities": [
+        "大阪大学"
+      ],
+      "requires_university_nomination": false,
+      "destination_countries": [],
+      "study_type": [],
+      "duration_text": null,
+      "deadline": null,
+      "deadline_type": "unknown",
+      "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-11-11。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
+      "application_status": null,
+      "koan_posted": "2025-11-11",
+      "koan": {
+        "title": "【JASSO協力】2026-2027ハンガリー政府Stipendium Hungaricum奨学金募集",
+        "posted": "2025-11-11",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
+      "tags": [
+        "大阪大学掲載",
+        "直接応募"
+      ],
+      "last_seen": "2026-11-11",
+      "first_seen": "2026-11-11"
     },
     {
       "id": "osaka-43f818def9",
@@ -627,6 +878,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-08-10。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-08-10",
+      "koan": {
+        "title": "【経団連グローバル人材育成スカラーシップ】2027年度奨学生",
+        "posted": "2026-08-10",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: 学部2〜4年生または博士前期課程1〜2年生。8か月以上1年未満の留学(理工系は研究室での研究・講義受講で6か月以上も可)。支給200万円。TOEFL iBT61/IELTS5.0相当と学部長等の推薦状が必要。",
       "tags": [
         "大阪大学掲載",
@@ -664,7 +925,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-08-04。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-08-04",
-      "description": "対象: 本学正規生で、ビルマ語/モンゴル語/カンボジア語を習得する為に海外留学をする者 / 内容: 55万円",
+      "koan": {
+        "title": "KDDI財団 2027年度 語学留学助成 (ビルマ語/モンゴル語/カンボジア語)",
+        "posted": "2026-08-04",
+        "closed": true,
+        "nominated": true,
+        "target": "本学正規生で、ビルマ語/モンゴル語/カンボジア語を習得する為に海外留学をする者",
+        "content": "55万円",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -701,6 +972,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-11-07。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2025-11-07",
+      "koan": {
+        "title": "【日中友好協会】2026年度 中国政府奨学金留学生募集",
+        "posted": "2025-11-07",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": null,
       "tags": [
         "大阪大学掲載",
@@ -740,6 +1021,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-08-21。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-08-21",
+      "koan": {
+        "title": "【フランス政府奨学金】2027年度留学生",
+        "posted": "2026-08-21",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: オンライン出願の締切は2026/11/20。",
       "tags": [
         "大阪大学掲載",
@@ -747,6 +1038,47 @@
       ],
       "last_seen": "2026-11-11",
       "first_seen": "2026-08-30"
+    },
+    {
+      "id": "osaka-4fa75b4f6b",
+      "source": "大阪大学",
+      "source_url": "https://ryugaku.jasso.go.jp/scholarship/scholarship_foreign/italy/scholarship_it.html",
+      "title": "【JASSO協力】2026-2027年度イタリア政府奨学金",
+      "provider": "大阪大学（留学助成制度一覧に掲載）",
+      "category": "public",
+      "amount_text": null,
+      "amount_monthly_jpy": null,
+      "target_degree": [],
+      "target_fields": [],
+      "eligible_universities": [
+        "大阪大学"
+      ],
+      "requires_university_nomination": false,
+      "destination_countries": [],
+      "study_type": [],
+      "duration_text": null,
+      "deadline": null,
+      "deadline_type": "unknown",
+      "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-03-18。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
+      "application_status": null,
+      "koan_posted": "2026-03-18",
+      "koan": {
+        "title": "【JASSO協力】2026-2027年度イタリア政府奨学金",
+        "posted": "2026-03-18",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
+      "tags": [
+        "大阪大学掲載",
+        "直接応募"
+      ],
+      "last_seen": "2026-11-11",
+      "first_seen": "2026-11-11"
     },
     {
       "id": "osaka-5c536f6d26",
@@ -779,7 +1111,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-10-13。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "open",
       "koan_posted": "2026-10-13",
-      "description": "対象: 2027年7月~10月に開始の2セメスターの大学間または部局間交換留学をする学部生 / 内容: 月額20万円、渡航費用 / 公式情報: 学部生で、大学の選考により協定大学への交換留学が決定している人。最長1年(半年は不可)。大学が財団から推薦依頼を受けている場合のみ応募可。",
+      "koan": {
+        "title": "みずほ国際交流奨学財団 日本人留学生奨学金",
+        "posted": "2026-10-13",
+        "closed": false,
+        "nominated": true,
+        "target": "2027年7月~10月に開始の2セメスターの大学間または部局間交換留学をする学部生",
+        "content": "月額20万円、渡航費用",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": "公式情報: 学部生で、大学の選考により協定大学への交換留学が決定している人。最長1年(半年は不可)。大学が財団から推薦依頼を受けている場合のみ応募可。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -818,7 +1160,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-03-13。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-03-13",
-      "description": "阪大ページの注記: ※本学では2026年度春季募集は実施しない予定です。 / 対象: 本学主催の海外研修プログラムに参加し、諸外国の大学等へ2週間以上6ヶ月未満(移動日は含まない)の留学を計画する者。ただし、本奨学金の受給決定以降(2026年8月以降)、2026年度中に留学を開始する予定の者。(交換留学は含みません。) / 内容: 奨学金30万円/1回、渡航準備金:12万円 / 公式情報: 25歳以下の学部生が2週間以上6か月未満の留学をする場合。30万円以上の留学プログラムが対象。",
+      "koan": {
+        "title": "フクシマグローバル人材支援奨学財団（短期）2026年度奨学生",
+        "posted": "2026-03-13",
+        "closed": true,
+        "nominated": true,
+        "target": "本学主催の海外研修プログラムに参加し、諸外国の大学等へ2週間以上6ヶ月未満(移動日は含まない)の留学を計画する者。ただし、本奨学金の受給決定以降(2026年8月以降)、2026年度中に留学を開始する予定の者。(交換留学は含みません。)",
+        "content": "奨学金30万円/1回、渡航準備金:12万円",
+        "note": "※本学では2026年度春季募集は実施しない予定です。",
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": "公式情報: 25歳以下の学部生が2週間以上6か月未満の留学をする場合。30万円以上の留学プログラムが対象。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -853,7 +1205,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-12-02。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2025-12-02",
-      "description": "対象: 自然科学分野を専攻する理工系博士前期課程の大学院生(医学、歯学、薬学を除く) / 内容: 月額:15万円、渡航費:20万円",
+      "koan": {
+        "title": "日揮・実吉奨学会",
+        "posted": "2025-12-02",
+        "closed": true,
+        "nominated": true,
+        "target": "自然科学分野を専攻する理工系博士前期課程の大学院生(医学、歯学、薬学を除く)",
+        "content": "月額:15万円、渡航費:20万円",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -884,7 +1246,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-07-01。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-07-01",
-      "description": "対象: 2027年秋に海外の大学院への留学を開始する者 / 内容: 授業料等大学への納付金として250万円を上限とする実費、及び滞在費・渡航費等に充当するものとして年額250万円を上限とする費用の合計金額を実情に応じて支給",
+      "koan": {
+        "title": "竹中育英会 2026年 海外留学奨学生",
+        "posted": "2026-07-01",
+        "closed": true,
+        "nominated": true,
+        "target": "2027年秋に海外の大学院への留学を開始する者",
+        "content": "授業料等大学への納付金として250万円を上限とする実費、及び滞在費・渡航費等に充当するものとして年額250万円を上限とする費用の合計金額を実情に応じて支給",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -924,6 +1296,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-02-12。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-02-12",
+      "koan": {
+        "title": "【豊田理化学研究所】2025年度海外大学院進学支援制度（奨学金）",
+        "posted": "2026-02-12",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: 次回の募集は2027年2月頃の見込み。",
       "tags": [
         "大阪大学掲載",
@@ -963,7 +1345,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-06-04。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-06-04",
-      "description": "対象: 2026年12月1日~2027年4月30日の間に大学間または部局間交換留学を開始する学部生 / 内容: 月額:15万円または20万円(留学先国・地域による)、留学一時金 / 公式情報: 学部2年生以上(大学院は不可)・35歳以下。語学研修を含まない6か月以上の大学間協定留学が対象。学内選考あり。専攻の制限は無い(文系・文理融合型学部のみ単位認定等の追加条件)。",
+      "koan": {
+        "title": "業務スーパージャパンドリーム財団 2026年度第2回派遣留学生",
+        "posted": "2026-06-04",
+        "closed": true,
+        "nominated": true,
+        "target": "2026年12月1日~2027年4月30日の間に大学間または部局間交換留学を開始する学部生",
+        "content": "月額:15万円または20万円(留学先国・地域による)、留学一時金",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": "公式情報: 学部2年生以上(大学院は不可)・35歳以下。語学研修を含まない6か月以上の大学間協定留学が対象。学内選考あり。専攻の制限は無い(文系・文理融合型学部のみ単位認定等の追加条件)。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1000,7 +1392,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-12-12。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2025-12-12",
-      "description": "対象: 2026年8月または9月から1年間(約8~10か月)アメリカの大学へ交換留学する学部生 / 内容: 年間180万円(※準備金:45万円、奨学金:2026年8月~2027年4月まで毎月15万円)",
+      "koan": {
+        "title": "TOMODACHI住友商事奨学金 2026年度第13期生募集",
+        "posted": "2025-12-12",
+        "closed": true,
+        "nominated": true,
+        "target": "2026年8月または9月から1年間(約8~10か月)アメリカの大学へ交換留学する学部生",
+        "content": "年間180万円(※準備金:45万円、奨学金:2026年8月~2027年4月まで毎月15万円)",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1037,7 +1439,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-08-25。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-08-25",
-      "description": "対象: 2026年12月1日~2027年3月31日の間に留学開始し、将来、住友化学を含む日本の化学業界にて活躍する意思を持ち、理系の専門性や素養を有する人材(所属学部・研究科不問) / 内容: 渡航期間6か月未満:60~80万円/渡航期間6か月以上:90~120万円",
+      "koan": {
+        "title": "【国籍不問】2026年度 住友化学グローバルリーダー育成奨学金(大阪大学未来基金グローバル化推進事業)",
+        "posted": "2026-08-25",
+        "closed": true,
+        "nominated": true,
+        "target": "2026年12月1日~2027年3月31日の間に留学開始し、将来、住友化学を含む日本の化学業界にて活躍する意思を持ち、理系の専門性や素養を有する人材(所属学部・研究科不問)",
+        "content": "渡航期間6か月未満:60~80万円/渡航期間6か月以上:90~120万円",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1076,7 +1488,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-12-01。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2025-12-01",
-      "description": "対象: 大学間または部局間交換留学プログラムで留学をする学部生 / 内容: 月額:15万円、渡航準備金:20万円 / 公式情報: 25歳以下の学部生が6か月以上12か月未満の留学をする場合。",
+      "koan": {
+        "title": "フクシマグローバル人材支援奨学財団（長期）",
+        "posted": "2025-12-01",
+        "closed": true,
+        "nominated": true,
+        "target": "大学間または部局間交換留学プログラムで留学をする学部生",
+        "content": "月額:15万円、渡航準備金:20万円",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": "公式情報: 25歳以下の学部生が6か月以上12か月未満の留学をする場合。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1116,6 +1538,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-01-21。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-01-21",
+      "koan": {
+        "title": "【本庄国際奨学財団】2026年度海外留学日本人大学院生奨学金",
+        "posted": "2026-01-21",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": null,
       "tags": [
         "大阪大学掲載",
@@ -1154,6 +1586,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-12-18。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2025-12-18",
+      "koan": {
+        "title": "【SEKAIA株式会社】IBP グローバル留学奨学金 2026",
+        "posted": "2025-12-18",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: IBPビジネス留学プログラム(約12か月・現地大学+インターン)の参加費を免除する奨学金。応募資格は18歳以上の学生。公式ページに『募集は終了』の表示あり。",
       "tags": [
         "大阪大学掲載",
@@ -1161,6 +1603,47 @@
       ],
       "last_seen": "2026-11-11",
       "first_seen": "2026-08-30"
+    },
+    {
+      "id": "osaka-9d24e1ed86",
+      "source": "大阪大学",
+      "source_url": "https://ryugaku.jasso.go.jp/scholarship/scholarship_foreign/germany/scholarship_de_summer_2.html",
+      "title": "【JASSO協力】DAAD 夏期講座奨学金（HSK）",
+      "provider": "大阪大学（留学助成制度一覧に掲載）",
+      "category": "public",
+      "amount_text": null,
+      "amount_monthly_jpy": null,
+      "target_degree": [],
+      "target_fields": [],
+      "eligible_universities": [
+        "大阪大学"
+      ],
+      "requires_university_nomination": false,
+      "destination_countries": [],
+      "study_type": [],
+      "duration_text": null,
+      "deadline": null,
+      "deadline_type": "unknown",
+      "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-09-06。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
+      "application_status": null,
+      "koan_posted": "2025-09-06",
+      "koan": {
+        "title": "【JASSO協力】DAAD 夏期講座奨学金（HSK）",
+        "posted": "2025-09-06",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
+      "tags": [
+        "大阪大学掲載",
+        "直接応募"
+      ],
+      "last_seen": "2026-11-11",
+      "first_seen": "2026-11-11"
     },
     {
       "id": "osaka-9d4372e148",
@@ -1194,6 +1677,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-05-28。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-05-28",
+      "koan": {
+        "title": "【福井県】フィンドレー大学・福井県奨学生",
+        "posted": "2026-05-28",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: 応募資格は原則として福井県内在住または県内の高校卒業者。フィンドレー大学(米国)の学部・大学院・集中英語コースの1年分の授業料を免除。",
       "tags": [
         "大阪大学掲載",
@@ -1233,7 +1726,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-08-31。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-08-31",
-      "description": "対象: 2027年1月~4月の間に海外の大学または大学院への留学を開始する者 / 内容: 月額10万円、および支度一時金(60万円×留学月数÷12) / 公式情報: 海外の大学・大学院等へ留学する学生のうち、経済的に学資の支弁が困難な優秀な者。大学・大学院生は月額10万円+支度一時金。",
+      "koan": {
+        "title": "寺浦さよ子記念奨学会",
+        "posted": "2026-08-31",
+        "closed": true,
+        "nominated": true,
+        "target": "2027年1月~4月の間に海外の大学または大学院への留学を開始する者",
+        "content": "月額10万円、および支度一時金(60万円×留学月数÷12)",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": "公式情報: 海外の大学・大学院等へ留学する学生のうち、経済的に学資の支弁が困難な優秀な者。大学・大学院生は月額10万円+支度一時金。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1267,13 +1770,64 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-07-01。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-07-01",
-      "description": "対象: 海外の大学または大学院へ留学する本学大学院の正規生 / 内容: 年間500万円(一律支給)",
+      "koan": {
+        "title": "経団連国際教育交流財団 日本人大学院生奨学金",
+        "posted": "2026-07-01",
+        "closed": true,
+        "nominated": true,
+        "target": "海外の大学または大学院へ留学する本学大学院の正規生",
+        "content": "年間500万円(一律支給)",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
       ],
       "last_seen": "2026-11-11",
       "first_seen": "2026-08-30"
+    },
+    {
+      "id": "osaka-a4db46214d",
+      "source": "大阪大学",
+      "source_url": "https://ryugaku.jasso.go.jp/scholarship/scholarship_foreign/iceland/scholarship_is.html",
+      "title": "【JASSO協力】2026-2027年度アイスランド政府奨学金留学生",
+      "provider": "大阪大学（留学助成制度一覧に掲載）",
+      "category": "public",
+      "amount_text": null,
+      "amount_monthly_jpy": null,
+      "target_degree": [],
+      "target_fields": [],
+      "eligible_universities": [
+        "大阪大学"
+      ],
+      "requires_university_nomination": false,
+      "destination_countries": [],
+      "study_type": [],
+      "duration_text": null,
+      "deadline": null,
+      "deadline_type": "unknown",
+      "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-10-30。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
+      "application_status": null,
+      "koan_posted": "2025-10-30",
+      "koan": {
+        "title": "【JASSO協力】2026-2027年度アイスランド政府奨学金留学生",
+        "posted": "2025-10-30",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
+      "tags": [
+        "大阪大学掲載",
+        "直接応募"
+      ],
+      "last_seen": "2026-11-11",
+      "first_seen": "2026-11-11"
     },
     {
       "id": "osaka-a6a5449d76",
@@ -1300,13 +1854,64 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-07-31。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-07-31",
-      "description": "対象: 交換留学にて2027年1月~3月までに留学を開始する者 / 内容: 月額6万円",
+      "koan": {
+        "title": "【国籍不問】大阪大学未来基金グローバル化推進事業「交換留学奨学金(派遣)」",
+        "posted": "2026-07-31",
+        "closed": true,
+        "nominated": true,
+        "target": "交換留学にて2027年1月~3月までに留学を開始する者",
+        "content": "月額6万円",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
       ],
       "last_seen": "2026-11-11",
       "first_seen": "2026-08-30"
+    },
+    {
+      "id": "osaka-ab131a7f02",
+      "source": "大阪大学",
+      "source_url": "https://ryugaku.jasso.go.jp/scholarship/scholarship_foreign_ongoing/",
+      "title": "【JASSO協力】2026-2027年度 ハンガリー政府奨学金・ベルギー政府奨学金留学生",
+      "provider": "大阪大学（留学助成制度一覧に掲載）",
+      "category": "public",
+      "amount_text": null,
+      "amount_monthly_jpy": null,
+      "target_degree": [],
+      "target_fields": [],
+      "eligible_universities": [
+        "大阪大学"
+      ],
+      "requires_university_nomination": false,
+      "destination_countries": [],
+      "study_type": [],
+      "duration_text": null,
+      "deadline": null,
+      "deadline_type": "unknown",
+      "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-01-19。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
+      "application_status": null,
+      "koan_posted": "2026-01-19",
+      "koan": {
+        "title": "【JASSO協力】2026-2027年度 ハンガリー政府奨学金・ベルギー政府奨学金留学生",
+        "posted": "2026-01-19",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
+      "tags": [
+        "大阪大学掲載",
+        "直接応募"
+      ],
+      "last_seen": "2026-11-11",
+      "first_seen": "2026-11-11"
     },
     {
       "id": "osaka-ad58a291e3",
@@ -1336,7 +1941,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-10-22。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "open",
       "koan_posted": "2026-10-22",
-      "description": "対象: 東南アジアと南西アジア18か国へ大学間あるいは部局間交換留学プログラムにて留学をする者 / 内容: 月額:15/20万円、渡航費:25万円、一時金:20万円、保険料及び海外安全危機管理サービス費:15万円を限度とする実費",
+      "koan": {
+        "title": "佐藤陽国際奨学財団",
+        "posted": "2026-10-22",
+        "closed": false,
+        "nominated": true,
+        "target": "東南アジアと南西アジア18か国へ大学間あるいは部局間交換留学プログラムにて留学をする者",
+        "content": "月額:15/20万円、渡航費:25万円、一時金:20万円、保険料及び海外安全危機管理サービス費:15万円を限度とする実費",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1373,6 +1988,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-04-16。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-04-16",
+      "koan": {
+        "title": "【重田教育財団】2026年度 海外留学奨学金",
+        "posted": "2026-04-16",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": null,
       "tags": [
         "大阪大学掲載",
@@ -1410,7 +2035,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-12-17。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2025-12-17",
-      "description": "対象: 都市に関連ある分野の実業、実務又は学術研究に将来従事しようとする学生(学部・専攻は問いません) / 内容: 一ヶ月当たり20万円(但し上限は、480万円)",
+      "koan": {
+        "title": "大林財団",
+        "posted": "2025-12-17",
+        "closed": true,
+        "nominated": true,
+        "target": "都市に関連ある分野の実業、実務又は学術研究に将来従事しようとする学生(学部・専攻は問いません)",
+        "content": "一ヶ月当たり20万円(但し上限は、480万円)",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1445,6 +2080,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-09-14。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-09-14",
+      "koan": {
+        "title": "【食生活研究会】2027年度海外留学奨学生",
+        "posted": "2026-09-14",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: 応募書類は2026/11/13必着。",
       "tags": [
         "大阪大学掲載",
@@ -1484,7 +2129,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-07-06。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-07-06",
-      "description": "対象: 2027年4月~2028年3月の間に海外の大学院等への留学を開始する者 (教職員で応募を希望する場合は、上記 国際学生交流課に問合せ下さい。) / 内容: 生活滞在費:月額2,500米ドル、学校納付金:25,000※ドル以内の実費、往復の渡航に要する交通費 等",
+      "koan": {
+        "title": "吉田育英会＜日本人派遣留学プログラム＞",
+        "posted": "2026-07-06",
+        "closed": true,
+        "nominated": true,
+        "target": "2027年4月~2028年3月の間に海外の大学院等への留学を開始する者 (教職員で応募を希望する場合は、上記 国際学生交流課に問合せ下さい。)",
+        "content": "生活滞在費:月額2,500米ドル、学校納付金:25,000※ドル以内の実費、往復の渡航に要する交通費 等",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1522,6 +2177,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-02-18。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-02-18",
+      "koan": {
+        "title": "【フルブライト・ジャパン】2027年度 日本人対象 フルブライト奨学生",
+        "posted": "2026-02-18",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: オンライン登録 2026/3/1〜5/1。書類提出は7/1消印有効。",
       "tags": [
         "大阪大学掲載",
@@ -1560,6 +2225,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-09-02。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2025-09-02",
+      "koan": {
+        "title": "【スイス政府奨学金】2026-2027年度留学生",
+        "posted": "2025-09-02",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: 現在募集中なのは2027-2028年度の回(申請期限 2026/11/30)。阪大ページの行は旧年度表記のまま。",
       "tags": [
         "大阪大学掲載",
@@ -1591,6 +2266,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-05-19。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-05-19",
+      "koan": {
+        "title": "【村田海外留学奨学会】2026年度海外留学奨学生",
+        "posted": "2026-05-19",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": null,
       "tags": [
         "大阪大学掲載",
@@ -1630,6 +2315,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-06-26。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-06-26",
+      "koan": {
+        "title": "【伊藤国際教育交流財団】2027年度 日本人奨学金",
+        "posted": "2026-06-26",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: 修士課程での学位取得を目的とする留学が対象(専攻不問)。交換留学・短期留学は対象外。",
       "tags": [
         "大阪大学掲載",
@@ -1664,7 +2359,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-07-10。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-07-10",
-      "description": "対象: 本学大学院の正規生で、海外の大学院等へ留学する者 / 内容: 月額35万円、最長2年間(840万円)",
+      "koan": {
+        "title": "KDDI財団 2027年度 日本人留学生助成",
+        "posted": "2026-07-10",
+        "closed": true,
+        "nominated": true,
+        "target": "本学大学院の正規生で、海外の大学院等へ留学する者",
+        "content": "月額35万円、最長2年間(840万円)",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1703,7 +2408,17 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-02-03。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2026-02-03",
-      "description": "対象: 2026年7月~11月の間に海外の大学または大学院への留学を開始する者 / 内容: 月額10万円、および支度一時金(60万円×留学月数÷12) / 公式情報: 海外の大学・大学院等へ留学する学生のうち、経済的に学資の支弁が困難な優秀な者。大学・大学院生は月額10万円+支度一時金。",
+      "koan": {
+        "title": "寺浦さよ子記念奨学会",
+        "posted": "2026-02-03",
+        "closed": true,
+        "nominated": true,
+        "target": "2026年7月~11月の間に海外の大学または大学院への留学を開始する者",
+        "content": "月額10万円、および支度一時金(60万円×留学月数÷12)",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": "公式情報: 海外の大学・大学院等へ留学する学生のうち、経済的に学資の支弁が困難な優秀な者。大学・大学院生は月額10万円+支度一時金。",
       "tags": [
         "大阪大学掲載",
         "学内選考あり"
@@ -1743,6 +2458,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-10-22。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2025-10-22",
+      "koan": {
+        "title": "【一般財団法人 霞山会】2026年度 中国・台湾へ留学する日本人学生への奨学金",
+        "posted": "2025-10-22",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: 現在は募集を行っていません。",
       "tags": [
         "大阪大学掲載",
@@ -1786,6 +2511,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-05-28。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-05-28",
+      "koan": {
+        "title": "【松下幸之助国際スカラシップ】2026年度募集",
+        "posted": "2026-05-28",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": null,
       "tags": [
         "大阪大学掲載",
@@ -1826,6 +2561,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-06-26。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": null,
       "koan_posted": "2026-06-26",
+      "koan": {
+        "title": "【INPEX教育交流財団】2027年度奨学生",
+        "posted": "2026-06-26",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: 大学院(修士・博士)が対象。学部生は対象外。留学先はインドネシア・オーストラリア・UAE。",
       "tags": [
         "大阪大学掲載",
@@ -1833,6 +2578,94 @@
       ],
       "last_seen": "2026-11-11",
       "first_seen": "2026-08-30"
+    },
+    {
+      "id": "osaka-efd8ae55aa",
+      "source": "大阪大学",
+      "source_url": "https://ryugaku.jasso.go.jp/scholarship/scholarship_foreign/china/scholarship_cn.html",
+      "title": "【JASSO協力】2026年度 中国政府奨学金留学生募集",
+      "provider": "大阪大学（留学助成制度一覧に掲載）",
+      "category": "public",
+      "amount_text": null,
+      "amount_monthly_jpy": null,
+      "target_degree": [
+        "bachelor",
+        "master",
+        "doctor"
+      ],
+      "target_fields": [],
+      "eligible_universities": [
+        "大阪大学"
+      ],
+      "requires_university_nomination": false,
+      "destination_countries": [
+        "中国"
+      ],
+      "study_type": [],
+      "duration_text": null,
+      "deadline": "2025-12-25",
+      "deadline_type": "fixed",
+      "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-11-18。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
+      "application_status": null,
+      "koan_posted": "2025-11-18",
+      "koan": {
+        "title": "【JASSO協力】2026年度 中国政府奨学金留学生募集",
+        "posted": "2025-11-18",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
+      "tags": [
+        "大阪大学掲載",
+        "直接応募"
+      ],
+      "last_seen": "2026-11-11",
+      "first_seen": "2026-11-11"
+    },
+    {
+      "id": "osaka-f5f63f7015",
+      "source": "大阪大学",
+      "source_url": "https://www.jasso.go.jp/shogakukin/about/kaigai/2shu_kaigai/index.html",
+      "title": "令和9年度 JASSO第二種奨学金（海外）※有利子貸与型奨学金",
+      "provider": "大阪大学（留学助成制度一覧に掲載）",
+      "category": "public",
+      "amount_text": "大学進学/月額奨学金:2~12万円の選択制、一時金:10~50万円の選択制 大学院生/月額奨学金:5/8/10/13/15万円から選択、一時金:10~50万円の選択制",
+      "amount_monthly_jpy": null,
+      "target_degree": [],
+      "target_fields": [],
+      "eligible_universities": [
+        "大阪大学"
+      ],
+      "requires_university_nomination": true,
+      "destination_countries": [],
+      "study_type": [],
+      "duration_text": null,
+      "deadline": null,
+      "deadline_type": "unknown",
+      "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2026-09-01。この一覧では『大学を通じて応募する奨学金』に分類(学内選考・学内締切あり)。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
+      "application_status": "closed",
+      "koan_posted": "2026-09-01",
+      "koan": {
+        "title": "令和9年度 JASSO第二種奨学金（海外）※有利子貸与型奨学金",
+        "posted": "2026-09-01",
+        "closed": true,
+        "nominated": true,
+        "target": "大阪大学を卒業(修了)後、学位取得を目的として海外の大学又は大学院に進学する者",
+        "content": "大学進学/月額奨学金:2~12万円の選択制、一時金:10~50万円の選択制 大学院生/月額奨学金:5/8/10/13/15万円から選択、一時金:10~50万円の選択制",
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
+      "description": null,
+      "tags": [
+        "大阪大学掲載",
+        "学内選考あり"
+      ],
+      "last_seen": "2026-11-11",
+      "first_seen": "2026-11-11"
     },
     {
       "id": "osaka-f80ae85694",
@@ -1865,6 +2698,16 @@
       "application_period_text": "大阪大学 KOAN/マイハンダイ 掲示日 2025-08-22。この一覧では『個人で直接応募する奨学金』に分類。 学内締切・詳細は所属学部/研究科および募集要項で確認。",
       "application_status": "closed",
       "koan_posted": "2025-08-22",
+      "koan": {
+        "title": "【フランス政府奨学金】2026-2027年度留学生",
+        "posted": "2025-08-22",
+        "closed": false,
+        "nominated": false,
+        "target": null,
+        "content": null,
+        "note": null,
+        "list_url": "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
+      },
       "description": "公式情報: 2027年度の募集が始まっており、この回の募集は終了しています。",
       "tags": [
         "大阪大学掲載",
@@ -1908,6 +2751,7 @@
       "application_period_text": "直近（第10期）の募集は終了（エントリー締切 2026-03-03）。例年1〜2月頃に翌期の募集を開始。募集要項で最新情報を確認。",
       "application_status": null,
       "koan_posted": null,
+      "koan": null,
       "description": "分野を問わず突出した才能を持つ26歳未満の若者を支援する英才育成プログラム。専用施設の提供、イベント参加、活動資金支援に加え、海外大学進学・留学時の経済的支援も受けられる。国際大会・全国大会での実績等が応募資格。",
       "tags": [
         "返済不要",
@@ -1955,6 +2799,7 @@
       "application_period_text": "2025年6月1日(日)~2025年9月30日(火)23:59(期間内のみ応募可能) 締切直前はアクセスが集中し、データのアップロード等の作業がスムーズに行えない場合がありますので、余裕を持ってご応募下さい。",
       "application_status": null,
       "koan_posted": null,
+      "koan": null,
       "description": "日本の高校を卒業し、将来、科学・技術系分野を専攻することを目指して、海外の大学に学士の学位取得を目指して留学する者。 日本国籍を有する又は日本への永住が許可されていることを条件とする。",
       "tags": [
         "返済不要",
@@ -2003,6 +2848,7 @@
       "application_period_text": "2026年6月15日(月)~2026年9月30日(水)23:59(期間内のみ応募可能) ※締切直前はアクセスが集中し、データのアップロード等の作業がスムーズに行えない場合がありますので、余裕を持ってご応募下さい。",
       "application_status": null,
       "koan_posted": null,
+      "koan": null,
       "description": "情報科学、情報技術分野を中心に広く理工系分野、生命科学分野、医学、および、経済・経営分野において、海外の研究大学の大学院にPh.D.取得を目指して留学する者。 日本国籍を有する又は日本への永住が許可されていることを条件とする。 かつ、 日本の大学を卒業後、日本の大学の大学院修士課程を修了、または、修了予定の者を対象とする。 企業で働いていた者に対しては、一定期間の職の経験を修士修了に代えることが…",
       "tags": [
         "返済不要",
