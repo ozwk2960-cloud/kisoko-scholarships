@@ -219,8 +219,12 @@ CURATED_MASASON = {
 # ---- 大阪大学 留学助成制度（学内アグリゲートページ） ----------------------
 
 OSAKA_SCHOLARSHIP_URL = "https://www.osaka-u.ac.jp/ja/international/outbound/scholarship"
-# このページで直接スクレイプ済みの制度と重複するものは除外する
-OSAKA_EXCLUDE_TITLE_RE = r"JASSO|日本学生支援機構|トビタテ"
+# このツールが別ソースで直接スクレイプしている制度（トビタテ・JASSO学位取得型）の行は、
+# 阪大の行としては出さず、同じ期・年度の全国カードに「阪大KOAN掲示」として添付する。
+# （JASSO協定派遣・JASSO第二種・【JASSO協力】の外国政府奨学金は別ソースに無いので阪大の行として出す）
+OSAKA_EXCLUDE_TITLE_RE = r"トビタテ|海外留学支援制度\s*[（(]\s*(?:大学院|学部)学位取得型\s*[）)]"
+# 阪大KOANの行を添付する全国制度のソース名（各 Source.name）
+KOAN_ATTACH_SOURCES = ("JASSO", "トビタテ")
 # KOAN 掲示日がこの日数より古い行は「過年度の募集」として除外
 OSAKA_MAX_AGE_DAYS = 450
 # 学内ログインが必要なリンクは公開の一覧ページ URL にフォールバック

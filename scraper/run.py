@@ -14,13 +14,13 @@ import os
 import sys
 from datetime import date
 
-from . import config  # noqa: F401  (副作用なし。設定の存在確認用)
+from . import config
 from .ics import build_ics
 from .merge import merge
 from .sources.funai import FunaiSource
 from .sources.jasso import JassoSource
 from .sources.masason import MasasonSource
-from .sources.osaka_u import OsakaUSource
+from .sources.osaka_u import OsakaUSource, attach_koan
 from .sources.tobitate import TobitateSource
 from .sources.yoshida import YoshidaSource
 
@@ -49,6 +49,28 @@ def load_previous(path: str) -> dict | None:
         return None
 
 
+def apply_koan(results: dict, osaka, previous: dict | None) -> int:
+    """阪大KOANの一覧にある全国制度（トビタテ・JASSO学位取得型）の行を、同じ回の全国カードに添付する。
+
+    阪大の取得が失敗したとき（途中までの行は信用しない）は、前回データの同じ id の koan を引き継ぐ。
+    """
+    targets = [it for name in config.KOAN_ATTACH_SOURCES for it in results.get(name, [])]
+    if osaka is not None and osaka.koan_links_ok:
+        n = attach_koan(targets, osaka.koan_links)
+        print(f"[info] 阪大KOANの掲示を全国制度 {n}件に添付", file=sys.stderr)
+        return n
+    prev = {d.get("id"): d for d in (previous or {}).get("scholarships", [])}
+    n = 0
+    for it in targets:
+        old = prev.get(it.id) or {}
+        if old.get("koan"):
+            it.koan = dict(old["koan"])
+            it.koan_posted = it.koan_posted or old.get("koan_posted")
+            n += 1
+    print(f"[info] 阪大の取得に失敗したため、KOAN掲示は前回分を {n}件に引き継ぎ", file=sys.stderr)
+    return n
+
+
 def validate(data: dict) -> None:
     import jsonschema
 
@@ -63,15 +85,20 @@ def run(output: str, dry_run: bool) -> int:
 
     results = {}
     statuses = []
+    srcs = []
     for cls in SOURCES:
         src = cls()
         items, status = src.run()
         results[src.name] = items
         statuses.append(status)
+        srcs.append(src)
         mark = "ok" if status.get("ok") else "NG"
         print(f"[{mark}] {src.name}: {status.get('count', len(items))}件"
               + ("" if status.get("ok") else f"  <- {status.get('error')}"),
               file=sys.stderr)
+
+    osaka = next((s for s in srcs if isinstance(s, OsakaUSource)), None)
+    apply_koan(results, osaka, previous)
 
     merged = merge(results=results, statuses=statuses, previous=previous, today=today)
 

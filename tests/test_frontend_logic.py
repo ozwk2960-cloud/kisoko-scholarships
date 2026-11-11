@@ -189,3 +189,103 @@ def test_help_guide_button_and_dialog_exist():
     # 最重要の注意（公式ページで確認）と「要確認」の説明が入っている
     assert "公式ページを見る" in html and "要確認" in html
     assert "showModal" in html
+
+
+# ---- 並び替え（2026-11-11）: どの並びでも締切切れ・募集終了は出さない／出すときは末尾 ----
+
+def run_sort(items, sort, today="2026-11-11", **cond):
+    """絞り込み後に compareFor(sort) で並べたタイトル一覧を返す（score は与えた値を使う）。"""
+    state = {"degree": None, "field": None, "region": "", "types": [], "nomination": "any",
+             "osakaOnly": False, "hidePast": True, "soonOnly": False, "showUnverified": True, "query": ""}
+    state.update(cond)
+    script = _js_prelude() + """
+const input = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+const state = Object.assign({}, input.state, { types: new Set(input.state.types) });
+function daysLeftOf(it) {
+  if (!it.deadline) return null;
+  return Math.round((new Date(it.deadline + "T00:00:00") - new Date(input.today + "T00:00:00")) / 86400000);
+}
+const entries = input.items.map(it => ({ item: it, sc: { score: it._score || 0, daysLeft: daysLeftOf(it) } }))
+  .filter(e => passesHardFilters(e.item, e.sc.daysLeft));
+entries.sort(compareFor(input.sort));
+console.log(JSON.stringify(entries.map(e => e.item.title)));
+"""
+    p = subprocess.run(["node", "-e", script],
+                       input=json.dumps({"items": items, "state": state, "today": today, "sort": sort}),
+                       capture_output=True, text=True, check=True)
+    return json.loads(p.stdout)
+
+
+SORT_ITEMS = [
+    item("締切12/1", deadline="2026-12-01", _score=10),
+    item("締切11/20", deadline="2026-11-20", _score=5),
+    item("学内募集中", application_status="open", koan={"posted": "2026-11-09"}, koan_posted="2026-11-09", _score=50),
+    item("締切未定", _score=40, koan_posted="2026-10-01"),
+    item("締切切れ", deadline="2026-10-01", _score=99, koan_posted="2026-11-10"),
+    item("募集終了", application_status="closed", _score=99, koan_posted="2026-11-10"),
+]
+
+
+def test_sort_by_deadline_hides_past_and_orders_known_dates_first():
+    assert run_sort(SORT_ITEMS, "deadline") == ["締切11/20", "締切12/1", "学内募集中", "締切未定"]
+
+
+def test_sort_by_koan_newest_first_without_past():
+    out = run_sort(SORT_ITEMS, "koan")
+    assert out == ["学内募集中", "締切未定", "締切12/1", "締切11/20"]   # 掲示なしはスコア順で後ろ
+
+
+def test_sort_by_score_default():
+    assert run_sort(SORT_ITEMS, "score") == ["学内募集中", "締切未定", "締切12/1", "締切11/20"]
+
+
+def test_past_items_go_last_in_every_sort_when_shown():
+    for key in ("score", "deadline", "koan"):
+        out = run_sort(SORT_ITEMS, key, hidePast=False)
+        assert set(out[-2:]) == {"締切切れ", "募集終了"}, (key, out)
+
+
+def test_free_word_search_hits_koan_target():
+    it = item("財団A", koan={"title": "財団A", "posted": "2026-11-01", "closed": False,
+                           "target": "大学間交換留学をする学部生", "content": "月額7万円", "list_url": "https://x"})
+    assert run_filter([it], query="交換留学をする")["out"] == ["財団A"]
+
+
+def test_sort_menu_and_koan_box_in_html():
+    html = open(INDEX, encoding="utf-8").read()
+    assert 'id="fSort"' in html
+    for v in ("score", "deadline", "koan"):
+        assert f'<option value="{v}"' in html
+    assert "阪大KOAN掲示" in html and "阪大の留学助成ページで見る" in html
+    # ガイドにも並び替えの説明がある（UI文言を変えたらガイドも直す）
+    assert "締切が近い順" in html.split('id="guideDlg"')[1].split("</dialog>")[0]
+
+
+def test_nomination_must_shows_koan_rows_on_real_data():
+    """学内推薦があるものだけ: 阪大の行はすべて KOAN 掲示の情報（koan）を持つ。"""
+    items = _real_items()
+    r = run_filter(items, nomination="must", hidePast=False, showUnverified=True)
+    by_title = {i["title"]: i for i in items}
+    osaka = [t for t in r["out"] if by_title[t]["source"] == "大阪大学"]
+    assert osaka
+    for t in osaka:
+        assert by_title[t].get("koan"), t
+
+
+def test_safe_url_allows_only_http_https():
+    html = open(INDEX, encoding="utf-8").read()
+    fn = re.search(r"function safeUrl\(u\) \{.*?\n\}", html, re.S).group(0)
+    cases = ["https://a.jp/x", "http://a.jp", " HTTPS://a.jp ", "javascript:alert(1)", " javascript:x",
+             "data:text/html,x", "", None, "//evil.example"]
+    script = fn + "\nconsole.log(JSON.stringify(%s.map(safeUrl)));" % json.dumps(cases)
+    out = json.loads(subprocess.run(["node", "-e", script], capture_output=True, text=True, check=True).stdout)
+    assert out == ["https://a.jp/x", "http://a.jp", "HTTPS://a.jp", "#", "#", "#", "#", "#", "#"]
+    # カードのリンクはすべて safeUrl を通す
+    assert 'href="${esc(item.source_url)}"' not in html and 'href="${esc(k.list_url)}"' not in html
+
+
+def test_csp_header_is_set():
+    headers = open(os.path.join(ROOT, "public", "_headers"), encoding="utf-8").read()
+    assert "Content-Security-Policy:" in headers
+    for d in ("default-src 'self'", "frame-ancestors 'none'", "object-src 'none'", "base-uri 'none'"):
+        assert d in headers

@@ -43,6 +43,9 @@ class Scholarship:
     application_status: Optional[str] = None   # open | closed | None
     # 阪大 KOAN への掲示日（阪大ページの行頭の日付）。他のソースでは None
     koan_posted: Optional[str] = None          # ISO date or None
+    # 阪大の留学助成ページ（KOAN掲示一覧）の行の情報。阪大の行と、同じ回の行がある全国制度（トビタテ・JASSO）に付く
+    #   {title, posted, closed, nominated, target, content, note, list_url}
+    koan: Optional[dict] = None
     description: Optional[str] = None
     tags: List[str] = field(default_factory=list)
 

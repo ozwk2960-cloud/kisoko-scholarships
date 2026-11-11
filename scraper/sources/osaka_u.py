@@ -5,7 +5,8 @@
 学内推薦の有無をセクションから決定する。
 
 - KOAN 掲示日が古い行（過年度の募集）は除外。
-- JASSO・トビタテなど本ツールが直接スクレイプ済みの制度は除外（重複回避）。
+- トビタテ・JASSO学位取得型など本ツールが直接スクレイプ済みの制度は阪大の行にしない（重複回避）。
+  その行は `self.koan_links` に残し、`attach_koan()` で同じ期・年度の全国カードに添付する。
 - 学内ログインが必要なリンクは公開の一覧ページ URL にフォールバック。
 """
 
@@ -20,8 +21,8 @@ from bs4 import BeautifulSoup
 
 from .. import config
 from ..models import Scholarship, make_id
-from ..normalize import clean_text, truncate, parse_jp_date, contains
-from .base import BaseSource
+from ..normalize import clean_text, truncate, parse_jp_date, contains, to_halfwidth
+from .base import BaseSource, Fetcher
 
 _DATE_CELL_RE = re.compile(r"20\d{2}\s*[/／]\s*\d{1,2}\s*[/／]\s*\d{1,2}")
 
@@ -30,14 +31,24 @@ class OsakaUSource(BaseSource):
     name = "大阪大学"
     slug = "osaka"
 
+    def __init__(self, fetcher: Optional[Fetcher] = None, today: Optional[date] = None) -> None:
+        super().__init__(fetcher)
+        # 「過年度の行」を判定する基準日。テストでは固定日を渡す（fixture が時限で壊れないように）
+        self.today = today
+        # 別ソースの全国制度に添付する KOAN 行。取得・解析が最後まで成功したときだけ koan_links_ok=True
+        self.koan_links: List[dict] = []
+        self.koan_links_ok = False
+
     def fetch_items(self) -> List[Scholarship]:
+        self.koan_links = []
+        self.koan_links_ok = False
         soup = BeautifulSoup(self.fetch(config.OSAKA_SCHOLARSHIP_URL), "lxml")
         main = soup.find("main") or soup.body or soup
         tables = main.find_all("table")
         if len(tables) < 2:
             raise RuntimeError("阪大: 想定した2つの一覧表が見つかりません（ページ構造変更の可能性）")
 
-        cutoff = (date.today() - timedelta(days=config.OSAKA_MAX_AGE_DAYS)).isoformat()
+        cutoff = ((self.today or date.today()) - timedelta(days=config.OSAKA_MAX_AGE_DAYS)).isoformat()
         items: List[Scholarship] = []
         # table[0] = 大学を通じて応募（学内推薦あり）, table[1] = 個人で直接応募
         items += self._parse_table(tables[0], requires_nomination=True, cutoff=cutoff)
@@ -45,6 +56,7 @@ class OsakaUSource(BaseSource):
 
         if not items:
             raise RuntimeError("阪大: 有効な行を1件も抽出できませんでした")
+        self.koan_links_ok = True
         return items
 
     def _parse_table(self, table, *, requires_nomination: bool, cutoff: str) -> List[Scholarship]:
@@ -54,6 +66,10 @@ class OsakaUSource(BaseSource):
 
         def flush():
             if not (cur and cur["posted"] and cur["posted"] >= cutoff):
+                return
+            if cur["excluded"]:
+                # 別ソースで取っている全国制度の行: カードにはせず、添付用に残す
+                self.koan_links.append(_koan_info(cur, requires_nomination))
                 return
             item = self._build(cur, requires_nomination)
             if item.id in seen:      # 同一表内に同名・同日の行が重複することがある
@@ -71,10 +87,11 @@ class OsakaUSource(BaseSource):
                 flush()
                 name_cell = tds[1]
                 title = clean_text(name_cell.get_text(" ", strip=True), fold=False)
-                if not title or contains(config.OSAKA_EXCLUDE_TITLE_RE, title):
+                if not title:
                     cur = None
                     continue
                 cur = {
+                    "excluded": bool(contains(config.OSAKA_EXCLUDE_TITLE_RE, title)),
                     "posted": parse_jp_date(first.replace("／", "/")),
                     # 日付セルに「募集終了」と書かれていれば学内の募集は終了している
                     "closed": "募集終了" in first,
@@ -103,9 +120,12 @@ class OsakaUSource(BaseSource):
         a = cell.find("a", href=True)
         if not a:
             return config.OSAKA_SCHOLARSHIP_URL
-        href = urljoin(config.OSAKA_SCHOLARSHIP_URL, a["href"])
-        host = urlparse(href).netloc
-        if re.search(config.OSAKA_INTERNAL_HOST_RE, host):
+        href = urljoin(config.OSAKA_SCHOLARSHIP_URL, a["href"].strip())
+        parsed = urlparse(href)
+        # http/https 以外（javascript: など）はリンクにしない
+        if parsed.scheme not in ("http", "https") or not parsed.netloc:
+            return config.OSAKA_SCHOLARSHIP_URL
+        if re.search(config.OSAKA_INTERNAL_HOST_RE, parsed.netloc):
             return config.OSAKA_SCHOLARSHIP_URL
         return href
 
@@ -141,13 +161,8 @@ class OsakaUSource(BaseSource):
             round_note = r.get("note")
             break
 
+        # 一覧の【対象】【内容】と行の注記は koan（カードの「阪大KOAN掲示」欄）に入れるので、説明文には重ねない
         desc_bits = []
-        if cur["target"]:
-            desc_bits.append("対象: " + cur["target"])
-        if cur["amount"]:
-            desc_bits.append("内容: " + cur["amount"])
-        if cur.get("note"):
-            desc_bits.insert(0, "阪大ページの注記: " + cur["note"])
         if note:
             desc_bits.append(note)
         if round_note:
@@ -185,6 +200,7 @@ class OsakaUSource(BaseSource):
             application_period_text=truncate(period, 260),
             application_status=status,
             koan_posted=cur["posted"],
+            koan=_koan_info(cur, requires_nomination),
             description=description,
             tags=["大阪大学掲載"] + (["学内選考あり"] if requires_nomination else ["直接応募"]),
         )
@@ -234,6 +250,66 @@ def parse_target(target: Optional[str], title: str) -> dict:
     # 留学先
     out["destination_countries"] = [w for w in _DEST_WORDS if w in t]
     return out
+
+
+def _koan_info(cur: dict, requires_nomination: bool) -> dict:
+    """阪大の留学助成ページ（KOAN掲示一覧）の1行に書かれていることだけをまとめる。"""
+    return {
+        "title": cur["title"],
+        "posted": cur["posted"],
+        "closed": bool(cur["closed"]),
+        "nominated": requires_nomination,
+        "target": truncate(cur["target"], 300) if cur["target"] else None,
+        "content": truncate(cur["amount"], 300) if cur["amount"] else None,
+        "note": cur.get("note"),
+        "list_url": config.OSAKA_SCHOLARSHIP_URL,
+    }
+
+
+def _round_key(title: str) -> Optional[tuple]:
+    """全国制度の「どの回か」を表すキー。分からなければ None（＝添付しない）。
+
+    - トビタテ: 期（第19期 → ("tobitate", "19")）
+    - JASSO 学位取得型: 課程と年度（2027年度…大学院学位取得型 → ("jasso", "大学院", "2027")）
+    """
+    t = to_halfwidth(title or "")
+    if "トビタテ" in t:
+        m = re.search(r"第\s*(\d+)\s*期", t)
+        return ("tobitate", m.group(1)) if m else None
+    m = re.search(r"(大学院|学部)学位取得型", t)
+    if m:
+        y = re.search(r"(20\d{2})\s*年度", t)
+        return ("jasso", m.group(1), y.group(1)) if y else None
+    return None
+
+
+def match_koan(title: str, koan_links: List[dict]) -> Optional[dict]:
+    """全国制度のタイトルと同じ期・年度の KOAN 行を返す。期・年度が合わない行は返さない。
+
+    トビタテの「新一年生対象」の行は別の募集なので、大学生等対象のカードには付けない。
+    同じ回の行が複数あれば、掲示日の新しいものを返す。
+    """
+    key = _round_key(title)
+    if key is None:
+        return None
+    cands = [k for k in koan_links
+             if _round_key(k["title"]) == key and "新一年生" not in k["title"]]
+    if not cands:
+        return None
+    return max(cands, key=lambda k: k["posted"] or "")
+
+
+def attach_koan(items: List[Scholarship], koan_links: List[dict]) -> int:
+    """全国制度（トビタテ・JASSO）の各件に、同じ回の KOAN 行を添付する。添付した件数を返す。"""
+    n = 0
+    for it in items:
+        k = match_koan(it.title, koan_links)
+        if k:
+            it.koan = dict(k)
+            if not it.koan_posted:
+                it.koan_posted = k["posted"]
+            n += 1
+    return n
 
 
 def _slug_hash(title: str) -> str:

@@ -6,6 +6,8 @@
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=()
+  # インラインの script/style で動くため 'unsafe-inline' が必要。Cloudflare Web Analytics の自動挿入分を許可
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; frame-ancestors 'none'; base-uri 'none'; form-action 'none'; object-src 'none'
 
 # データは1日1回更新。ブラウザは最大1時間キャッシュ、その後は再検証。
 /scholarships.json

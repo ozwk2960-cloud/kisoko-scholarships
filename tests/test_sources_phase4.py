@@ -3,12 +3,17 @@
 from __future__ import annotations
 
 import os
+from datetime import date
 
 from scraper.models import VALID_CATEGORIES, VALID_DEADLINE_TYPES
 from scraper.sources.funai import FunaiSource
 from scraper.sources.masason import MasasonSource
-from scraper.sources.osaka_u import OsakaUSource
+from scraper.models import Scholarship
+from scraper.sources.osaka_u import OsakaUSource, attach_koan, match_koan
 from scraper.sources.yoshida import YoshidaSource
+
+# 阪大の「過年度の行」の判定は基準日から 450 日。fixture 保存日に固定し、テストが日付で壊れないようにする
+OSAKA_TODAY = date(2026, 11, 10)
 
 REQUIRED = ("id", "source", "source_url", "title", "provider", "category")
 
@@ -64,7 +69,7 @@ def test_masason(fixture_fetcher):
 
 
 def test_osaka(fixture_fetcher):
-    items, status = OsakaUSource(fetcher=fixture_fetcher).run()
+    items, status = OsakaUSource(fetcher=fixture_fetcher, today=OSAKA_TODAY).run()
     assert status["ok"], status
     _check(items)
     assert len(items) >= 20
@@ -73,10 +78,11 @@ def test_osaka(fixture_fetcher):
     noms = {it.requires_university_nomination for it in items}
     assert True in noms and False in noms
 
-    # 直接スクレイプ済みの制度は除外
+    # 直接スクレイプ済みの制度（トビタテ・JASSO学位取得型）は阪大の行にしない
     for it in items:
-        assert "JASSO" not in it.title and "トビタテ" not in it.title
+        assert "トビタテ" not in it.title and "学位取得型" not in it.title
         assert "大阪大学" in it.eligible_universities
+        assert it.koan and it.koan["posted"] == it.koan_posted
 
     # 過年度（掲示日が古い）の行は落ちている
     import re
@@ -86,7 +92,7 @@ def test_osaka(fixture_fetcher):
 
 
 def test_osaka_internal_links_fall_back(fixture_fetcher):
-    items, _ = OsakaUSource(fetcher=fixture_fetcher).run()
+    items, _ = OsakaUSource(fetcher=fixture_fetcher, today=OSAKA_TODAY).run()
     for it in items:
         assert "my.osaka-u.ac.jp" not in it.source_url
 
@@ -96,7 +102,7 @@ def test_osaka_internal_links_fall_back(fixture_fetcher):
 def _osaka_live_items():
     path = os.path.join(os.path.dirname(__file__), "fixtures", "osaka_outbound_scholarship_2026-11-10.html")
     html = open(path, encoding="utf-8").read()
-    items, status = OsakaUSource(fetcher=lambda url: html).run()
+    items, status = OsakaUSource(fetcher=lambda url: html, today=OSAKA_TODAY).run()
     assert status["ok"], status
     return {it.title: it for it in items}
 
@@ -212,7 +218,8 @@ def test_osaka_fukushima_short_is_language_not_exchange():
     # 【対象】が「※…」の前置き付きでも読めること。「交換留学は含みません」を交換留学と誤読しない
     short = _find(_osaka_live_items(), "フクシマグローバル人材支援奨学財団（短期）")
     assert short.study_type == ["語学"]
-    assert "海外研修プログラム" in (short.description or "")
+    assert "海外研修プログラム" in (short.koan["target"] or "")
+    assert short.koan["note"].startswith("※本学では")
 
 
 # ---- 締切調査（2026-11-10）で公式ページから確認できた募集回の締切 ----
@@ -248,3 +255,99 @@ def test_tobitate_schedule_is_term_specific(fixture_fetcher):
     if "第19期" in it.title and it.application_status == "open":
         assert "2027年2月25日" in it.application_period_text
         assert it.deadline is None     # 学生本人の締切は大学ごと。機構の期限を締切として出さない
+
+
+# ---- 阪大KOAN掲示: JASSO関連の取り込みと、全国制度への添付（2026-11-11） ----
+
+def _osaka_live_source():
+    path = os.path.join(os.path.dirname(__file__), "fixtures", "osaka_outbound_scholarship_2026-11-10.html")
+    html = open(path, encoding="utf-8").read()
+    src = OsakaUSource(fetcher=lambda url: html, today=OSAKA_TODAY)
+    items, status = src.run()
+    assert status["ok"], status
+    return src, {it.title: it for it in items}
+
+
+def test_osaka_jasso_rows_not_scraped_elsewhere_are_kept():
+    _, items = _osaka_live_source()
+    # 別ソースで取っていない JASSO 関連は阪大の行として出す（以前は「JASSO」の語だけで消えていた）
+    kyotei = _find(items, "協定派遣")
+    assert kyotei.requires_university_nomination is True
+    assert kyotei.application_status == "closed"
+    assert kyotei.koan["target"].startswith("交換留学にて")
+    assert "月額8/9/11/12万円" in kyotei.koan["content"]
+    assert _find(items, "JASSO第二種奨学金").category == "public"
+    assert _find(items, "ポーランド政府奨学金").requires_university_nomination is False
+    # 一覧ページへのリンクを持つ
+    assert kyotei.koan["list_url"].startswith("https://www.osaka-u.ac.jp/")
+
+
+def test_osaka_national_rows_go_to_koan_links():
+    src, _ = _osaka_live_source()
+    titles = [k["title"] for k in src.koan_links]
+    assert any("トビタテ" in t and "第18期" in t for t in titles)
+    assert any("大学院学位取得型" in t for t in titles)
+
+
+def _nat(title):
+    return Scholarship(id="x", source="s", source_url="https://e", title=title, provider="p", category="public")
+
+
+def test_match_koan_only_same_round():
+    src, _ = _osaka_live_source()
+    links = src.koan_links
+    # 第18期の行は第19期のカードに付けない
+    assert match_koan("トビタテ！留学JAPAN 新・日本代表プログラム（大学生等対象・第19期）", links) is None
+    # 同じ期なら付く。新一年生対象の行ではなく大学生等の行を選ぶ
+    k = match_koan("トビタテ！留学JAPAN 新・日本代表プログラム（大学生等対象・第18期）", links)
+    assert k and "新一年生" not in k["title"] and k["closed"] is True
+    # JASSO学位取得型は課程と年度が一致したときだけ
+    assert match_koan("2025年度海外留学支援制度（大学院学位取得型）", links)["posted"] == "2025-09-04"
+    assert match_koan("2027年度海外留学支援制度（大学院学位取得型）", links) is None
+    assert match_koan("2025年度海外留学支援制度（学部学位取得型）", links) is None
+    # 期・年度が読めないタイトルには付けない
+    assert match_koan("トビタテ！留学JAPAN", links) is None
+
+
+def test_attach_koan_sets_koan_and_posted():
+    src, _ = _osaka_live_source()
+    a = _nat("2025年度海外留学支援制度（大学院学位取得型）")
+    b = _nat("2027年度海外留学支援制度（大学院学位取得型）")
+    assert attach_koan([a, b], src.koan_links) == 1
+    assert a.koan["posted"] == "2025-09-04" and a.koan_posted == "2025-09-04"
+    assert b.koan is None and b.koan_posted is None
+
+
+def test_osaka_non_http_links_fall_back_to_list_page():
+    from bs4 import BeautifulSoup
+    from scraper import config
+    src = OsakaUSource(fetcher=lambda url: "", today=OSAKA_TODAY)
+    for href in ("javascript:alert(1)", " JavaScript:alert(1)", "data:text/html,x", "mailto:a@b"):
+        cell = BeautifulSoup(f'<td><a href="{href}">x</a></td>', "lxml").td
+        assert src._pick_url(cell) == config.OSAKA_SCHOLARSHIP_URL, href
+    cell = BeautifulSoup('<td><a href="https://example.org/a">x</a></td>', "lxml").td
+    assert src._pick_url(cell) == "https://example.org/a"
+
+
+def test_osaka_koan_links_not_trusted_when_fetch_fails():
+    src = OsakaUSource(fetcher=lambda url: "<html><main><table></table></main></html>", today=OSAKA_TODAY)
+    items, status = src.run()
+    assert not status["ok"] and items == []
+    assert src.koan_links_ok is False and src.koan_links == []
+
+
+def test_apply_koan_attaches_or_carries_over_previous():
+    from scraper.run import apply_koan
+    src, _ = _osaka_live_source()
+    hit = _nat("2025年度海外留学支援制度（大学院学位取得型）")
+    hit.id = "jasso-x"
+    assert apply_koan({"JASSO": [hit]}, src, None) == 1 and hit.koan["posted"] == "2025-09-04"
+
+    # 阪大が失敗したときは、前回データの同じ id の koan を引き継ぐ
+    failed = OsakaUSource(fetcher=lambda url: "", today=OSAKA_TODAY)
+    failed.run()
+    again = _nat("2027年度海外留学支援制度（大学院学位取得型）")
+    again.id = "jasso-x"
+    prev = {"scholarships": [{"id": "jasso-x", "koan": dict(hit.koan), "koan_posted": "2025-09-04"}]}
+    assert apply_koan({"JASSO": [again]}, failed, prev) == 1
+    assert again.koan["posted"] == "2025-09-04" and again.koan_posted == "2025-09-04"
