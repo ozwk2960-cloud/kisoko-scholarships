@@ -389,6 +389,7 @@
       <li><b>締切が近い順</b>：しめきりの日が分かっている制度を近い順に、その次に「学内募集中」、最後に「締切未定」を並べます。</li>
       <li><b>阪大KOAN掲示が新しい順</b>：大阪大学のKOANに新しく載った順です。掲示の無い全国の制度は下に並びます。</li>
     </ul>
+    <p>各カードの「この順位の理由」は、選んでいる並び替えに合わせて変わります（例：締切が近い順なら「締切まで○日」）。同じ順位どうしは、マッチ度の高い方が先です。</p>
 
     <h3>8. よくある「あれ？」</h3>
     <details><summary>結果が0件になった</summary>
@@ -810,6 +811,30 @@ function compareFor(sortKey) {
     return byScore(a, b);
   };
 }
+
+/* ---- 「この順位の理由」（並び替えに合わせた文面。エスケープ前のテキストを返す）---- */
+function slashDate(iso) {
+  return String(iso || "").slice(0, 10).replace(/-/g, "/");
+}
+function scoreReasonText(sc) {
+  const pts = `スコア ${Math.round(sc.score)}`;
+  return sc.reasons.length ? `${sc.reasons.join(" ／ ")}（${pts}）` : `現在の条件では加点なし（${pts}）`;
+}
+function sortReason(e, sortKey) {
+  if (sortKey !== "deadline" && sortKey !== "koan") return scoreReasonText(e.sc);
+  const tie = `同じ順位どうしはマッチ度順（スコア ${Math.round(e.sc.score)}）`;
+  if (isClosed(e.item, e.sc.daysLeft)) return `募集終了・締切切れのため一覧の最後 ／ ${tie}`;
+  if (sortKey === "deadline") {
+    const r = deadlineRank(e);
+    const head = r === RANK_OPEN_NO_DATE ? "締切日が不明（学内募集中）のため、締切日のある制度の後"
+               : r === RANK_UNKNOWN ? "締切未定のため後ろ"
+               : `締切まで${e.sc.daysLeft}日（${slashDate(e.item.deadline)}）`;
+    return `締切が近い順: ${head} ／ ${tie}`;
+  }
+  const k = koanPostedOf(e.item);
+  const head = k ? `掲示日 ${slashDate(k)}` : "KOAN掲示が無いため後ろ";
+  return `KOAN掲示が新しい順: ${head} ／ ${tie}`;
+}
 /* ===== MATCH-LOGIC:END ===== */
 
 /* ============ スコアリング ============ */
@@ -948,7 +973,7 @@ function cardHTML(item, sc, rank) {
     ${koanBox(item)}
     ${item.description ? `<p class="desc">${esc(item.description)}</p>` : ""}
     ${(item.tags && item.tags.length) ? `<div class="tags">${item.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>` : ""}
-    ${sc.reasons.length ? `<div class="why"><b>この順位の理由:</b> ${sc.reasons.map(esc).join(" ／ ")}（スコア ${Math.round(sc.score)}）</div>` : `<div class="why">現在の条件では加点なし（スコア ${Math.round(sc.score)}）</div>`}
+    <div class="why"><b>この順位の理由:</b> ${esc(sortReason({ item, sc }, state.sort))}</div>
     <div class="card-foot">
       <a class="btn-official" href="${esc(safeUrl(item.source_url))}" target="_blank" rel="noopener noreferrer">公式ページを見る</a>
       ${calendarButton(item, sc)}

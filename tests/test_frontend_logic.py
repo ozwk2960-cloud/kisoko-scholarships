@@ -245,6 +245,49 @@ def test_past_items_go_last_in_every_sort_when_shown():
         assert set(out[-2:]) == {"締切切れ", "募集終了"}, (key, out)
 
 
+def run_reasons(items, sort, today="2026-11-11"):
+    """並び替え sort での「この順位の理由」の文面を {タイトル: 文面} で返す。"""
+    script = _js_prelude() + """
+const input = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+function daysLeftOf(it) {
+  if (!it.deadline) return null;
+  return Math.round((new Date(it.deadline + "T00:00:00") - new Date(input.today + "T00:00:00")) / 86400000);
+}
+const out = Object.fromEntries(input.items.map(it => [it.title,
+  sortReason({ item: it, sc: { score: it._score || 0, reasons: it._reasons || [], daysLeft: daysLeftOf(it) } }, input.sort)]));
+console.log(JSON.stringify(out));
+"""
+    p = subprocess.run(["node", "-e", script],
+                       input=json.dumps({"items": items, "today": today, "sort": sort}),
+                       capture_output=True, text=True, check=True)
+    return json.loads(p.stdout)
+
+
+def test_reason_for_score_sort_is_unchanged():
+    items = [item("A", _score=35.4, _reasons=["阪大対象", "締切2日"]), item("B", _score=3)]
+    r = run_reasons(items, "score")
+    assert r["A"] == "阪大対象 ／ 締切2日（スコア 35）"
+    assert r["B"] == "現在の条件では加点なし（スコア 3）"
+
+
+def test_reason_follows_deadline_sort():
+    r = run_reasons(SORT_ITEMS, "deadline")
+    assert r["締切11/20"].startswith("締切が近い順: 締切まで9日（2026/11/20）")
+    assert "学内募集中" in r["学内募集中"] and "締切日のある制度の後" in r["学内募集中"]
+    assert r["締切未定"].startswith("締切が近い順: 締切未定のため後ろ")
+    assert r["締切切れ"].startswith("募集終了・締切切れのため一覧の最後")
+    assert r["募集終了"].startswith("募集終了・締切切れのため一覧の最後")
+    assert all("マッチ度順（スコア" in v for v in r.values())
+
+
+def test_reason_follows_koan_sort():
+    r = run_reasons(SORT_ITEMS, "koan")
+    assert r["学内募集中"].startswith("KOAN掲示が新しい順: 掲示日 2026/11/09")
+    assert r["締切未定"].startswith("KOAN掲示が新しい順: 掲示日 2026/10/01")   # koan_posted だけの行
+    assert r["締切12/1"].startswith("KOAN掲示が新しい順: KOAN掲示が無いため後ろ")
+    assert "スコア" not in r["締切12/1"].split("／")[0]
+
+
 def test_free_word_search_hits_koan_target():
     it = item("財団A", koan={"title": "財団A", "posted": "2026-11-01", "closed": False,
                            "target": "大学間交換留学をする学部生", "content": "月額7万円", "list_url": "https://x"})
