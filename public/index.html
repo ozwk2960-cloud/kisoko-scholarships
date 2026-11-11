@@ -588,11 +588,15 @@ function stateToParams() {
 
 function paramsToState(search) {
   const p = new URLSearchParams(search);
-  const degrees = ["bachelor", "master", "doctor", "research"];
-  if (degrees.includes(p.get("d"))) state.degree = p.get("d");
-  if (p.get("f") && FIELD_KEYWORDS[p.get("f")]) state.field = p.get("f");
-  if (["北米", "欧州", "アジア", "オセアニア"].includes(p.get("r"))) state.region = p.get("r");
-  if (p.get("t")) state.types = new Set(p.get("t").split(",").filter(Boolean));
+  // 値は必ず既知の選択肢と照合する（hasOwn: "constructor" などの継承プロパティ名を通さない）
+  const known = (table, v) => v !== null && Object.hasOwn(table, v);
+  if (known(DEGREE_LABEL, p.get("d"))) state.degree = p.get("d");
+  if (known(FIELD_KEYWORDS, p.get("f"))) state.field = p.get("f");
+  if (known(REGION_KEYWORDS, p.get("r"))) state.region = p.get("r");
+  if (p.get("t")) {
+    const types = new Set([...document.querySelectorAll("#fType input")].map(c => c.value));
+    state.types = new Set(p.get("t").split(",").filter(t => types.has(t)));
+  }
   if (["none", "ok", "must"].includes(p.get("nom"))) state.nomination = p.get("nom");
   state.osakaOnly = p.get("osaka") === "1";
   state.hidePast = p.get("past") !== "1";
@@ -813,26 +817,24 @@ function compareFor(sortKey) {
 }
 
 /* ---- 「この順位の理由」（並び替えに合わせた文面。エスケープ前のテキストを返す）---- */
-function slashDate(iso) {
-  return String(iso || "").slice(0, 10).replace(/-/g, "/");
-}
 function scoreReasonText(sc) {
   const pts = `スコア ${Math.round(sc.score)}`;
   return sc.reasons.length ? `${sc.reasons.join(" ／ ")}（${pts}）` : `現在の条件では加点なし（${pts}）`;
 }
 function sortReason(e, sortKey) {
-  if (sortKey !== "deadline" && sortKey !== "koan") return scoreReasonText(e.sc);
+  const closed = isClosed(e.item, e.sc.daysLeft) ? "募集終了・締切切れのため一覧の最後 ／ " : "";
+  if (sortKey !== "deadline" && sortKey !== "koan") return closed + scoreReasonText(e.sc);
   const tie = `同じ順位どうしはマッチ度順（スコア ${Math.round(e.sc.score)}）`;
-  if (isClosed(e.item, e.sc.daysLeft)) return `募集終了・締切切れのため一覧の最後 ／ ${tie}`;
+  if (closed) return closed + tie;
   if (sortKey === "deadline") {
     const r = deadlineRank(e);
     const head = r === RANK_OPEN_NO_DATE ? "締切日が不明（学内募集中）のため、締切日のある制度の後"
                : r === RANK_UNKNOWN ? "締切未定のため後ろ"
-               : `締切まで${e.sc.daysLeft}日（${slashDate(e.item.deadline)}）`;
+               : `締切まで${e.sc.daysLeft}日（${fmtDate(e.item.deadline)}）`;
     return `締切が近い順: ${head} ／ ${tie}`;
   }
   const k = koanPostedOf(e.item);
-  const head = k ? `掲示日 ${slashDate(k)}` : "KOAN掲示が無いため後ろ";
+  const head = k ? `掲示日 ${fmtDate(k)}` : "KOAN掲示が無いため後ろ";
   return `KOAN掲示が新しい順: ${head} ／ ${tie}`;
 }
 /* ===== MATCH-LOGIC:END ===== */
@@ -986,7 +988,7 @@ function cardHTML(item, sc, rank) {
 
 function icsEscape(s) {
   return String(s == null ? "" : s)
-    .replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+    .replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r\n|\r|\n/g, "\\n");
 }
 
 function calendarButton(item, sc) {

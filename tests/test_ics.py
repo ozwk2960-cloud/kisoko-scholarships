@@ -54,3 +54,9 @@ def test_fold_keeps_multibyte_intact():
     for seg in folded.split("\r\n "):
         seg.encode("utf-8")  # 例外が出なければマルチバイトを分割していない
     assert "\r\n " in folded
+
+
+def test_carriage_returns_cannot_start_a_new_ics_line():
+    ics = build_ics([_item(title="A\rBEGIN:VEVENT\r\nX", provider="P\rQ")], today=date(2026, 9, 1))
+    assert ics.split("\r\n").count("BEGIN:VEVENT") == 1
+    assert "\r" not in ics.replace("\r\n", "")

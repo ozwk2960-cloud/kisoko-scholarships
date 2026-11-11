@@ -29,7 +29,10 @@ def _js_prelude() -> str:
         m = re.search(r"const %s = \{.*?\n\};" % name, html, re.S)
         assert m, name
         consts.append(m.group(0))
-    return "\n".join(consts) + "\n" + region.group(0)
+    # 日付の書式（fmtDate など）は MATCH-LOGIC 区間からも使う
+    dates = re.search(r"function parseDate\(.*?\n(?=/\* =+ マッチ判定)", html, re.S)
+    assert dates, "日付ユーティリティが見つかりません"
+    return "\n".join(consts) + "\n" + dates.group(0) + "\n" + region.group(0)
 
 
 def run_filter(items, today="2026-11-10", **cond):
@@ -286,6 +289,48 @@ def test_reason_follows_koan_sort():
     assert r["締切未定"].startswith("KOAN掲示が新しい順: 掲示日 2026/10/01")   # koan_posted だけの行
     assert r["締切12/1"].startswith("KOAN掲示が新しい順: KOAN掲示が無いため後ろ")
     assert "スコア" not in r["締切12/1"].split("／")[0]
+
+
+def test_reason_says_closed_items_are_last_in_score_sort_too():
+    r = run_reasons(SORT_ITEMS, "score")
+    assert r["募集終了"].startswith("募集終了・締切切れのため一覧の最後 ／ ")
+    assert r["締切切れ"].startswith("募集終了・締切切れのため一覧の最後 ／ ")
+    assert not r["締切12/1"].startswith("募集終了")
+
+
+def run_params(search):
+    """URL クエリ search を paramsToState に通した後の state を返す（DOM はスタブ）。"""
+    html = open(INDEX, encoding="utf-8").read()
+    fn = re.search(r"function paramsToState\(search\) \{.*?\n\}", html, re.S)
+    labels = re.search(r"const DEGREE_LABEL = \{.*?\};", html)
+    types = re.findall(r'<input type="checkbox" value="([^"]+)">', html.split('id="fType"')[1].split("</div>")[0])
+    assert fn and labels and types
+    script = _js_prelude() + labels.group(0) + fn.group(0) + """
+const input = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+const document = { querySelectorAll: () => input.types.map(v => ({ value: v })) };
+const state = { degree: null, field: null, region: "", types: new Set(), nomination: "any", sort: "score", query: "" };
+paramsToState(input.search);
+console.log(JSON.stringify(Object.assign({}, state, { types: [...state.types] })));
+"""
+    p = subprocess.run(["node", "-e", script], input=json.dumps({"search": search, "types": types}),
+                       capture_output=True, text=True, check=True)
+    return json.loads(p.stdout)
+
+
+def test_url_params_accept_known_values():
+    st = run_params("?d=master&f=情報&r=欧州&t=研究,語学&nom=none&sort=koan&q=abc")
+    assert (st["degree"], st["field"], st["region"]) == ("master", "情報", "欧州")
+    assert st["types"] == ["研究", "語学"]
+    assert (st["nomination"], st["sort"], st["query"]) == ("none", "koan", "abc")
+
+
+def test_url_params_ignore_unknown_and_inherited_names():
+    # "constructor" などは Object の継承プロパティ名。通すと絞り込みで例外になり、画面が出なくなる
+    for name in ("constructor", "toString", "__proto__", "hasOwnProperty", "x"):
+        st = run_params(f"?d={name}&f={name}&r={name}&t={name},語学&nom={name}&sort={name}")
+        assert (st["degree"], st["field"], st["region"]) == (None, None, ""), name
+        assert st["types"] == ["語学"], name
+        assert (st["nomination"], st["sort"]) == ("any", "score"), name
 
 
 def test_free_word_search_hits_koan_target():

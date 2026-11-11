@@ -40,6 +40,8 @@ def _esc(text: str) -> str:
         .replace("\\", "\\\\")
         .replace(";", "\\;")
         .replace(",", "\\,")
+        .replace("\r\n", "\n")
+        .replace("\r", "\n")
         .replace("\n", "\\n")
     )
 

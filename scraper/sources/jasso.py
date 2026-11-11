@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import re
 from typing import List, Optional
+from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
 
@@ -44,12 +45,13 @@ class JassoSource(BaseSource):
 
         years: List[tuple] = []  # (year:int, url:str)
         for a in main.find_all("a", href=True):
-            m = _YEAR_LINK_RE.search(a["href"])
+            # 相対リンクも絶対URLにし、JASSO 以外のホストへのリンクは辿らない
+            url = urljoin(prog["index_url"], a["href"].strip())
+            if not url.startswith(config.JASSO_BASE + "/"):
+                continue
+            m = _YEAR_LINK_RE.search(url)
             if not m or m.group(1) != prog["key"]:
                 continue
-            url = a["href"]
-            if url.startswith("/"):
-                url = config.JASSO_BASE + url
             years.append((int(m.group(2)), url))
 
         years = sorted(set(years), key=lambda t: t[0], reverse=True)

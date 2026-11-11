@@ -44,6 +44,27 @@ def test_jasso_parse(fixture_fetcher):
     assert set(d26.target_degree) == {"master", "doctor"}
 
 
+def test_jasso_year_links_are_resolved_and_limited_to_jasso():
+    """相対リンクは絶対URLにして辿り、JASSO 以外のホストや http 以外のリンクは辿らない。"""
+    index = """<main>
+      <a href="2027.html">2027</a>
+      <a href="https://evil.example/ryugaku/scholarship_a/daigakuin/2026.html">2026</a>
+      <a href="javascript:/scholarship_a/daigakuin/2025.html">2025</a>
+    </main>"""
+    seen = []
+
+    def fetch(url):
+        seen.append(url)
+        return index
+
+    src = JassoSource(fetcher=fetch)
+    src._parse_year_page = lambda prog, year, url: seen.append(url) or None
+    prog = {"key": "daigakuin", "label": "大学院学位取得型",
+            "index_url": "https://www.jasso.go.jp/ryugaku/scholarship_a/daigakuin/index.html"}
+    src._fetch_program(prog)
+    assert seen[1:] == ["https://www.jasso.go.jp/ryugaku/scholarship_a/daigakuin/2027.html"]
+
+
 def test_jasso_skips_placeholder_year_page(fixture_fetcher):
     """h1 空・日程表なしの未公開ページはエントリ化しない。"""
     src = JassoSource(fetcher=fixture_fetcher)
