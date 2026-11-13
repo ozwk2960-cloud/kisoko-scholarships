@@ -50,6 +50,12 @@
     color: var(--blue-dark);
   }
   .subtitle { margin: 6px 0 0; color: var(--ink-faint); font-size: 13px; }
+  /* 常時表示の注意書き（JS に依存しない静的表示） */
+  .disclaimer {
+    margin: 12px 0 0; padding: 9px 14px; border-radius: 10px;
+    background: var(--warn-bg); border: 1px solid var(--warn-line);
+    color: var(--warn-ink); font-size: 13.5px; line-height: 1.6;
+  }
   .meta-row {
     margin-top: 12px; display: flex; gap: 10px 18px; flex-wrap: wrap;
     font-size: 12.5px; color: var(--ink-faint);
@@ -303,6 +309,7 @@
       <h1>留学奨学金・補助金 検索ツール</h1>
       <span class="subtitle">阪大基礎工・理工系の学生が海外留学時に使える公的・民間の奨学金を横断検索（無料・毎日更新）</span>
     </div>
+    <p class="disclaimer" id="disclaimer" role="note">⚠️ 掲載情報には誤りが含まれている場合があります。あくまで<b>参考情報</b>としてご利用いただき、応募の際は必ず各制度の<b>公式ページ</b>でご確認ください。</p>
     <div class="meta-row" id="metaRow"></div>
     <div class="banner hidden" id="banner"></div>
   </div>

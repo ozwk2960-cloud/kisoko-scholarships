@@ -194,6 +194,17 @@ def test_help_guide_button_and_dialog_exist():
     assert "showModal" in html
 
 
+def test_disclaimer_is_always_visible_in_header():
+    # 「誤りを含む場合がある・参考情報」の注意書きが、ページ上部（ヘッダー内）に静的に入っていること
+    html = open(INDEX, encoding="utf-8").read()
+    header = html[html.index('<header class="site">'):html.index("</header>")]
+    assert 'id="disclaimer"' in header
+    assert "掲載情報には誤りが含まれている場合があります" in header
+    assert "参考情報" in header
+    # JS で出し入れする #banner とは別枠（hidden を付けない）
+    assert 'class="disclaimer"' in header
+
+
 # ---- 並び替え（2026-11-11）: どの並びでも締切切れ・募集終了は出さない／出すときは末尾 ----
 
 def run_sort(items, sort, today="2026-11-11", **cond):
