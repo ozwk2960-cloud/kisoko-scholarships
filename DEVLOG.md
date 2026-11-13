@@ -539,8 +539,23 @@ push / PR（人間の変更） → ci（pytest + スキーマ検証）。ただ�
 - テスト: `test_disclaimer_is_always_visible_in_header` を追加（ヘッダー内に文言があること）。88→89件パス。
 - ブラウザチェック（ローカル配信・Chrome）: PC幅ではタイトルのすぐ下に1行で表示。幅390pxでは4行に折り返して全文が読め、横スクロールなし。どちらもスクロールなしで見える。初期表示17件は変わらず。
 - 公開: bot の日次データ更新2件（11/12・11/13）を `git pull --rebase` で取り込み、ユーザーのターミナルから push（`5da4b3f..c118ed3`）。
-  Claude Code 内のシェル（`!` での実行を含む）は Keychain も入力画面も使えず push できないので、push は必ず macOS のターミナルアプリで行う。
+  この時点では Claude Code 内のシェル（`!` での実行を含む）からの push は3回とも失敗
+  （`Invalid username or token` → `could not read Username for 'https://github.com': Device not configured`）。
+  Claude Code 内のシェルは Username／トークンの入力画面を出せないので、認証が Mac に保存されていない状態での push は macOS のターミナルアプリで行う。
 - 本番確認（Chrome・幅500px）: タイトルの下に注意書きが黄色の枠で表示され、スクロールなしで見える。横スクロールなし。最終更新 2026/11/13・収録61件・初期表示17件。
+
+### 注意書き公開の後片付け（2026-11-13）
+
+- 上の記録（コミット `b518300`）は、Claude Code 内のシェルから push できた（`c118ed3..b518300`）。
+  直前まで失敗していたのに通ったのは、ターミナルでの push で入力した認証が Mac の Keychain に保存され、それが使われたためと思われる（原因は未確認）。
+  → **Claude Code から push が通る＝トークンが Mac に残っている**という目印になる。
+- トークンの後片付けの手順を利用者に案内した（この記録の時点では、実施したかどうかは未確認）。順番は「GitHub で無効にする → Mac から消す → 空を確かめる」。
+  1. GitHub: 右上のアイコン → Settings → Developer settings → Personal access tokens → Fine-grained tokens → 対象トークンの Delete。
+  2. Keychain の消去: `printf "protocol=https\nhost=github.com\n\n" | git credential-osxkeychain erase`
+  3. 空の確認: `printf "protocol=https\nhost=github.com\n\n" | git credential-osxkeychain get` で何も表示されなければ空。
+     （`password=` が出たらまだ残っている。先に 1 で無効にしておけば、表示されても害はない。）
+- 文言のうち後半「応募の際は必ず各制度の公式ページでご確認ください」は、既存のフッター・ガイドの案内に合わせて足した部分。依頼の文言は前半のみ。
+- サイトの表示に関わる変更は `c118ed3` の1件だけ。以降のコミットは `DEVLOG.md` のみ。
 
 ## 誤コミットとリカバリ（2026-08-31）
 
