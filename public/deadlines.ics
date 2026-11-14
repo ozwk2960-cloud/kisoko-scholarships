@@ -52,29 +52,6 @@ DESCRIPTION:【フランス政府奨学金】2027年度留学生 の締切
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:osaka-b2b0d41f99@kisoko-scholarships
-DTSTAMP:20260914T000000Z
-DTSTART;VALUE=DATE:20261113
-DTEND;VALUE=DATE:20261114
-SUMMARY:【留学奨学金 締切】【食生活研究会】2027年度海
- 外留学奨学生
-DESCRIPTION:大阪大学（留学助成制度一覧に掲載）\n大阪大
- 学 KOAN/マイハンダイ 掲示日 2026-09-14。この一覧では『
- 個人で直接応募する奨学金』に分類。 学内締切・詳細
- は所属学部/研究科および募集要項で確認。\n詳細: https
- ://www.z-ssk.org/ab_study/guideline.html\n※学内締切は所属学部
- ・研究科により異なる場合があります。必ず公式情報
- を確認してください。
-URL:https://www.z-ssk.org/ab_study/guideline.html
-CATEGORIES:奨学金,締切
-BEGIN:VALARM
-TRIGGER:-P7D
-ACTION:DISPLAY
-DESCRIPTION:【食生活研究会】2027年度海外留学奨学生 の締
- 切1週間前
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
 UID:osaka-b67e79b4b8@kisoko-scholarships
 DTSTAMP:20260830T000000Z
 DTSTART;VALUE=DATE:20261130
